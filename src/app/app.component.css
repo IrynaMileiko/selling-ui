@@ -1,0 +1,39 @@
+header{
+  color: #79AAA7;
+  background-color: #8BE3DC;
+}
+.headerMenu{
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding:1%;
+  vertical-align: middle;
+  margin: 0.5%;
+  width: 100%;
+}
+a.header{
+  text-decoration: none;
+  color: #315396;
+  font-size: 1.25em;
+  text-align: center;
+  -webkit-text-stroke-width: 0.01em;
+  -webkit-text-stroke-color: black;
+}
+#wrap {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+footer{
+  margin-top:auto;
+  width: 100%;
+  background-color: #2D938C;
+}
+.footerText{
+  color: #FFE0C8;
+  font-size: 1em;
+  -webkit-text-stroke-width: 0.01em;
+  -webkit-text-stroke-color: black;
+}

@@ -1,0 +1,92 @@
+<div class="content">
+<div class="container-fluid">
+  <div class = "row">
+    <div class="col-12">
+      <h1 style = "text-align:center;">This is demo of User Panel</h1>
+    </div>
+    <div class="col-12">
+      <form #editF="ngForm">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-1 cell titleCell">#</div>
+            <div class="col-5 cell titleCell">Login</div>
+            <div class="col-4 cell titleCell">Password</div>
+            <div class="col-2 "></div>
+          </div>
+          <div class="row" *ngIf="users.length==0">
+            <div class="col-10 cell">
+              No users
+            </div>
+            <div class="col-2"></div>
+          </div>
+          <div class="container-fluid" *ngFor="let user of users; let i = index;" style="padding:0;">
+            <div class="row" *ngIf="{login:user.login, password:user.password} as variable">
+              <div class="col-1 cell titleCell d-flex flex-column justify-content-center">
+                {{user.id}}
+              </div>
+              <div class="col-5 cell d-flex flex-column justify-content-center">
+                <input type="text" placeholder="Введите логин" value="{{variable.login}}"
+                  class = "form-control" *ngIf="isEdit[user.id]" #edLogin (keyup)="variable.login=edLogin.value">
+                <div *ngIf="!isEdit[user.id]">
+                  {{user.login}}
+                </div>
+              </div>
+              <div class="col-4 cell d-flex flex-column justify-content-center">
+                <input type="text" placeholder="Введите пароль" value="{{variable.password}}"
+                  class = "form-control" *ngIf="isEdit[user.id]" #edPass (keyup)="variable.password=edPass.value">
+                <div *ngIf="!isEdit[user.id]">
+                  {{user.password}}
+                </div>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-primary" style="margin:1%;" (click)="editUser(user.id)" *ngIf="!isEdit[user.id]">
+                  Edit
+                </button>
+                <button type="button" class="btn btn-primary" style="margin:1%;" (click)="saveUser(user.id, variable.login, variable.password)" *ngIf="isEdit[user.id]">
+                  Save
+                </button>
+                <button type="button" class="btn btn-danger" style="margin:1%;" *ngIf="!isEdit[user.id]" (click)="deleteUser(user.id)">
+                  Delete
+                </button>
+                <button type="button" class="btn btn-danger" style="margin:1%;" *ngIf="isEdit[user.id]"
+                  (click)="notEditUser(user.id); variable.login=user.login; variable.password=user.password">
+                  Cancel
+                </button>
+              </div>
+          </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col">
+    </div>
+    <div class="col-2">
+      <button type="button" class="btn btn-info" (click)="showAdd()" style="margin:2%; margin-top:10%;">New user</button>
+    </div>
+    <div class="col-12 d-flex justify-content-center" style = "margin:1%;">
+      <form *ngIf="isAdd" style="width:80%;"  (submit)="addUser(login.value, password.value)">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Логин:</label>
+          <input type="text" placeholder="Введите логин пользователя:" class = "form-control" id="login" #login>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Пароль:</label>
+          <input type="text" placeholder="Введите пароль:" class = "form-control" id="password" #password>
+        </div>
+        <div class="row"style = "margin:1%;">
+          <div class="col">
+            <div class="alert alert-danger" role="alert" *ngIf="isEmptyAddField">
+              {{addErrorMessage}}
+            </div>
+          </div>
+          <div class="col-1">
+            <button type="submit" class="btn btn-secondary">
+              Add
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>

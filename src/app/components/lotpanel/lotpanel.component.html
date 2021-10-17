@@ -1,0 +1,105 @@
+<div class="content">
+<div class="container-fluid">
+  <div class = "row">
+    <div class="col-12">
+      <h1 style = "text-align:center;">This is demo of Lot Panel</h1>
+    </div>
+    <div class="col-12">
+      <form #editF="ngForm">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-1 cell titleCell">#</div>
+            <div class="col-2 cell titleCell">Name</div>
+            <div class="col-1 cell titleCell">Price</div>
+            <div class="col-6 cell titleCell">Description</div>
+            <div class="col-2 "></div>
+          </div>
+          <div class="row" *ngIf="lots.length==0">
+            <div class="col-10 cell">
+              No lots
+            </div>
+            <div class="col-2"></div>
+          </div>
+          <div class="container-fluid" *ngFor="let lot of lots; let i = index;" style="padding:0;">
+            <div class="row" *ngIf="{name:lot.name,price:lot.price, description:lot.description} as variable">
+              <div class="col-1 cell titleCell d-flex flex-column justify-content-center">
+                {{lot.id}}
+              </div>
+              <div class="col-2 cell d-flex flex-column justify-content-center">
+                <input type="text" placeholder="Введите название лота" value="{{variable.name}}"
+                  class = "form-control" *ngIf="isEdit[lot.id]" #edName (keyup)="variable.name=edName.value">
+                <div *ngIf="!isEdit[lot.id]">
+                  {{lot.name}}
+                </div>
+              </div>
+              <div class="col-1 cell d-flex flex-column justify-content-center">
+                <input type="number" placeholder="Цена" value="{{variable.price}}"
+                  class = "form-control" *ngIf="isEdit[lot.id]" #edPrice (keyup)="variable.price=edPrice.valueAsNumber">
+                <div *ngIf="!isEdit[lot.id]">
+                  {{lot.price}}
+                </div>
+              </div>
+              <div class="col-6 cell d-flex flex-column justify-content-center">
+                <input type="text" placeholder="Введите описание лота" value="{{variable.description}}"
+                  class = "form-control" *ngIf="isEdit[lot.id]" #edDescr (keyup)="variable.description=edDescr.value">
+                <div *ngIf="!isEdit[lot.id]">
+                  {{lot.description}}
+                </div>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-primary" style="margin:1%;" (click)="editLot(lot.id)" *ngIf="!isEdit[lot.id]">
+                  Edit
+                </button>
+                <button type="button" class="btn btn-primary" style="margin:1%;" (click)="saveLot(lot.id, variable.name, variable.price, variable.description)" *ngIf="isEdit[lot.id]">
+                  Save
+                </button>
+                <button type="button" class="btn btn-danger" style="margin:1%;" *ngIf="!isEdit[lot.id]" (click)="deleteLot(lot.id)">
+                  Delete
+                </button>
+                <button type="button" class="btn btn-danger" style="margin:1%;" *ngIf="isEdit[lot.id]"
+                  (click)="notEditLot(lot.id); variable.name=lot.name; variable.price=lot.price; variable.description=lot.description">
+                  Cancel
+                </button>
+              </div>
+          </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col">
+    </div>
+    <div class="col-2">
+      <button type="button" class="btn btn-info" (click)="showAdd()" style="margin:2%; margin-top:10%;">New lot</button>
+    </div>
+    <div class="col-12 d-flex justify-content-center" style = "margin:1%;">
+      <form *ngIf="isAdd" style="width:80%;"  (submit)="addLot(name.value, price.valueAsNumber, descr.value)">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Название лота:</label>
+          <input type="text" placeholder="Введите название лота" class = "form-control" id="name" #name>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Цена:</label>
+          <input type="number" min = "10" max = "100000" step="0.01"
+            placeholder="Введите цену в диапазоне от 10 до 100 000" class = "form-control" id="price" #price>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Описание:</label>
+          <input type="text" placeholder="Введите описание лота" class = "form-control" id="descr" #descr>
+        </div>
+        <div class="row"style = "margin:1%;">
+          <div class="col">
+            <div class="alert alert-danger" role="alert" *ngIf="isEmptyAddField">
+              {{addErrorMessage}}
+            </div>
+          </div>
+          <div class="col-1">
+            <button type="submit" class="btn btn-secondary">
+              Add
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
