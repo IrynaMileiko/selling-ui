@@ -1,0 +1,39 @@
+<div class="container-fluid">
+<div class="content">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-sm-11">
+      <div class="authBox">
+        <h2 style = "text-align:center;">Login</h2>
+        <form (submit)="register(login, password)">
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Логин/е-мейл:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" required placeholder="Введите логин/e-mail" class = "form-control authInput" id="login" #login>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-3  d-flex flex-column justify-content-center">
+                <label>Пароль:</label>
+              </div>
+              <div class="col-9" style="width:70%;">
+                <input type="password" required placeholder="Введите пароль" class = "form-control authInput" id="password" #password>
+              </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-md-6 col-sm-12  d-flex flex-column justify-content-center">
+                Don't have account?<div><a routerLink="/register">Register</a></div>
+              </div>
+              <div class="col-md-6 col-sm-12 d-flex flex-row-reverse" style="width:70%;">
+                <button type="submit" class="btn btn-light" style="width:50%;">
+                  Login
+                </button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
