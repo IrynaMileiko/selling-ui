@@ -1,1 +1,118 @@
-<p>register works!</p>
+<div class="container-fluid">
+<div class="content">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-sm-11">
+      <div class="authBox">
+        <h2 style = "text-align:center;">Register</h2>
+        <form (submit)="register()">
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Логин:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" [(ngModel)]="login" (ngModelChange)="invalidLogin=false;" required placeholder="Введите логин" class = "form-control authInput" name="login">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-9" style="width:70%;">
+              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidLogin">
+                {{loginMsg}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Е-мейл:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" [(ngModel)]="email" (ngModelChange)="invalidEmail=false;" required placeholder="Введите адрес электронной почты" class = "form-control authInput" name="email">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-9" style="width:70%;">
+              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidEmail">
+                {{emailMsg}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Имя:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" [(ngModel)]="firstName" (ngModelChange)="invalidFirstName=false;" required placeholder="Введите свое имя" class = "form-control authInput" name="firstName">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-9" style="width:70%;">
+              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidFirstName">
+                {{firstNameMsg}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Фамилия:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" [(ngModel)]="lastName" (ngModelChange)="invalidLastName=false;" required placeholder="Введите свою фамилию" class = "form-control authInput" name="lastName">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-9" style="width:70%;">
+              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidLastName">
+                {{lastNameMsg}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Номер телефона:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" [(ngModel)]="phone" (ngModelChange)="invalidPhone=false;" required placeholder="Введите свой контактный номер телефона" class = "form-control authInput" name="phone">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-9" style="width:70%;">
+              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPhone">
+                {{phoneMsg}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-3  d-flex flex-column justify-content-center">
+                <label>Пароль:</label>
+              </div>
+              <div class="col-9" style="width:70%;">
+                <input type="password" [(ngModel)]="password" (ngModelChange)="invalidPassword=false;" required placeholder="Введите пароль" class = "form-control authInput" name="password">
+              </div>
+              <div class="col-3"></div>
+              <div class="col-9" style="width:70%;">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPassword">
+                  {{passwordMsg}}
+                </div>
+              </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-3  d-flex flex-column justify-content-center">
+                <label>Повтор пароля:</label>
+              </div>
+              <div class="col-9" style="width:70%;">
+                <input type="password" [(ngModel)]="confPassword" (ngModelChange)="invalidConfPassword=false;" required placeholder="Повторите пароль" class = "form-control authInput" name="confPassword">
+              </div>
+              <div class="col-3"></div>
+              <div class="col-9" style="width:70%;">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidConfPassword">
+                  {{confPasswordMsg}}
+                </div>
+              </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-12 d-flex justify-content-center">
+                <button type="submit" class="btn btn-info" style="width:30%;">
+                  Register
+                </button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

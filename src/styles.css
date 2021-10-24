@@ -19,3 +19,11 @@
 input.authInput{
   width: 100%;
 }
+
+.invalidFieldText{
+  font-size: 0.7em;
+}
+
+body{
+  font-size: 0.85em;
+}
