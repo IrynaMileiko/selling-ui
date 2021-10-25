@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { Directive, ElementRef, OnInit, Renderer2, HostListener } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +34,8 @@ const appRoutes:Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes) //какие пути отслеживаются
+    RouterModule.forRoot(appRoutes), //какие пути отслеживаются
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
