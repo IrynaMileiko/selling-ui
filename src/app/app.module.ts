@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { Directive, ElementRef, OnInit, Renderer2, HostListener } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { UserpanelComponent } from './components/userpanel/userpanel.component';
 import { LotpanelComponent } from './components/lotpanel/lotpanel.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ClickOutsideDirective } from './directives/clickOutside/click-outside.directive';
 
 const appRoutes:Routes = [
   {path:'', component:HomeComponent},//ссылка и какой компонент отображает
@@ -28,14 +30,16 @@ const appRoutes:Routes = [
     UserpanelComponent,
     LotpanelComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     RouterModule.forRoot(appRoutes), //какие пути отслеживаются
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

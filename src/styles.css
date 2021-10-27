@@ -27,3 +27,7 @@ input.authInput{
 body{
   font-size: 0.85em;
 }
+
+.autoWidth{
+  width: auto;
+}

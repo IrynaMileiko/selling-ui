@@ -7,27 +7,33 @@
           <a routerLink=""><img src="assets/imgs/logo.jpg" alt="Logo" style="width:3.5vw; height:3.5vw; border-radius:1vw; border: 3px solid #334B49;"></a>
         </div>
       </div>
-      <div class="col-md-11 col-sm-12">
+      <div class="col-11">
         <div class="row">
-          <div class="col-md-1 col-sm-12 d-flex flex-column justify-content-center">
+          <div class="col-1 d-flex flex-column justify-content-center">
             <div class="headerMenu">
-              <a class="header" routerLink="/userpanel">User panel</a>
+              <a class="header headerText" routerLink="/userpanel">User panel</a>
             </div>
           </div>
-          <div class = "col-md-1 col-sm-12 d-flex flex-column justify-content-center">
+          <div class = "col-1 d-flex flex-column justify-content-center">
             <div class="headerMenu">
-              <a class="header" routerLink="/lotpanel">Lot panel</a>
+              <a class="header headerText" routerLink="/lotpanel">Lot panel</a>
             </div>
           </div>
           <div class = "col">
           </div>
-          <div class="col-md-1 col-sm-12 d-flex flex-column justify-content-center">
-            <a class="headerLogin" routerLink="/login">Log in / Sign up</a>
+          <div class="col-1 d-flex flex-column justify-content-center">
+            <div class="headerMenu">
+              <div class="container">
+                <button type="button" class="btn btn-primary autoWidth headerText"  style="padding:5%;"
+                  (click) = "show()">Login / Sign up</button>
+              </div>
+            </div>
           </div>
-          <div class="col-md-1 col-sm-12 d-flex flex-column justify-content-center">
+          <div class="col-1 d-flex flex-column justify-content-center">
             <div class="headerMenu">
               <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle btn-light autoWidth headerText" style="padding:5%;"
+                  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Menu
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -43,6 +49,55 @@
   </div>
 </header>
 
+<div *ngIf="showLogin" (click)="hide()" class = "fillUp">
+  <div *ngIf="showLogin" [style.display]="showLogin ? 'block' : 'none'" class="popupLogin">
+    <div (click)="$event.stopPropagation()">
+      <div class="loginBox">
+        <h2 style = "text-align:center;">Login</h2>
+        <form (submit)="loginF()">
+          <div class="row" style="margin-top:2%;">
+            <div class="col-3  d-flex flex-column justify-content-center">
+              <label>Логин/е-мейл:</label>
+            </div>
+            <div class="col-9" style="width:70%;">
+              <input type="text" [(ngModel)]="login" (change)="invalidLogin=false;" required placeholder="Введите логин/e-mail" class = "form-control authInput" name="login">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-9" style="width:70%;">
+              <div class="alert alert-danger invalidFieldText" role="alert" *ngIf="invalidLogin">
+                {{loginMsg}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-3  d-flex flex-column justify-content-center">
+                <label>Пароль:</label>
+              </div>
+              <div class="col-9" style="width:70%;">
+                <input type="password" [(ngModel)]="password" (change)="invalidPassword=false;" required placeholder="Введите пароль" class = "form-control authInput" name="password">
+              </div>
+              <div class="col-3"></div>
+              <div class="col-9" style="width:70%;">
+                <div class="alert alert-danger invalidFieldText" role="alert" *ngIf="invalidPassword">
+                  {{passwordMsg}}
+                </div>
+              </div>
+          </div>
+          <div class="row" style="margin-top:2%;">
+              <div class="col-md-6 col-sm-12  d-flex flex-column justify-content-center">
+                Don't have account?<div><a routerLink="/register">Register</a></div>
+              </div>
+              <div class="col-md-6 col-sm-12 d-flex flex-row-reverse" style="width:70%;">
+                <button type="submit" class="btn btn-info" style="width:50%;">
+                  Login
+                </button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
 
