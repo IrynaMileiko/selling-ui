@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthorizationService } from './services/authorization/authorization.service';
+import { User, UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+   providers:  [
+     AuthorizationService,
+     UserService
+    ]
 })
 export class AppComponent {
   showLogin:boolean = false;
@@ -16,7 +22,7 @@ export class AppComponent {
   invalidLogin:boolean;
   invalidPassword:boolean;
 
-  constructor() {
+  constructor(private authService:AuthorizationService) {
     this.login='';
     this.password='';
     this.loginMsg='';
@@ -24,6 +30,27 @@ export class AppComponent {
     this.invalidPassword=false;
     this.invalidLogin=false;
    }
+
+
+   tryLogin(user:User){
+       this.authService.tryLogin(user).subscribe(
+   	     (response) => {
+           alert(response);
+           console.log(response);
+         },
+   	      (error) => {
+            console.log(error);
+            switch (error.status) {
+              case 403:
+                alert(error.error);
+                break;
+              case 0:
+                alert("Couldn't connect to the server");
+                break;
+          }
+          });
+   }
+
 
   show()
   {
@@ -42,7 +69,16 @@ export class AppComponent {
   loginF(){
     this.login=this.login.trim();
     this.password=this.password.trim();
-    this.validate();
+    if(this.validate()){
+      let user:User = {
+        email:this.login,
+        password:this.password,
+        token:"",
+        firstName:"",
+        lastName:""
+      }
+      this.tryLogin(user);
+    }
   }
 
   validate(){

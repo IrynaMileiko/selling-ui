@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { User, UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+   providers:  [
+     AuthorizationService,
+     UserService
+    ]
 })
 export class RegisterComponent implements OnInit {
   regEName = new RegExp("^([A-ZА-Я][a-zа-я]+[-.']*[A-ZА-Я]*[a-zа-я]+)$");
@@ -35,7 +41,7 @@ export class RegisterComponent implements OnInit {
   invalidLastName:boolean;
   invalidConfPassword:boolean;
 
-  constructor() {
+  constructor(private authService:AuthorizationService) {
   this.login='';
   this.password='';
   this.email='';
@@ -64,6 +70,26 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  tryRegister(user:User){
+      this.authService.tryRegister(user).subscribe(
+        (response) => {
+          alert(response);
+          console.log(response);
+        },
+         (error) => {
+           console.log(error);
+           switch (error.status) {
+             case 403:
+               alert(error.error);
+               break;
+             case 0:
+               alert("Couldn't connect to the server");
+               break;
+             default:
+              alert(error.error);
+         }
+         });
+  }
 
 register(){
   this.login=this.login.trim();
@@ -73,7 +99,16 @@ register(){
   this.firstName=this.firstName.trim();
   this.lastName=this.lastName.trim();
   this.confPassword=this.confPassword.trim();
-  this.validate();
+  if(this.validate()){
+    let user:User = {
+      email:this.email,
+      password:this.password,
+      token:"",
+      firstName:this.firstName,
+      lastName:this.lastName
+    }
+    this.tryRegister(user);
+  }
 }
 
 
@@ -85,6 +120,8 @@ register(){
     let goodFN=this.validateFirstName();
     let goodLN=this.validateLastName();
     let goodCP=this.validateConfirmPassword();
+    return goodLogin&&goodPassword&&goodEmail&&
+      goodPhone&&goodFN&&goodLN&&goodCP;
   }
 
   validateLogin(){

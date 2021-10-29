@@ -17,7 +17,7 @@ posts : any;
 getHello(){
     this.helloService.getHello().subscribe(
 	     (response) => { this.posts = response; },
-	      (error) => { this.posts="Error";console.log(error); });
+	      (error) => { this.posts=error.statusText;console.log(error); });
 }
 
 }
