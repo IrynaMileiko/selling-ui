@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ClickOutsideDirective } from './directives/clickOutside/click-outside.directive';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LotManagementComponent } from './components/lot-management/lot-management.component';
 
 const appRoutes:Routes = [
   {path:'', component:HomeComponent},//ссылка и какой компонент отображает
@@ -26,6 +27,7 @@ const appRoutes:Routes = [
   {path:'lotpanel', component:LotpanelComponent},
   {path:'register', component:RegisterComponent},
   {path:'profile', component:ProfileComponent},
+  {path:'manage-lotpanel', component:LotManagementComponent},
   { path: '**', component: NotFoundComponent }
 ]
 
@@ -38,7 +40,8 @@ const appRoutes:Routes = [
     RegisterComponent,
     ClickOutsideDirective,
     NotFoundComponent,
-    ProfileComponent
+    ProfileComponent,
+    LotManagementComponent
   ],
   imports: [
     BrowserModule,
