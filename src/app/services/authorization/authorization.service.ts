@@ -12,7 +12,7 @@ export class AuthorizationService {
     tryRegister(user:User) {
     let url='http://localhost:8081/api/v1/registration/registrationUser';
     	return this.http.post(url, user,
-        {responseType:'text'});
+        {responseType:'json'});
     }
     tryLogin(user:User) {
     let url='http://localhost:8081/api/v1/auth/login';

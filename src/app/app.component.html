@@ -24,8 +24,11 @@
           <div class="col-1 d-flex flex-column justify-content-center">
             <div class="headerMenu">
               <div class="container">
-                <button type="button" class="btn btn-primary autoWidth headerText"  style="padding:5%;"
+                <button *ngIf="token==null" type="button" class="btn btn-primary autoWidth headerText"  style="padding:5%;"
                   (click) = "show()">Login / Sign up</button>
+                <button *ngIf="token!=null" type="button" class="btn btn-primary autoWidth headerText"  style="padding:5">
+                  <a class="header headerText" routerLink="/profile">Profile</a>
+                </button>
               </div>
             </div>
           </div>
@@ -57,10 +60,10 @@
         <form (submit)="loginF()">
           <div class="row" style="margin-top:2%;">
             <div class="col-3  d-flex flex-column justify-content-center">
-              <label>Логин/е-мейл:</label>
+              <label>е-мейл:</label>
             </div>
             <div class="col-9" style="width:70%;">
-              <input type="text" [(ngModel)]="login" (change)="invalidLogin=false;" required placeholder="Введите логин/e-mail" class = "form-control authInput" name="login">
+              <input type="text" [(ngModel)]="login" (change)="invalidLogin=false;" required placeholder="Введите e-mail" class = "form-control authInput" name="login">
             </div>
             <div class="col-3"></div>
             <div class="col-9" style="width:70%;">
@@ -85,7 +88,7 @@
           </div>
           <div class="row" style="margin-top:2%;">
               <div class="col-md-6 col-sm-12  d-flex flex-column justify-content-center">
-                Don't have account?<div><a routerLink="/register">Register</a></div>
+                Don't have account?<div><a (click)="hide()" routerLink="/register">Register</a></div>
               </div>
               <div class="col-md-6 col-sm-12 d-flex flex-row-reverse" style="width:70%;">
                 <button type="submit" class="btn btn-info" style="width:50%;">

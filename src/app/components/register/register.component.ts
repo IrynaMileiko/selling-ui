@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { User, UserService } from '../../services/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +19,6 @@ export class RegisterComponent implements OnInit {
   regEEmail = new RegExp("^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)$");
   regEPhone = new RegExp("^\\+\\d{7,19}$");
 
-  login:string;
   password:string;
   email:string;
   phone:string;
@@ -25,24 +26,24 @@ export class RegisterComponent implements OnInit {
   lastName:string;
   confPassword:string;
 
-  loginMsg:string;
   passwordMsg:string;
   emailMsg:string;
   phoneMsg:string;
   firstNameMsg:string;
   lastNameMsg:string;
   confPasswordMsg:string;
+  totalErMsg:string;
 
-  invalidLogin:boolean;
   invalidPassword:boolean;
   invalidEmail:boolean;
   invalidPhone:boolean;
   invalidFirstName:boolean;
   invalidLastName:boolean;
   invalidConfPassword:boolean;
+  invalidServer:boolean;
 
-  constructor(private authService:AuthorizationService) {
-  this.login='';
+  constructor(private authService:AuthorizationService, private toastr: ToastrService
+            , private router: Router) {
   this.password='';
   this.email='';
   this.phone='';
@@ -50,49 +51,70 @@ export class RegisterComponent implements OnInit {
   this.lastName='';
   this.confPassword='';
 
-  this.loginMsg='';
   this.passwordMsg='';
   this.emailMsg='';
   this.phoneMsg='';
   this.firstNameMsg='';
   this.lastNameMsg='';
   this.confPasswordMsg='';
+  this.totalErMsg='';
 
   this.invalidPassword=false;
-  this.invalidLogin=false;
   this.invalidEmail=false;
   this.invalidPhone=false;
   this.invalidFirstName=false;
   this.invalidLastName=false;
   this.invalidConfPassword=false;
+  this.invalidServer=false;
  }
 
   ngOnInit(): void {
   }
 
+
+
   tryRegister(user:User){
       this.authService.tryRegister(user).subscribe(
         (response) => {
-          alert(response);
+          //alert(response);
           console.log(response);
+          this.router.navigate(['/']).then(() => {
+            this.successRegisterToaster();
+          })
         },
          (error) => {
            console.log(error);
            switch (error.status) {
              case 403:
-               alert(error.error);
-               break;
+              this.invalidServer = true;
+              this.totalErMsg = error.error;
+              break;
              case 0:
-               alert("Couldn't connect to the server");
+               this.errorRegisterToaster("Couldn't connect to the server");
                break;
              default:
-              alert(error.error);
+              this.invalidServer = true;
+              this.totalErMsg = error.error;
          }
          });
   }
 
+
+successRegisterToaster(){
+   this.toastr.success("You have successfully registered", 'Success!', {
+     positionClass: 'toast-bottom-right'
+   });
+  this.toastr.warning("Now you need to confirm your email", 'Warning', {
+    positionClass: 'toast-bottom-right'
+  });
+}
+errorRegisterToaster(msg:string){
+  this.toastr.warning(msg, 'Error!', {
+    positionClass: 'toast-bottom-right'
+  });
+}
+
 register(){
-  this.login=this.login.trim();
   this.password=this.password.trim();
   this.email=this.email.trim();
   this.phone=this.phone.trim();
@@ -111,33 +133,21 @@ register(){
   }
 }
 
+clearTotalValidate(){
+  this.invalidServer=false;
+}
 
   validate(){
-    let goodLogin=this.validateLogin();
     let goodPassword=this.validatePassword();
     let goodEmail=this.validateEmail();
     let goodPhone=this.validatePhone();
     let goodFN=this.validateFirstName();
     let goodLN=this.validateLastName();
     let goodCP=this.validateConfirmPassword();
-    return goodLogin&&goodPassword&&goodEmail&&
+    return goodPassword&&goodEmail&&
       goodPhone&&goodFN&&goodLN&&goodCP;
   }
 
-  validateLogin(){
-    this.invalidLogin=false;
-    if(this.login.length==0){
-      this.invalidLogin=true;
-      this.loginMsg="This field is required";
-    }
-    if(this.login.search(this.regESpace)!=-1){
-      this.invalidLogin=true;
-      this.loginMsg="Login can't contain spaces";
-      return false;
-    }
-
-    return true;
-  }
   validatePassword(){
     this.invalidPassword=false;
     if(this.password.length==0){
