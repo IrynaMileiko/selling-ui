@@ -1,109 +1,103 @@
-<div class="container-fluid">
-<div class="content">
+<div class="container-fluid" style="margin:0; padding:0;">
+<div class="bgImg">
+<div class="content" style="margin:0; padding:0;">
   <div class="row d-flex justify-content-center">
     <div class="col-md-8 col-sm-11">
       <div class="authBox">
-        <h2 style = "text-align:center;">Register</h2>
+        <h2  style="margin:2%; margin-bottom:5%;">Register</h2>
         <form (submit)="register()">
-          <div class="row" style="margin-top:2%;">
-            <div class="col-3  d-flex flex-column justify-content-center">
-              <label>Е-мейл:</label>
-            </div>
-            <div class="col-9" style="width:70%;">
-              <input type="text" [(ngModel)]="email" (ngModelChange)="invalidEmail=false;clearTotalValidate();" required placeholder="Введите адрес электронной почты" class = "form-control authInput" name="email">
-            </div>
-            <div class="col-3"></div>
-            <div class="col-9" style="width:70%;">
-              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidEmail">
-                {{emailMsg}}
+          <div class="row">
+            <div class="col-6">
+              <div class="col-12" style = "margin-top:2%">
+                <label>Email</label>
               </div>
-            </div>
-          </div>
-          <div class="row" style="margin-top:2%;">
-            <div class="col-3  d-flex flex-column justify-content-center">
-              <label>Имя:</label>
-            </div>
-            <div class="col-9" style="width:70%;">
-              <input type="text" [(ngModel)]="firstName" (ngModelChange)="invalidFirstName=false;clearTotalValidate();" required placeholder="Введите свое имя" class = "form-control authInput" name="firstName">
-            </div>
-            <div class="col-3"></div>
-            <div class="col-9" style="width:70%;">
-              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidFirstName">
-                {{firstNameMsg}}
+              <div class="col-12" style="">
+                <input type="text" [(ngModel)]="email" (ngModelChange)="invalidEmail=false;clearTotalValidate();"
+                  required placeholder="Enter your email" class = "form-control authInput" name="email">
               </div>
+                <div class="col-12" style="">
+                  <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidEmail">
+                    {{emailMsg}}
+                  </div>
+                </div>
+                <div class="col-12" style = "margin-top:2%">
+                  <label>Password</label>
+                </div>
+                <div class="col-12" style="">
+                  <input type="password" [(ngModel)]="password" (ngModelChange)="invalidPassword=false;clearTotalValidate();"
+                    required placeholder="Enter your password" class = "form-control authInput" name="password" autocomplete="off">
+                </div>
+                <div class="col-12" style="">
+                  <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPassword">
+                    {{passwordMsg}}
+                  </div>
+                </div>
+                <div class="col-12" style = "margin-top:2%">
+                  <label>Re-type password</label>
+                </div>
+                <div class="col-12" style="">
+                  <input type="password" [(ngModel)]="confPassword" (ngModelChange)="invalidConfPassword=false;clearTotalValidate();"
+                    required placeholder="Repeat your password" class = "form-control authInput" name="confPassword" autocomplete="off">
+                </div>
+                <div class="col-12" style="">
+                  <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidConfPassword">
+                    {{confPasswordMsg}}
+                  </div>
+                </div>
             </div>
-          </div>
-          <div class="row" style="margin-top:2%;">
-            <div class="col-3  d-flex flex-column justify-content-center">
-              <label>Фамилия:</label>
-            </div>
-            <div class="col-9" style="width:70%;">
-              <input type="text" [(ngModel)]="lastName" (ngModelChange)="invalidLastName=false;clearTotalValidate();" required placeholder="Введите свою фамилию" class = "form-control authInput" name="lastName">
-            </div>
-            <div class="col-3"></div>
-            <div class="col-9" style="width:70%;">
-              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidLastName">
-                {{lastNameMsg}}
+            <div class="col-6">
+              <div class="col-12" style = "margin-top:2%">
+                <label>First Name</label>
               </div>
-            </div>
-          </div>
-          <div class="row" style="margin-top:2%;">
-            <div class="col-3  d-flex flex-column justify-content-center">
-              <label>Номер телефона:</label>
-            </div>
-            <div class="col-9" style="width:70%;">
-              <input type="text" [(ngModel)]="phone" (ngModelChange)="invalidPhone=false;clearTotalValidate();" required placeholder="Введите свой контактный номер телефона" class = "form-control authInput" name="phone">
-            </div>
-            <div class="col-3"></div>
-            <div class="col-9" style="width:70%;">
-              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPhone">
-                {{phoneMsg}}
+              <div class="col-12" style="">
+                <input type="text" [(ngModel)]="firstName" (ngModelChange)="invalidFirstName=false;clearTotalValidate();"
+                  required placeholder="Input your first name" class = "form-control authInput" name="firstName">
               </div>
-            </div>
-          </div>
-          <div class="row" style="margin-top:2%;">
-              <div class="col-3  d-flex flex-column justify-content-center">
-                <label>Пароль:</label>
-              </div>
-              <div class="col-9" style="width:70%;">
-                <input type="password" [(ngModel)]="password" (ngModelChange)="invalidPassword=false;clearTotalValidate();" required placeholder="Введите пароль" class = "form-control authInput" name="password">
-              </div>
-              <div class="col-3"></div>
-              <div class="col-9" style="width:70%;">
-                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPassword">
-                  {{passwordMsg}}
+              <div class="col-12" style="">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidFirstName">
+                  {{firstNameMsg}}
                 </div>
               </div>
-          </div>
-          <div class="row" style="margin-top:2%;">
-              <div class="col-3  d-flex flex-column justify-content-center">
-                <label>Повтор пароля:</label>
+              <div class="col-12" style = "margin-top:2%">
+                <label>Last Name</label>
               </div>
-              <div class="col-9" style="width:70%;">
-                <input type="password" [(ngModel)]="confPassword" (ngModelChange)="invalidConfPassword=false;clearTotalValidate();" required placeholder="Повторите пароль" class = "form-control authInput" name="confPassword">
+              <div class="col-12" style="">
+                <input type="text" [(ngModel)]="lastName" (ngModelChange)="invalidLastName=false;clearTotalValidate();"
+                  required placeholder="Input your last name" class = "form-control authInput" name="lastName">
               </div>
-              <div class="col-3"></div>
-              <div class="col-9" style="width:70%;">
-                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidConfPassword">
-                  {{confPasswordMsg}}
+              <div class="col-12" style="">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidLastName">
+                  {{lastNameMsg}}
                 </div>
               </div>
-          </div>
-          <div class="row" style="margin-top:2%;">
-              <div class="col-12 d-flex justify-content-center">
-                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center; width:60%;" role="alert" *ngIf="invalidServer">
-                  {{totalErMsg}}
+              <div class="col-12" style = "margin-top:2%">
+                <label>Phone number</label>
+              </div>
+              <div class="col-12" style="">
+                <input type="text" [(ngModel)]="phone" (ngModelChange)="invalidPhone=false;clearTotalValidate();"
+                  required placeholder="Input your phone number" class = "form-control authInput" name="phone">
+              </div>
+              <div class="col-12" style="">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPhone">
+                  {{phoneMsg}}
                 </div>
               </div>
-              <div class="col-12 d-flex justify-content-center">
-                <button type="submit" class="btn btn-info" style="width:30%;">
-                  Register
-                </button>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+              <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center; width:60%;" role="alert" *ngIf="invalidServer">
+                {{totalErMsg}}
               </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn" style="width:30%; background-color:#00A6DF; margin:2%; color:white;">
+                Register
+              </button>
+            </div>
           </div>
         </form>
       </div>
     </div>
   </div>
+</div>
 </div>
 </div>

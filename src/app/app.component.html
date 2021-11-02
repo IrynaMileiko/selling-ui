@@ -1,38 +1,63 @@
 <div id="wrap">
 <header>
-  <div class="container-fluid">
-    <div class="row align-items-center">
-      <div class="col-1 d-none d-lg-block">
+  <div class="container-fluid" style="height:100%;">
+    <div class="row align-items-center" style="height:100%;">
+      <div class="headerMenuGroup" style="width:15vw;">
         <div class="headerMenu">
-          <a routerLink=""><img src="assets/imgs/logo.jpg" alt="Logo" style="width:3.5vw; height:3.5vw; border-radius:1vw; border: 3px solid #334B49;"></a>
+          <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:3vw; height:3vw; border-radius:30px; ">
+        </div>
+        <div class="headerMenu" style="width:100%; text-align:center;">
+          <div class="headerText"> Hello, {{getLocalName()}}</div>
         </div>
       </div>
-      <div class="col-11">
-        <div class="row">
-          <div class="col-1 d-flex flex-column justify-content-center">
-            <div class="headerMenu">
-              <a class="header headerText" routerLink="/userpanel">User panel</a>
+      <div class="verticalLine"></div>
+      <div class="headerMenuGroup" style = "width:63vw">
+        <div class="headerMenu">
+          <a class="header headerText" routerLink="/home" routerLinkActive="active_route">Home</a>
+        </div>
+        <div class="headerMenu">
+          <a class="header headerText" routerLink="/about" routerLinkActive="active_route">About</a>
+        </div>
+        <div class="headerMenu">
+          <a class="header headerText" routerLink="/buy" routerLinkActive="active_route">Buy</a>
+        </div>
+        <div class="headerMenu">
+          <a class="header headerText" routerLink="/sell" routerLinkActive="active_route">Sell</a>
+        </div>
+      </div>
+      <div class="verticalLine"></div>
+      <div class="headerMenuGroup" style="width:5vw;">
+          <div class="headerMenu d-flex justify-content-center align-items-center" *ngIf="getLocalToken()!=null" style = "width:100%; height:100%;">
+            <div class="notifDiv" (click)="showNotif()">
+              <img src="assets/imgs/notification-ico.png" alt="Logo" style="width:1.5vw; height:1.5vw;">
             </div>
           </div>
-          <div class = "col-1 d-flex flex-column justify-content-center">
-            <div class="headerMenu">
-              <a class="header headerText" routerLink="/lotpanel">Lot panel</a>
-            </div>
+      </div>
+      <div class="verticalLine"></div>
+      <div class="headerMenuGroup" *ngIf="getLocalToken()==null" style="width:15vw;">
+        <div class="headerMenu" style="width:7vw;">
+          <div class="headerBtn">
+              <button type="button" class="btn hBut autoWidth headerText"  style="width:80%; height:100%;"
+              (click) = "showLog()">Login</button>
           </div>
-          <div class = "col">
+        </div>
+        <div class="headerMenu"style="width:7vw;">
+          <div class="headerBtn">
+            <button type="button" class="btn hBut autoWidth headerText"  style="width:80%; height:100%;"
+             (click)="hideAll(); gotoRegister()">Sign up</button>
           </div>
-          <div class="col-1 d-flex flex-column justify-content-center">
-            <div class="headerMenu">
-              <div class="container">
-                <button *ngIf="token==null" type="button" class="btn btn-primary autoWidth headerText"  style="padding:5%;"
-                  (click) = "show()">Login / Sign up</button>
-                <button *ngIf="token!=null" type="button" class="btn btn-primary autoWidth headerText"  style="padding:5">
-                  <a class="header headerText" routerLink="/profile">Profile</a>
-                </button>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div class="headerMenuGroup d-flex justify-content-end" *ngIf="getLocalToken()!=null" style="width:15vw;">
+        <div class="headerMenu" style="width:7vw; display:inline-block; vertical-align:middle;">
+          <div class="headerBtn">
+            <button  type="button" class="btn hBut headerText" style="width:80%; height:90%;"
+              (click)="showProf()">My Profile
+            </button>
           </div>
-          <div class="col-1 d-flex flex-column justify-content-center">
+        </div>
+      </div>
+<!--          <div class="col-1 d-flex flex-column justify-content-center">
             <div class="headerMenu">
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle btn-light autoWidth headerText" style="padding:5%;"
@@ -45,53 +70,53 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </div> -->
     </div>
   </div>
 </header>
 
-<div *ngIf="showLogin" (click)="hide()" class = "fillUp">
+<div *ngIf="showLogin" (click)="hideAll()" class = "fillUp">
   <div *ngIf="showLogin" [style.display]="showLogin ? 'block' : 'none'" class="popupLogin">
     <div (click)="$event.stopPropagation()">
       <div class="loginBox">
-        <h2 style = "text-align:center;">Login</h2>
+        <div class="title_lines">&nbsp; Login &nbsp;</div>
         <form (submit)="loginF()">
           <div class="row" style="margin-top:2%;">
-            <div class="col-3  d-flex flex-column justify-content-center">
-              <label>е-мейл:</label>
+            <div class="col-12">
+              <label>Email</label>
             </div>
-            <div class="col-9" style="width:70%;">
-              <input type="text" [(ngModel)]="login" (change)="invalidLogin=false;" required placeholder="Введите e-mail" class = "form-control authInput" name="login">
+            <div class="col-12" style="width:70%;">
+              <input type="text" [(ngModel)]="login" (change)="invalidLogin=false;" required placeholder="Enter your email"
+                class = "form-control authInput" name="login">
             </div>
-            <div class="col-3"></div>
-            <div class="col-9" style="width:70%;">
+            <div class="col-12"></div>
+            <div class="col-12" style="width:70%;">
               <div class="alert alert-danger invalidFieldText" role="alert" *ngIf="invalidLogin">
                 {{loginMsg}}
               </div>
             </div>
           </div>
           <div class="row" style="margin-top:2%;">
-              <div class="col-3  d-flex flex-column justify-content-center">
-                <label>Пароль:</label>
+              <div class="col-12">
+                <label>Password</label>
               </div>
-              <div class="col-9" style="width:70%;">
-                <input type="password" [(ngModel)]="password" (change)="invalidPassword=false;" required placeholder="Введите пароль" class = "form-control authInput" name="password">
+              <div class="col-12" style="width:70%;">
+                <input type="password" [(ngModel)]="password" (change)="invalidPassword=false;" required
+                  placeholder="Enter your password" class = "form-control authInput" name="password">
               </div>
-              <div class="col-3"></div>
-              <div class="col-9" style="width:70%;">
+              <div class="col-12"></div>
+              <div class="col-12" style="width:70%;">
                 <div class="alert alert-danger invalidFieldText" role="alert" *ngIf="invalidPassword">
                   {{passwordMsg}}
                 </div>
               </div>
           </div>
           <div class="row" style="margin-top:2%;">
-              <div class="col-md-6 col-sm-12  d-flex flex-column justify-content-center">
-                Don't have account?<div><a (click)="hide()" routerLink="/register">Register</a></div>
+              <div class="col-12">
+                <div><a (click)="hideAll()" routerLink="/">Forgot password?</a></div>
               </div>
-              <div class="col-md-6 col-sm-12 d-flex flex-row-reverse" style="width:70%;">
-                <button type="submit" class="btn btn-info" style="width:50%;">
+              <div class="col-12 d-flex justify-content-center" style="width:70%; margin:2%;">
+                <button type="submit" class="btn btn-info" style="width:50%; background-color: #F8B535;">
                   Login
                 </button>
               </div>
@@ -102,21 +127,236 @@
   </div>
 </div>
 
+<div *ngIf="showProfile" (click)="hideAll()" class = "fillUp">
+  <div *ngIf="showProfile" [style.display]="showProfile ? 'block' : 'none'" class="popupProfile">
+    <div (click)="$event.stopPropagation()">
+      <div class="profileBox">
+          <div class="row" style="margin-top:2%;">
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" (click)="hideAll()" routerLink="/profile">Profile</a>
+            </div>
+            <hr>
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" href="#">Edit profile</a>
+            </div>
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" href="#">Account settings</a>
+            </div>
+            <hr>
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" href="#">My lots</a>
+            </div>
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" href="#">My reviews</a>
+            </div>
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" href="#">My bids</a>
+            </div>
+            <hr>
+            <div class="col-12" style="margin-top:3%;">
+              <a  class = "profileLink" (click) = "logout(); hideAll();" routerLink="/">Sign out</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="showNotifications" (click)="hideAll()" class = "fillUp">
+  <div *ngIf="showNotifications" [style.display]="showNotifications ? 'block' : 'none'" class="popupNotification">
+    <div (click)="$event.stopPropagation()">
+      <div class="notificationBox">
+        <div class="notificationTitle">
+          Notifications
+        </div>
+        <div class="notificationContentBox" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
+          <div class="notification" style="margin-top:3px;">
+              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+              </div>
+              <div class="notificationContent">
+                <div class="notificationContentTitle">
+                  User username left a comment
+                </div>
+                <div class="notificationContentText">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+                <div class="notificationTime">
+                  just now
+                </div>
+              </div>
+          </div>
+          <div class="notification" style="margin-top:3px;">
+              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+              </div>
+              <div class="notificationContent">
+                <div class="notificationContentTitle">
+                  User username left a comment
+                </div>
+                <div class="notificationContentText">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+                <div class="notificationTime">
+                  just now
+                </div>
+              </div>
+          </div>
+          <div class="notification" style="margin-top:3px;">
+              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+              </div>
+              <div class="notificationContent">
+                <div class="notificationContentTitle">
+                  User username left a comment
+                </div>
+                <div class="notificationContentText">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+                <div class="notificationTime">
+                  just now
+                </div>
+              </div>
+            </div>
+            <div class="notification" style="margin-top:3px;">
+              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+              </div>
+              <div class="notificationContent">
+                <div class="notificationContentTitle">
+                  User username left a comment
+                </div>
+                <div class="notificationContentText">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+                <div class="notificationTime">
+                  just now
+                </div>
+              </div>
+            </div>
+            <div class="notification" style="margin-top:3px;">
+              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+              </div>
+              <div class="notificationContent">
+                <div class="notificationContentTitle">
+                  User username left a comment
+                </div>
+                <div class="notificationContentText">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+                <div class="notificationTime">
+                  just now
+                </div>
+              </div>
+          </div>
+          <div class="notification" style="margin-top:3px;">
+            <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+              <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+            </div>
+            <div class="notificationContent">
+              <div class="notificationContentTitle">
+                User username left a comment
+              </div>
+              <div class="notificationContentText">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div class="notificationTime">
+                just now
+              </div>
+            </div>
+          </div>
+          <div class="notification" style="margin-top:3px;">
+            <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
+              <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
+            </div>
+            <div class="notificationContent">
+              <div class="notificationContentTitle">
+                User username left a comment
+              </div>
+              <div class="notificationContentText">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div class="notificationTime">
+                just now
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <router-outlet></router-outlet>
 
 <footer>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
+  <div class="container-fluid" style="margin-top:1%; margin-bottom:1%;">
+    <div class="row d-flex align-items-start">
+      <div class="col-2" style="margin-left:2%;">
+        <div class="footerTitle">
+          INFORMATION
+        </div>
         <div class = "footerText">
-          This is very important footer
+          <div class="footerElem">
+            About us
+          </div>
+          <div class="footerElem">
+            Privacy policy
+          </div>
+          <div class="footerElem">
+            Contact us
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="footerTitle">
+          WHY BUY FROM US
+        </div>
+        <div class = "footerText">
+          <div class="footerElem">
+            Secure payment
+          </div>
+          <div class="footerElem">
+            Terms & Conditions
+          </div>
+          <div class="footerElem">
+            Support
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="footerTitle">
+          MY ACCOUNT
+        </div>
+        <div class = "footerText">
+          <div class="footerElem" *ngIf="getLocalToken()!=null" >
+              <a class="footer" routerLink="/profile">Profile</a>
+          </div>
+          <div class="footerElem" *ngIf="getLocalToken()==null" >
+              <a class="footer" routerLink="/" (click)="showLog()">Sign in</a>
+          </div>
+          <div class="footerElem">
+            FAQ
+          </div>
         </div>
       </div>
       <div class="col">
-        <div class = "footerText" style="text-align:center;">
-          Here can be
-          <br>contacts
-        </div>
       </div>
     </div>
   </div>

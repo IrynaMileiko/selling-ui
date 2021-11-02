@@ -6,3 +6,61 @@
   border: 1px solid #F7F7F7;
   padding: 1%;
 }
+
+.helloCont{
+  background-image: url("/assets/imgs/home-bg.jpg");
+  background-color: #EAFCFF;
+  min-height: 90vh;
+}
+
+.helloTextCont{
+  text-align: center;
+  margin: 2%;
+  color: white;
+  width: 40%;
+  text-shadow: 1px 1px 2px black, 0 0 1em black;
+}
+
+.helloTextTitle{
+  font-size: 3.5vw;
+  margin:1%;
+}
+.helloText{
+  font-size: 1.5vw;
+  margin:2%;
+}
+
+.registerBtn{
+  margin:2%;
+  margin-top: 3%;
+  background-color: #F89235;
+  color:white;
+  width: 200px;
+  height: 50px;
+}
+.registerBtn:hover{
+  background-color: #F87A5D;
+}
+
+.worksCont{
+  background-color: #FCFCD4;
+  padding: 2%;
+}
+.worksTextTitle{
+  font-size: 3vw;
+}
+.workStageCont{
+  width: 17vw;
+  margin: 2%;
+}
+.workStageTitle{
+  font-size: 2vw;
+  margin-bottom: 2%;
+}
+.workStageText{
+  font-size: 1.2vw;
+}
+.wokStageArr{
+  font-size: 2vw;
+  height: 100%;
+}

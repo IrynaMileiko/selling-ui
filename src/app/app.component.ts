@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 export class AppComponent {
   regEEmail = new RegExp("^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+)$");
   showLogin:boolean = false;
+  showProfile:boolean = false;
+  showNotifications:boolean = false;
   submitted = false;
   login:string;
   password:string;
@@ -24,7 +26,6 @@ export class AppComponent {
   passwordMsg:string;
   invalidLogin:boolean;
   invalidPassword:boolean;
-  token:any ="";
 
   constructor(private authService:AuthorizationService, private toastr: ToastrService
             , private router: Router) {
@@ -34,7 +35,9 @@ export class AppComponent {
     this.passwordMsg='';
     this.invalidPassword=false;
     this.invalidLogin=false;
-    this.token = sessionStorage.getItem('token');
+    if(localStorage.getItem('firstName')==null){
+      localStorage.setItem('firstName',"Guest");
+    }
    }
 
    tryLogin(user:User){
@@ -43,9 +46,9 @@ export class AppComponent {
            //alert(response);
            console.log(response);
            let obj = JSON.parse(response);
-           sessionStorage.setItem('token',obj.token);
-           this.token = sessionStorage.getItem('token');
-           this.hide();
+           localStorage.setItem('token',obj.token);
+           localStorage.setItem('firstName',"SomeName");
+           this.hideAll();
            this.router.navigate(['/profile']).then(() => {
              this.successLoginToaster();
            })
@@ -68,7 +71,20 @@ export class AppComponent {
           });
    }
 
+getLocalName(){
+  return localStorage.getItem('firstName');
+}
+getLocalToken(){
+  return localStorage.getItem('token');
+}
 
+gotoRegister(){
+  this.router.navigate(['/register']);
+}
+
+gotoProfile(){
+  this.router.navigate(['/profile']);
+}
 successLoginToaster(){
    this.toastr.success("You have successfully logged in", 'Success!', {
      positionClass: 'toast-bottom-right'
@@ -80,18 +96,36 @@ errorLoginToaster(msg:string){
  });
 }
 
-  show()
+  showLog()
   {
-    if(this.showLogin){
-      this.hide();
-    }
-    else{
-      this.showLogin = true;
-    }
+    this.hideAll();
+    this.showLogin=true;
   }
-  hide()
+  showNotif()
+  {
+    this.hideAll();
+    this.showNotifications=true;
+  }
+  showProf(){
+    this.hideAll();
+    this.showProfile=true;
+  }
+  hideAll(){
+    this.hideLog();
+    this.hideProf();
+    this.hideNotif();
+  }
+  hideLog()
   {
     this.showLogin = false;
+  }
+  hideNotif()
+  {
+    this.showNotifications = false;
+  }
+  hideProf()
+  {
+    this.showProfile = false;
   }
 
   loginF(){
@@ -107,6 +141,48 @@ errorLoginToaster(msg:string){
       }
       this.tryLogin(user);
     }
+  }
+
+  logout(){
+    this.authService.logout().subscribe(
+      (response) => {
+        //alert(response);
+        console.log(response);
+        //localStorage.removeItem('token');
+        //localStorage.setItem('firstName','Guest');
+        this.router.navigate(['/']).then(() => {
+        //  this.successLogoutToaster();
+        })
+      },
+       (error) => {
+         console.log(error);
+         //switch (error.status) {
+        //   case 403:
+        //   this.errorToaster(error.error);
+        //    break;
+        //   case 0:
+        //     this.errorToaster("Couldn't connect to the server");
+        //     break;
+        //   default:
+        //   this.errorToaster(error.error);
+       //}
+       });
+       localStorage.removeItem('token');
+       localStorage.setItem('firstName','Guest');
+       this.successLogoutToaster();
+  }
+
+  successLogoutToaster(){
+     this.toastr.success("You have successfully logged out", 'Success!', {
+       positionClass: 'toast-bottom-right'
+     });
+  }
+
+
+  errorToaster(msg:string){
+    this.toastr.warning(msg, 'Error!', {
+      positionClass: 'toast-bottom-right'
+    });
   }
 
   validate(){

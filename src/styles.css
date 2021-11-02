@@ -5,21 +5,6 @@
   padding: 1%;
 }
 
-.authBox{
-  background-color: #C0FCF7;
-  border-radius: 0.5vw;
-  margin-left: 10vw;
-  margin-right: 10vw;
-  padding-left: 2%;
-  padding-right: 2%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-}
-
-input.authInput{
-  width: 100%;
-}
-
 .invalidFieldText{
   font-size: 0.7em;
 }
@@ -30,4 +15,10 @@ body{
 
 .autoWidth{
   width: auto;
+}
+p{
+  margin: 0;
+}
+html, body{
+   font-family: 'Roboto', sans-serif;
 }

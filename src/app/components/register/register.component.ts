@@ -83,7 +83,6 @@ export class RegisterComponent implements OnInit {
           })
         },
          (error) => {
-           console.log(error);
            switch (error.status) {
              case 403:
               this.invalidServer = true;

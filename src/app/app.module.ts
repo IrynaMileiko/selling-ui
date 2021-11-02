@@ -20,14 +20,21 @@ import { ClickOutsideDirective } from './directives/clickOutside/click-outside.d
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LotManagementComponent } from './components/lot-management/lot-management.component';
+import { AboutComponent } from './components/about/about.component';
+import { BuyComponent } from './components/buy/buy.component';
+import { SellComponent } from './components/sell/sell.component';
 
 const appRoutes:Routes = [
-  {path:'', component:HomeComponent},//ссылка и какой компонент отображает
-  {path:'userpanel', component:UserpanelComponent},
-  {path:'lotpanel', component:LotpanelComponent},
-  {path:'register', component:RegisterComponent},
-  {path:'profile', component:ProfileComponent},
-  {path:'manage-lotpanel', component:LotManagementComponent},
+  {path:'', redirectTo: '/home', pathMatch: 'full'},//ссылка и какой компонент отображает
+  {path:'home', component:HomeComponent, pathMatch: 'full'},
+  {path:'userpanel', component:UserpanelComponent, pathMatch: 'full'},
+  {path:'lotpanel', component:LotpanelComponent, pathMatch: 'full'},
+  {path:'register', component:RegisterComponent, pathMatch: 'full'},
+  {path:'profile', component:ProfileComponent, pathMatch: 'full'},
+  {path:'about', component:AboutComponent, pathMatch: 'full'},
+  {path:'buy', component:BuyComponent, pathMatch: 'full'},
+  {path:'sell', component:SellComponent, pathMatch: 'full'},
+  {path:'manage-lotpanel', component:LotManagementComponent, pathMatch: 'full'},
   { path: '**', component: NotFoundComponent }
 ]
 
@@ -41,7 +48,10 @@ const appRoutes:Routes = [
     ClickOutsideDirective,
     NotFoundComponent,
     ProfileComponent,
-    LotManagementComponent
+    LotManagementComponent,
+    AboutComponent,
+    BuyComponent,
+    SellComponent
   ],
   imports: [
     BrowserModule,

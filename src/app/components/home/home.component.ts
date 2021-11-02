@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HelloService } from '../../services/hello.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
 
 @Component({
   selector: 'app-home',
@@ -10,30 +12,33 @@ import { ToastrService } from 'ngx-toastr';
 export class HomeComponent implements OnInit {
 posts : any;
 
-  constructor(private helloService: HelloService, private toastr: ToastrService) { }
+  constructor(private helloService: HelloService, private toastr: ToastrService,
+    private router: Router, private authService:AuthorizationService) { }
 
   ngOnInit(): void {
   }
 
-getHello(){
-    this.helloService.getHello().subscribe(
-	     (response) => { this.posts = response; },
-	      (error) => {
-          console.log(error);
-          switch (error.status) {
-            case 403:
-              this.posts =error.error;
-              break;
-            case 0:
-              this.posts ="Couldn't connect to the server";
-              break;
-            default:
-             this.posts =error.error;
-        }
-        });
+gotoRegister(){
+  this.router.navigate(['/register']);
 }
 
-  showToaster(){
-      this.toastr.success("Hello, I'm the toastr message.")
+successLogoutToaster(){
+   this.toastr.success("You have successfully logged out", 'Success!', {
+     positionClass: 'toast-bottom-right'
+   });
+}
+
+
+errorToaster(msg:string){
+  this.toastr.warning(msg, 'Error!', {
+    positionClass: 'toast-bottom-right'
+  });
+}
+
+  notAuthToaster(){
+      this.toastr.error("You need to log in first", 'Error!', {
+        positionClass: 'toast-bottom-right'
+      });
   }
+
 }
