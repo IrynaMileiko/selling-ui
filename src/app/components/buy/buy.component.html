@@ -1,1 +1,151 @@
-<p>buy works!</p>
+<div class="content" style = "margin:0; padding:0; font-family: 'Roboto', sans-serif; min-height:100vh; display: flex; ">
+      <div class="filterPanelCol">
+        <div class = "filterPanel">
+          <button  type="button" class="btn hBut" style="width:100%; height:40px;">
+            Remove all filters
+          </button>
+          <div class="filterBox">
+            <div class="filterBoxTop">
+              <div class="filterBoxTopText">
+                CATEGORY
+              </div>
+              <div class="filterBoxTopText">
+                <b>X</b> CLEAR
+              </div>
+            </div>
+            <div class="filterBoxContent">
+                <div class="filterBoxItem"*ngFor="let category of categories;">
+                  <input type="checkbox" class="chB" value="{{category}}">
+                    {{category}}
+                </div>
+            </div>
+          </div>
+          <div class="filterBox" style="height:195px;">
+            <div class="filterBoxTop">
+              <div class="filterBoxTopText">
+                LOCATION
+              </div>
+              <div class="filterBoxTopText">
+                <b>X</b> CLEAR
+              </div>
+            </div>
+            <input type="text" class="form-control src" placeholder="Search...">
+            <div class="filterBoxContent">
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+              <div class="filterBoxItem">
+                <input type="checkbox" class="chB" value="">
+                  Some location
+              </div>
+            </div>
+          </div>
+          <div class="filterBox">
+            <div class="filterBoxTop">
+              <div class="filterBoxTopText">
+                PRICE RANGE
+              </div>
+              <div class="filterBoxTopText">
+                <b>X</b> CLEAR
+              </div>
+            </div>
+            <div class="filterBoxContent">
+              <div class="priceRangeCont">
+                <input type="text" class="form-control price">
+                &nbsp; — &nbsp;
+                <input type="text" class="form-control price">
+              </div>
+              <div class="filterBoxItem">
+                <button  type="button" class="btn pBut">
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="lotList">
+        <div class="topList">
+          <div class="topListText">
+            Results:
+          </div>
+          <div style="display:flex; align-items: center;">
+            <div class="topListText" style="width:100px;">
+              Sort by
+            </div>
+            <div class="input-group mb-3" style="font-size:1vw; margin:0;">
+              <select class="custom-select" id="inputGroupSelect01">
+                <option selected value="rating">Rating</option>
+                <option value="price">Price</option>
+                <option value="date">Date</option>
+                <option value="location">Location</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="allLots">
+          <div class="lotBox" *ngFor="let lot of lots;">
+            <div class="lotImgBox">
+              <div class="imgfit" *ngIf="lot.photo!=''" [ngStyle]="{ 'background-image':  'url('+lot.photo+')'}">
+              </div>
+            </div>
+            <div class="lotContent">
+              <div class="lotText">
+                {{lot.name}}
+              </div>
+              <div class="lotPrice">
+                Start Price: {{lot.startPrice}}
+              </div>
+              <div class="lotText">
+                Lot decr: {{lot.description}}
+              </div>
+              <div class="lotRatingBox">
+                <div class="lotRatingText">
+                  Seller rating:
+                </div>
+                <div class="lotRatingText">
+                  5/5
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+</div>

@@ -51,7 +51,7 @@
               </div>
               <div class="col-12" style="">
                 <input type="text" [(ngModel)]="firstName" (ngModelChange)="invalidFirstName=false;clearTotalValidate();"
-                  required placeholder="Input your first name" class = "form-control authInput" name="firstName">
+                  required placeholder="Input your first name" class = "form-control authInput" name="firstName" >
               </div>
               <div class="col-12" style="">
                 <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidFirstName">

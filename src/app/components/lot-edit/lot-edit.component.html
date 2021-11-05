@@ -4,8 +4,8 @@
   <div class="row d-flex justify-content-center">
     <div class="col-lg-8 col-md-11">
       <div class="authBox">
-        <h2  style="margin:2%; margin-bottom:5%;">Create lot</h2>
-        <form (submit)="createLot()">
+        <h2  style="margin:2%; margin-bottom:5%;">Edit lot</h2>
+        <form (submit)="saveLot()">
           <div class="row">
             <div class="fieldBox">
               <div class="col-12" style = "margin-top:2%">
@@ -88,7 +88,8 @@
                       <label>Start date</label>
                     </div>
                     <div class="col-12" style="">
-                      <input type="date" required class = "form-control authInput" id="startDate" name="startDate" style = "width:80%;">
+                      <input type="date" required class = "form-control authInput" id="startDate" name="startDate" style = "width:80%;"
+                        value = "{{startDate}}">
                     </div>
                     <div class="col-12" style="">
                       <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidStartDate"
@@ -115,7 +116,8 @@
                       <label>End date</label>
                     </div>
                     <div class="col-12" style="">
-                      <input type="date" id = "endDate" required class = "form-control authInput" name="endDate" style = "width:80%;">
+                      <input type="date" id = "endDate" required class = "form-control authInput" name="endDate" style = "width:80%;"
+                        value = "{{endDate}}">
                     </div>
                     <div class="col-12" style="">
                       <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidEndDate"

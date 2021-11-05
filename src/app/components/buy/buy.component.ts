@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Lot, LotService} from '../../services/lot/lot.service';
 
 @Component({
   selector: 'app-buy',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./buy.component.css']
 })
 export class BuyComponent implements OnInit {
+  lots:Lot[] = this.lotService.getLots();
+  categories:String[] = this.lotService.getCategories();
 
-  constructor() { }
+  constructor(private lotService:LotService) { }
 
   ngOnInit(): void {
   }

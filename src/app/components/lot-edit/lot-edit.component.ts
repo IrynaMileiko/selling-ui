@@ -1,64 +1,86 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import {Lot, LotService} from '../../services/lot/lot.service';
 
 @Component({
-  selector: 'app-sell',
-  templateUrl: './sell.component.html',
-  styleUrls: ['./sell.component.css']
+  selector: 'app-lot-edit',
+  templateUrl: './lot-edit.component.html',
+  styleUrls: ['./lot-edit.component.css']
 })
-export class SellComponent implements OnInit {
-  name:String = "";
-  invalidName:boolean = false;
-  nameMsg:String = "";
+export class LotEditComponent implements OnInit {
+id:number;
+lot:Lot|null;
 
-  photoPath:string = "";
-  photoMsg:string = "";
-  invalidPhoto:boolean = false;
-  displayPhotoPath:any = "";
+name:String;
+invalidName:boolean = false;
+nameMsg:String = "";
 
-  description:String = "";
-  descrMsg:String = "";
-  invalidDescr:boolean = false;
+photoPath:string="";
+photoMsg:string = "";
+invalidPhoto:boolean = false;
+displayPhotoPath:any;
 
-  startPrice:Number = 0;
-  startPriceMsg:String = "";
-  invalidStartPrice:boolean = false;
+description:String;
+descrMsg:String = "";
+invalidDescr:boolean = false;
 
-  endPrice:Number = 0;
-  endPriceMsg:String = "";
-  invalidEndPrice:boolean = false;
+startPrice:Number;
+startPriceMsg:String = "";
+invalidStartPrice:boolean = false;
 
-  startDate:String="";
-  startDateMsg:String = "";
-  invalidStartDate:boolean = false;
+endPrice:Number;
+endPriceMsg:String = "";
+invalidEndPrice:boolean = false;
 
-  endDate:String = "";
-  endDateMsg:String = "";
-  invalidEndDate:boolean = false;
+startDate:String="";
+startDateMsg:String = "";
+invalidStartDate:boolean = false;
 
-  location:String = "";
-  locationMsg:String = "";
-  invalidLocation:boolean = false;
+endDate:String="";
+endDateMsg:String = "";
+invalidEndDate:boolean = false;
 
-  imgFileFormats:String[] = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'png'];
+location:String;
+locationMsg:String = "";
+invalidLocation:boolean = false;
 
+imgFileFormats:String[] = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'png'];
   curDate:String = new Date().toISOString().split('T')[0];
 
 
-  constructor(private toastr: ToastrService, private router: Router, private lotService:LotService) {
+  constructor(private activateRoute: ActivatedRoute, private router: Router, private toastr: ToastrService,
+        private lotService:LotService) {
     if(localStorage.getItem('token')==null){
         this.router.navigate(['/']).then(() => {
             this.notAuthToaster();
         })
-      }
-  }
+    }
+    let smth = this.activateRoute.snapshot.params['id'];
+    if(isNaN(smth)){
+      this.router.navigate(['/unknown']);
+    }
+    this.id = smth;
+    this.lot = this.lotService.getLotById(this.id);
+    if(this.lot==null){
+      this.notYourToaster();
+      this.router.navigate(['/']);
+    }
+    this.name = this.lot!.name;
+    this.displayPhotoPath = this.lot!.photo;
+    this.description = this.lot!.description;
+    this.startPrice = this.lot!.startPrice;
+    this.endPrice = this.lot!.endPrice;
+    this.startDate = this.lot!.startDate;
+    this.endDate = this.lot!.endDate;
+    this.location = this.lot!.location;
+   }
 
   ngOnInit(): void {
   }
 
-  createLot(){
+  saveLot(){
     let validated = this.validateAll();
     if(!validated) return;
 
@@ -75,7 +97,7 @@ export class SellComponent implements OnInit {
       location:this.location
     }
 
-    this.lotService.addLot(lot)
+    this.lotService.updateLot(lot, this.id)
     this.router.navigate(['/buy']).then(() => {
         this.successToaster();
     })
@@ -163,7 +185,7 @@ export class SellComponent implements OnInit {
       this.startDateMsg = "This field is required";
       return false;
     }
-    if(date<=this.curDate){
+    if(date<=this.curDate && date!=this.lot!.startDate){
       this.invalidStartDate = true;
       this.startDateMsg = "Date can't be less than tomorrow";
       return false;
@@ -202,7 +224,7 @@ export class SellComponent implements OnInit {
     return true;
   }
 
-clearTotalValidate(){
+  clearTotalValidate(){
   this.invalidName = false;
   this.invalidDescr = false;
   this.invalidPhoto = false;
@@ -211,22 +233,22 @@ clearTotalValidate(){
   this.invalidEndPrice = false;
   this.invalidStartPrice = false;
   this.invalidLocation = false;
-}
+  }
 
-getStDate(){
+  getStDate(){
   let doc = (<HTMLInputElement>document.getElementById("startDate")).value;
   return doc;
-}
-getEDate(){
+  }
+  getEDate(){
   let doc = (<HTMLInputElement>document.getElementById("endDate")).value;
   return doc;
-}
-getCategory(){
+  }
+  getCategory(){
   let doc = (<HTMLInputElement>document.getElementById("categorySelect")).value;
   return doc;
-}
+  }
 
-uploadPhoto(){
+  uploadPhoto(){
   this.invalidPhoto = false;
   this.displayPhotoPath="";
   if(!this.validateImgFormat()){
@@ -241,28 +263,32 @@ uploadPhoto(){
 
   reader.readAsDataURL(file);
 
-}
+  }
 
-onFileChanged(event:any) {
+  onFileChanged(event:any) {
     this.photoPath = event.target.files[0]
   }
 
-validateImgFormat(){
+  validateImgFormat(){
   let subs = this.photoPath.split('.');
   let format = subs[subs.length-1];
   return this.imgFileFormats.includes(format);
 
-}
+  }
 
   notAuthToaster(){
       this.toastr.error("You need to log in first", 'Error!', {
         positionClass: 'toast-bottom-right'
       });
   }
-  successToaster(){
-      this.toastr.success("Lot have been created", 'Success!', {
+  notYourToaster(){
+      this.toastr.error("You are not owner of this lot", 'Error!', {
         positionClass: 'toast-bottom-right'
       });
   }
-
+  successToaster(){
+      this.toastr.success("Lot have been saved", 'Success!', {
+        positionClass: 'toast-bottom-right'
+      });
+  }
 }

@@ -44,6 +44,11 @@ export class RegisterComponent implements OnInit {
 
   constructor(private authService:AuthorizationService, private toastr: ToastrService
             , private router: Router) {
+  if(localStorage.getItem('token')!=null){
+      this.router.navigate(['/']).then(() => {
+          this.alreadyAuthToaster();
+        })
+  }
   this.password='';
   this.email='';
   this.phone='';
@@ -232,5 +237,9 @@ clearTotalValidate(){
 
     return true;
   }
-
+  alreadyAuthToaster(){
+      this.toastr.error("You have been alredy logged in", 'Error!', {
+        positionClass: 'toast-bottom-right'
+      });
+  }
 }

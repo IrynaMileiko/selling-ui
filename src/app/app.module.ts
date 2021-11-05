@@ -23,6 +23,7 @@ import { LotManagementComponent } from './components/lot-management/lot-manageme
 import { AboutComponent } from './components/about/about.component';
 import { BuyComponent } from './components/buy/buy.component';
 import { SellComponent } from './components/sell/sell.component';
+import { LotEditComponent } from './components/lot-edit/lot-edit.component';
 
 const appRoutes:Routes = [
   {path:'', redirectTo: '/home', pathMatch: 'full'},//ссылка и какой компонент отображает
@@ -35,6 +36,7 @@ const appRoutes:Routes = [
   {path:'buy', component:BuyComponent, pathMatch: 'full'},
   {path:'sell', component:SellComponent, pathMatch: 'full'},
   {path:'manage-lotpanel', component:LotManagementComponent, pathMatch: 'full'},
+  {path:'editlot/:id', component:LotEditComponent},
   { path: '**', component: NotFoundComponent }
 ]
 
@@ -51,7 +53,8 @@ const appRoutes:Routes = [
     LotManagementComponent,
     AboutComponent,
     BuyComponent,
-    SellComponent
+    SellComponent,
+    LotEditComponent
   ],
   imports: [
     BrowserModule,
