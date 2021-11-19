@@ -1,0 +1,176 @@
+.editLabel {
+  font-size: 15px;
+}
+
+input.editInput {
+  background: #E5E5E5;
+  font-size: 12px;
+  border-radius: 10px;
+  border-style: none;
+  height: 30px;
+  width: 80%;
+}
+
+div {
+  border-style: none;
+  border-color: coral;
+  border-width: 1px;
+}
+
+button.btn {
+  color: #FFFFFF;
+}
+
+button.btn-upload {
+  width: 20%;
+  background-color: #008DDF;
+  border-radius: 10px;
+  margin-top: 1%;
+  margin-left: 2%;
+}
+
+button.btn-submit {
+  width: 30%;
+  background-color: #F37121;
+  border-radius: 10px;
+  margin-top: 4%;
+  margin-left: 1%;
+}
+
+button.btn-save-changes {
+  width: 10%;
+  background-color: #F37121;
+  border-radius: 10px;
+  margin-top: 1%;
+}
+
+button.btn-delete {
+  background-color: #FF5555;
+  border-radius: 10px;
+  margin-top: 10%;
+  margin-left: 2%;
+}
+
+.imgBox {
+  width: 6vw;
+  height: 6vw;
+  border-radius: 30px;
+  margin-top: 1%;
+  margin-left: 2%;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
+
+.imgfit {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: no-repeat center;
+  background-size: cover;
+  border-radius: 30px;
+}
+
+.accountSettings {
+  display: flex;
+  margin-top: 1%;
+  height: 80px;
+  width: 40%;
+}
+
+.push {
+  margin-left: auto;
+}
+
+.form-field label {
+  margin-top: 1%;
+  font-size: 18px;
+  color: #0d0c22;
+  font-weight: 600;
+  display: block;
+}
+
+.form-field input {
+  background: #E5E5E5;
+  font-size: 12px;
+  border-radius: 10px;
+  border-style: none;
+  height: 30px;
+  width: 20%;
+}
+
+.accountSettingsForm {
+  margin-left: 2%;
+}
+
+h2.section {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  overflow: hidden;
+  border-bottom: 3px solid #ddd;
+  color: #0d0c22;
+  width: 20%;
+  align-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.changePassword {
+  margin-top: 1%;
+  margin-left: 1%;
+}
+
+.oldPasswordInput {
+  background: #E5E5E5;
+  border-style: none;
+  min-height: 30px;
+  width: 90%;
+  border-radius: 10px;
+}
+
+.newPasswordInput {
+  background: #E5E5E5;
+  border-style: none;
+  min-height: 30px;
+  width: 90%;
+  border-radius: 10px;
+}
+
+button.btn-change {
+  width: 40%;
+  background-color: #FF5555;
+  border-radius: 10px;
+  margin-top: 10%;
+  margin-bottom: 1%;
+}
+
+.invalidPasswordText {
+  padding: 1%;
+  text-align: center;
+  width: 90%;
+}
+
+.invalidEmailText {
+  padding: 1%;
+  text-align: center;
+  width: 20%;
+}
+
+.invalidFirstNameText {
+  padding: 1%;
+  text-align: center;
+  width: 80%;
+}
+
+.invalidLastNameText {
+  padding: 1%;
+  text-align: center;
+  width: 80%;
+}
+
+.invalidPhoneText {
+  padding: 1%;
+  text-align: center;
+  width: 80%;
+}

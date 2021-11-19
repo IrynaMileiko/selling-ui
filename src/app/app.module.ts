@@ -24,6 +24,7 @@ import { AboutComponent } from './components/about/about.component';
 import { BuyComponent } from './components/buy/buy.component';
 import { SellComponent } from './components/sell/sell.component';
 import { LotEditComponent } from './components/lot-edit/lot-edit.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const appRoutes:Routes = [
   {path:'', redirectTo: '/home', pathMatch: 'full'},//ссылка и какой компонент отображает
@@ -63,8 +64,9 @@ const appRoutes:Routes = [
     RouterModule.forRoot(appRoutes), //какие пути отслеживаются
     HttpClientModule,
     ReactiveFormsModule,
-	   BrowserAnimationsModule,
-	    ToastrModule.forRoot()
+	  BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    MatTabsModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
