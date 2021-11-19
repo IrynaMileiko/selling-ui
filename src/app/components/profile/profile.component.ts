@@ -301,7 +301,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
   errorToaster(msg: string) {
     this.toastr.warning(msg, 'Error!', {
       positionClass: 'toast-bottom-right'

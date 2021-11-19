@@ -1,11 +1,11 @@
 
-import {UserService, User} from './services/user.service';
+import { UserService, User } from './services/user.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { Directive, ElementRef, OnInit, Renderer2, HostListener } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -25,19 +25,20 @@ import { BuyComponent } from './components/buy/buy.component';
 import { SellComponent } from './components/sell/sell.component';
 import { LotEditComponent } from './components/lot-edit/lot-edit.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AuthInterceptorService } from './services/interceptor/auth-interceptor.service';
 
-const appRoutes:Routes = [
-  {path:'', redirectTo: '/home', pathMatch: 'full'},//ссылка и какой компонент отображает
-  {path:'home', component:HomeComponent, pathMatch: 'full'},
-  {path:'userpanel', component:UserpanelComponent, pathMatch: 'full'},
-  {path:'lotpanel', component:LotpanelComponent, pathMatch: 'full'},
-  {path:'register', component:RegisterComponent, pathMatch: 'full'},
-  {path:'profile', component:ProfileComponent, pathMatch: 'full'},
-  {path:'about', component:AboutComponent, pathMatch: 'full'},
-  {path:'buy', component:BuyComponent, pathMatch: 'full'},
-  {path:'sell', component:SellComponent, pathMatch: 'full'},
-  {path:'manage-lotpanel', component:LotManagementComponent, pathMatch: 'full'},
-  {path:'editlot/:id', component:LotEditComponent},
+const appRoutes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },//ссылка и какой компонент отображает
+  { path: 'home', component: HomeComponent, pathMatch: 'full' },
+  { path: 'userpanel', component: UserpanelComponent, pathMatch: 'full' },
+  { path: 'lotpanel', component: LotpanelComponent, pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent, pathMatch: 'full' },
+  { path: 'profile', component: ProfileComponent, pathMatch: 'full' },
+  { path: 'about', component: AboutComponent, pathMatch: 'full' },
+  { path: 'buy', component: BuyComponent, pathMatch: 'full' },
+  { path: 'sell', component: SellComponent, pathMatch: 'full' },
+  { path: 'manage-lotpanel', component: LotManagementComponent, pathMatch: 'full' },
+  { path: 'editlot/:id', component: LotEditComponent },
   { path: '**', component: NotFoundComponent }
 ]
 
@@ -64,11 +65,16 @@ const appRoutes:Routes = [
     RouterModule.forRoot(appRoutes), //какие пути отслеживаются
     HttpClientModule,
     ReactiveFormsModule,
-	  BrowserAnimationsModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MatTabsModule
   ],
-  providers: [UserService],
+  providers: [UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
