@@ -85,7 +85,7 @@ imgFileFormats:String[] = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'png'];
     if(!validated) return;
 
     let lot:Lot = {
-      id:this.lotService.getMaxId(),
+      id:this.lot!.id,
       name:this.name,
       description:this.description,
       category:this.getCategory(),
