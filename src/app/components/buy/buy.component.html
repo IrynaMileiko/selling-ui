@@ -109,31 +109,38 @@
               Sort by
             </div>
             <div class="input-group mb-3" style="font-size:1vw; margin:0;">
-              <select class="custom-select" id="inputGroupSelect01">
-                <option selected value="rating">Rating</option>
-                <option value="price">Price</option>
-                <option value="date">Date</option>
-                <option value="location">Location</option>
+              <select class="custom-select" #t id="inputGroupSelect01" (change) = "sortCol(t.value)">
+                <option value="Rating A">Rating (Lower -> Bigger)</option>
+                <option selected value="Rating D">Rating (Bigger -> Lower)</option>
+                <option value="Name A">Name (Lower -> Bigger)</option>
+                <option value="Name D">Name (Bigger -> Lower)</option>
+                <option value="StartPrice A">Price (Lower -> Bigger)</option>
+                <option value="StartPrice D">Price (Bigger -> Lower)</option>
+                <option value="Category A">Category (Lower -> Bigger)</option>
+                <option value="Category D">Category (Bigger -> Lower)</option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="allLots">
-          <div class="lotBox" *ngFor="let lot of lots;">
+          <div class="lotBox" *ngFor="let lot of lots;" (click)="viewLot(lot.id)">
             <div class="lotImgBox">
-              <div class="imgfit" *ngIf="lot.photo!=''" [ngStyle]="{ 'background-image':  'url('+lot.photo+')'}">
+              <div class="imgfit" *ngIf="lot.imgPath!=''" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
               </div>
             </div>
             <div class="lotContent">
               <div class="lotText">
                 {{lot.name}}
               </div>
+              <div class="lotText">
+                Category: {{lot.category}}
+              </div>
               <div class="lotPrice">
                 Start Price: {{lot.startPrice}}
               </div>
               <div class="lotText">
-                Lot decr: {{lot.description}}
+                Description: {{lot.description}}
               </div>
               <div class="lotRatingBox">
                 <div class="lotRatingText">

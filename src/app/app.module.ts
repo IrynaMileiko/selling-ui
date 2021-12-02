@@ -1,7 +1,7 @@
 
 import { UserService, User } from './services/user.service';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { Directive, ElementRef, OnInit, Renderer2, HostListener } from '@angular/core';
@@ -9,6 +9,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import { SellComponent } from './components/sell/sell.component';
 import { LotEditComponent } from './components/lot-edit/lot-edit.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AuthInterceptorService } from './services/interceptor/auth-interceptor.service';
+import { LotViewComponent } from './components/lot-view/lot-view.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },//ссылка и какой компонент отображает
@@ -39,6 +41,7 @@ const appRoutes: Routes = [
   { path: 'sell', component: SellComponent, pathMatch: 'full' },
   { path: 'manage-lotpanel', component: LotManagementComponent, pathMatch: 'full' },
   { path: 'editlot/:id', component: LotEditComponent },
+  { path: 'lots/:id', component: LotViewComponent },
   { path: '**', component: NotFoundComponent }
 ]
 
@@ -56,7 +59,8 @@ const appRoutes: Routes = [
     AboutComponent,
     BuyComponent,
     SellComponent,
-    LotEditComponent
+    LotEditComponent,
+    LotViewComponent
   ],
   imports: [
     BrowserModule,
@@ -69,12 +73,11 @@ const appRoutes: Routes = [
     ToastrModule.forRoot(),
     MatTabsModule
   ],
-  providers: [UserService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true,
-    },],
+  providers: [
+    UserService,
+    DatePipe,
+    Title
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

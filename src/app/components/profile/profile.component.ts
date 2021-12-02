@@ -3,6 +3,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
 import { EditProfileService, UserUpdatePassword, UserUpdateEmail, UserUpdateInfo } from '../../services/editProfile/edit-profile.service';
+import {Lot, LotExt, LotService} from '../../services/lot/lot.service';
+import {LotValidation, LotValidationService} from '../../services/lot/lot-validation.service';
+import {UrlInfoService} from '../../services/common/url-info.service';
+import { formatDate } from "@angular/common";
+import { DatePipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -43,13 +49,23 @@ export class ProfileComponent implements OnInit {
   invalidLastName: boolean;
 
   imgFileFormats: String[] = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'png'];
+  myLots: LotExt[];
 
-  constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService, private editProfileService: EditProfileService) {
+  showLotB: boolean = false;
+  lotValidation: LotValidation;
+
+  constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
+      private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
+      public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title) {
+    titleService.setTitle('Profile');
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
         this.notAuthToaster();
       })
     }
+    this.myLots = [];
+    this.getUsersLot();
+    this.lotValidation = lotValid.getLotValidation();
     this.oldPassword = "";
     this.newPassword = "";
     this.passwordMsg = "";
@@ -283,6 +299,50 @@ export class ProfileComponent implements OnInit {
     this.invalidPhone = false;
   }
 
+  showLot(index:number){
+    this.showLotB=true;
+    this.lotValidation = this.lotValid.getLot(this.myLots[index]);
+  }
+
+  dotDatetoDef(dat: String){
+    let spl:String[] = dat.split(".");
+    let res = spl[2]+"-"+spl[1]+"-"+spl[0];
+    return res;
+  }
+
+    hideAll(){
+      this.showLotB=false;
+    }
+
+  sortCol(sel:string){
+    this.myLots = this.lotService.sortLots(this.myLots, sel);
+  }
+
+  getUsersLot(){
+    this.lotService.getUsersLot().subscribe(
+      (response) => {
+        //console.log(response);
+        let st = JSON.stringify(response);
+        let res = JSON.parse(st);
+        console.log(Object.values(res));
+        for (let key in res) {
+          if (res.hasOwnProperty(key)) {
+            //console.log(curLot);
+            let lot:LotExt|null = this.lotService.getJLot(JSON.stringify(res[key]));
+            if(lot!=null)
+              this.myLots.push(lot);
+          }
+        }
+        console.log(this.myLots);
+        //this.myLots = Array.of(res.json().results);
+      },
+      (error) => {
+        console.log(error);
+        this.myLots = [];
+      });
+  }
+
+
   successPasswordChangeToaster() {
     this.toastr.success("You have successfully changed your password", 'Success!', {
       positionClass: 'toast-bottom-right'
@@ -300,6 +360,11 @@ export class ProfileComponent implements OnInit {
       positionClass: 'toast-bottom-right'
     });
   }
+    successToaster(msg:string) {
+      this.toastr.success(msg, 'Success!', {
+        positionClass: 'toast-bottom-right'
+      });
+    }
 
   errorToaster(msg: string) {
     this.toastr.warning(msg, 'Error!', {

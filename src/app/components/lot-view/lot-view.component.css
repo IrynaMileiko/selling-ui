@@ -1,0 +1,79 @@
+
+.authBox{
+  margin-top:10%;
+  margin-bottom: 10%;
+  background-color:#d4f7ff;
+  border-radius: 0.5vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  border: 2px solid #bff3ff;
+}
+
+input.authInput{
+  width: 50%;
+}
+.bgImg{
+  background: url("/assets/imgs/home-bg-blurred.jpg");
+  min-height: 100vh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fieldBox{
+  width: 100%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-top: black solid 1px;
+}
+.fieldBoxTitle{
+  font-size:
+}
+
+.imgBox{
+  height: 200px;
+  width: 200px;
+  background-color: lightgrey;
+}
+.colBox{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.rowBox{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.photoBtn{
+  background-color: #00B2B8;
+  color: white;
+}
+h3{
+  margin:2%;
+  margin-bottom:5%;
+}
+
+.submitBtn{
+  width:30%;
+  background-color:#00A6DF;
+  margin:2%;
+  color:white;
+  margin-top:50px;
+}
+.imgfit {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: no-repeat center;
+  background-size: cover;
+}
+label.title{
+  font-weight: bold;
+  font-size: 1.1em;
+}

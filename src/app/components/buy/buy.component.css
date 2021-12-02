@@ -111,8 +111,8 @@ input.price{
 .lotBox{
   border: 1px black solid;
   border-radius: 10px;
-  height: 200px;
-  width: 200px;
+  height: 220px;
+  width: 150px;
   overflow: hidden;
   margin-left: 10px;
   margin-right: 10px;
@@ -120,6 +120,8 @@ input.price{
 
 .lotBox:hover{
   height: auto;
+  max-height: 300px;
+  border: 2px black dashed;
 }
 
 .lotImgBox{

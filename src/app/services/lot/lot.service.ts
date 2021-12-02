@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ lots:Lot[] = [
   }
 ];
 
-  constructor() {
+  constructor(private http: HttpClient) {
     if(localStorage.getItem('lots')==null){
       localStorage.setItem('lots',JSON.stringify(this.lots));
       localStorage.setItem('categories',JSON.stringify(this.categories));
@@ -101,6 +102,185 @@ lots:Lot[] = [
       }
     }
   }
+
+  sortLots(lots:LotExt[], sel:string){
+    let cols = sel.split(' ');
+    let col = cols[0];
+    let dir = cols[1];
+    switch (col) {
+      case 'Id':
+        lots = lots.sort((n1,n2) => {
+          if (n1.id > n2.id) {
+              return 1;
+          }
+          if (n1.id < n2.id) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+      case 'Name':
+        lots = lots.sort((n1,n2) => {
+          if (n1.name > n2.name) {
+              return 1;
+          }
+          if (n1.name < n2.name) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+      case 'Status':
+        lots = lots.sort((n1,n2) => {
+          if (n1.status > n2.status) {
+              return 1;
+          }
+          if (n1.status < n2.status) {
+              return -1;
+          }
+            return 0;
+        });
+        break;
+      case 'Category':
+        lots = lots.sort((n1,n2) => {
+          if (n1.category > n2.category) {
+              return 1;
+          }
+          if (n1.category < n2.category) {
+              return -1;
+          }
+            return 0;
+        });
+        break;
+      case 'StartDate':
+        lots = lots.sort((n1,n2) => {
+          if (n1.startDate > n2.startDate) {
+              return 1;
+          }
+          if (n1.startDate < n2.startDate) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+      case 'EndDate':
+        lots = lots.sort((n1,n2) => {
+          if (n1.endDate > n2.endDate) {
+              return 1;
+          }
+          if (n1.endDate < n2.endDate) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+      case 'StartPrice':
+        lots = lots.sort((n1,n2) => {
+          if (n1.startPrice > n2.startPrice) {
+              return 1;
+          }
+          if (n1.startPrice < n2.startPrice) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+      case 'EndPrice':
+        lots = lots.sort((n1,n2) => {
+          if (n1.minPrice > n2.minPrice) {
+              return 1;
+          }
+          if (n1.minPrice < n2.minPrice) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+      case 'Rating':
+        lots = lots.sort((n1,n2) => {
+          if (n1.rating > n2.rating) {
+              return 1;
+          }
+          if (n1.rating < n2.rating) {
+              return -1;
+          }
+          return 0;
+        });
+        break;
+    }
+    if(dir=='D'){
+      lots.reverse()
+    }
+    return lots;
+  }
+
+getUsersLot(){
+  let url = 'http://localhost:8081/api/lots/myLots';
+  let token = localStorage.getItem('token');
+  if (token == null) token = "";
+  //console.log(token);
+  const headerDict = {
+    'Authorization': token,
+    'responseType': 'text'
+  };
+  const requestOptions = {
+    headers: new HttpHeaders(headerDict),
+  };
+  return this.http.get(url, requestOptions);
+}
+
+getBuyableLots(){
+  let url = 'http://localhost:8081/api/lots/buyableLots';
+  let token = localStorage.getItem('token');
+  if (token == null) token = "";
+  //console.log(token);
+  const headerDict = {
+    'responseType': 'text'
+  };
+  const requestOptions = {
+    headers: new HttpHeaders(headerDict),
+  };
+  return this.http.get(url, requestOptions);
+}
+
+getBuyableLotById(id:number){
+  let url = 'http://localhost:8081/api/lots/buyableLot/'+id;
+  let token = localStorage.getItem('token');
+  if (token == null) token = "";
+  //console.log(token);
+  const headerDict = {
+    'responseType': 'text'
+  };
+  const requestOptions = {
+    headers: new HttpHeaders(headerDict),
+  };
+  return this.http.get(url, requestOptions);
+}
+
+getJLot(js:string){
+  let curLot = JSON.parse(js);
+  if(curLot==null) return null;
+  let lot:LotExt = {
+    id: curLot['id'],
+    name:curLot['name'],
+    description:curLot['descr'],
+    category:curLot['category'],
+    imgPath:curLot['imgPath'],
+    startPrice:curLot['startPrice'],
+    minPrice:curLot['minPrice'],
+    curPrice:curLot['startPrice'],
+    startDate:curLot['startDate'],
+    endDate:curLot['endDate'],
+    creationDate:curLot['creationDate'],
+    salePrice:curLot['salePrice'],
+    status:curLot['status'],
+    location:curLot['location'],
+    rating:5
+  };
+  //console.log(lot);
+  return lot;
+}
+
 }
 
 export interface Lot{
@@ -114,4 +294,22 @@ export interface Lot{
   startDate:String,
   endDate:String,
   location:String
+}
+
+export interface LotExt{
+  id:number,
+  name:String,
+  description:String,
+  category:string,
+  imgPath:string,
+  startPrice:Number,
+  minPrice:Number,
+  curPrice:Number,
+  startDate:Date,
+  endDate:Date,
+  creationDate:Date,
+  salePrice:Number,
+  status:String,
+  location:String,
+  rating:Number
 }

@@ -3,6 +3,7 @@ import { HelloService } from '../../services/hello.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,9 @@ export class HomeComponent implements OnInit {
 posts : any;
 
   constructor(private helloService: HelloService, private toastr: ToastrService,
-    private router: Router, private authService:AuthorizationService) { }
+      private router: Router, private authService:AuthorizationService, private titleService: Title) {
+    titleService.setTitle('Home');
+  }
 
   ngOnInit(): void {
   }
