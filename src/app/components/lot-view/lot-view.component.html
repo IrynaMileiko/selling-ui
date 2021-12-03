@@ -10,7 +10,7 @@
                 <div class="col-6">
                   <div class="colBox" style="height:210px;">
                     <div class="imgBox">
-                      <div class="imgfit" *ngIf="lot!=null&&lot.imgPath!=''" style="background-color:black;" [ngStyle]="{ 'background-image':  'url('+lot==null?'':lot.imgPath+')'}">
+                      <div class="imgfit" *ngIf="lot!=null&&lot.imgPath!=''" style="background-color:lightgrey;" [ngStyle]="{ 'background-image':  'url('+lot==null?'':lot.imgPath+')'}">
                       </div>
                     </div>
                   </div>
@@ -40,7 +40,7 @@
                 <label class = "title">Description</label>
               </div>
               <div class="col-12">
-                {{lot==null?'':lot.description}}
+                {{lot==null?'':getText(lot.description)}}
               </div>
             </div>
             <div class="fieldBox">
@@ -90,7 +90,7 @@
                 <label class = "title">Lot location</label>
               </div>
               <div class="col-12" style="">
-                <label>{{lot==null?'':lot.location}}</label>
+                <label>{{lot==null?'':getText(lot.location)}}</label>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-end">

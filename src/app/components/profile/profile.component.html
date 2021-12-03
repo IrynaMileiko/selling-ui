@@ -215,7 +215,12 @@
 									<label>Link (only for lots on sale):</label>
 								</div>
 								<div class="col-6" style = "margin-top:2%">
-									<a href="/lots/{{lotValidation.id}}">{{this.urlInfoService.getUrl()}}/lots/{{lotValidation.id}}</a>
+									<a href="/lots/{{lotValidation.id}}" *ngIf="(lotValidation.status=='NO BIDS'||lotValidation.status=='BIDDING'); else notAv">
+										{{(this.urlInfoService.getUrl()+'/lots/'+lotValidation.id)}}
+									</a>
+									<ng-template #notAv>
+									  *UNAVAILABLE*
+									</ng-template>
 								</div>
 							</div>
               <div class="col-12" style = "margin-top:2%">

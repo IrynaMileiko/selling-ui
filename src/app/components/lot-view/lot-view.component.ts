@@ -42,4 +42,13 @@ lot:LotExt|null = null;
   ngOnInit(): void {
   }
 
+  getText(text:String){
+    if(text==''||text==null){
+      return '*No information*';
+    }
+    else{
+      return text;
+    }
+  }
+
 }
