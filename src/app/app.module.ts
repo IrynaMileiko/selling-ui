@@ -42,6 +42,7 @@ const appRoutes: Routes = [
   { path: 'manage-lotpanel', component: LotManagementComponent, pathMatch: 'full' },
   { path: 'editlot/:id', component: LotEditComponent },
   { path: 'lots/:id', component: LotViewComponent },
+  { path: 'profile/:tab', component: ProfileComponent },
   { path: '**', component: NotFoundComponent }
 ]
 

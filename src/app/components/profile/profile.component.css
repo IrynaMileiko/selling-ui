@@ -367,3 +367,12 @@ h3{
 .topListText{
   font-size: 1vw;
 }
+
+button.write-btn{
+  background-color:#E2B08A;
+  color:black;
+}
+
+button.write-btn:hover{
+  background-color: #BEA46C;
+}

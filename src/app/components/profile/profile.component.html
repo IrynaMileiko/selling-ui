@@ -3,9 +3,12 @@
 <a routerLink="/manage-lotpanel">Lots manage page</a>
 
 <button (click) = "logout()">Logout</button> -->
+<mat-tab-group animationDuration="0ms" [selectedIndex]="tabIndex" (selectedTabChange)="changeTab($event)">
 
-<mat-tab-group animationDuration="0ms">
-	<mat-tab label="Edit profile">
+	<mat-tab>
+    <ng-template mat-tab-label>
+        <span>Edit Profile</span>
+    </ng-template>
 		<ng-template matTabContent>
 			<form (submit)="updateInfo()" class="d-flex flex-row">
 				<div class="p-3">
@@ -83,7 +86,10 @@
 			</form>
 		</ng-template>
 	</mat-tab>
-	<mat-tab label="Account settings">
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>Account settings</span>
+		</ng-template>
 		<ng-template matTabContent>
 			<form (submit)="updateEmail()" class="accountSettingsForm">
 				<div class="form-field">
@@ -114,7 +120,10 @@
 			</form>
 		</ng-template>
 	</mat-tab>
-	<mat-tab label="Password">
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>Password</span>
+		</ng-template>
 		<ng-template matTabContent>
 			<form (submit)="updatePassword()" class="changePassword">
 				<div class="col-3">
@@ -150,7 +159,10 @@
 			</form>
 		</ng-template>
 	</mat-tab>
-	<mat-tab label="My lots">
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My lots</span>
+		</ng-template>
 		<ng-template matTabContent>
 			<div class="lotList">
         <div class="topList">
@@ -196,9 +208,24 @@
     </div>
 		</ng-template>
 	</mat-tab>
-	<mat-tab label="My bids"> Tab Panel 4 </mat-tab>
-	<mat-tab label="My revievs"> Tab Panel 4 </mat-tab>
-	<mat-tab label="Message center"></mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My bids</span>
+		</ng-template>
+		Tab Panel 4
+	 </mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My reviews</span>
+		</ng-template>
+		Tab Panel 4
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span >Message center</span>
+		</ng-template>
+
+	</mat-tab>
 </mat-tab-group>
 
 
@@ -239,9 +266,14 @@
 							<div class="col-12" style = "margin-top:2%">
 								<label>Status</label>
 							</div>
-							<div class="col-12" style="">
-								<input type="text" [(ngModel)]="lotValidation.status"
-									required class = "form-control authInput" name="name" readonly>
+							<div class="row" style="margin-left:1px;">
+								<div class="col-6" style="">
+									<input type="text" [(ngModel)]="lotValidation.status"
+										required class = "form-control authInput" name="name" readonly>
+								</div>
+								<div class="col-6" *ngIf="lotValidation.status=='BIDDED'">
+									<button type="button" class="btn write-btn">Write to buyer</button>
+								</div>
 							</div>
               <div class="col-12" style = "margin-top:2%">
                 <label>Category</label>

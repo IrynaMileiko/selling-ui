@@ -9,6 +9,7 @@ import {UrlInfoService} from '../../services/common/url-info.service';
 import { formatDate } from "@angular/common";
 import { DatePipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,9 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  links:string[] = ['edit','settings','password','myLots','myBids','myReviews','messages'];
+
+  tabIndex:number = 0;
 
   regEName = new RegExp("^([A-ZА-Я][a-zа-я]+[-.']*[A-ZА-Я]*[a-zа-я]+)$");
   regESpace = new RegExp("^(.* .*)$");
@@ -56,15 +60,27 @@ export class ProfileComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
       private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
-      public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title) {
-    titleService.setTitle('Profile');
+      public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title,
+      private activateRoute: ActivatedRoute) {
+    //titleService.setTitle('Profile');
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
         this.notAuthToaster();
       })
     }
+    let smth = this.activateRoute.snapshot.params['tab'];
+    //console.log(smth);
+    this.tabIndex=this.links.indexOf(smth);
+    this.titleService.setTitle('Profile/'+smth)
+    if(this.tabIndex==-1){
+      this.tabIndex=0;
+      this.titleService.setTitle('Profile');
+      this.router.navigate(['/profile'])
+    }
+    if(this.tabIndex==3){
+      this.getUsersLot();
+    }
     this.myLots = [];
-    this.getUsersLot();
     this.lotValidation = lotValid.getLotValidation();
     this.oldPassword = "";
     this.newPassword = "";
@@ -89,7 +105,17 @@ export class ProfileComponent implements OnInit {
     this.invalidLastName = false;
   }
 
+
   ngOnInit(): void {
+  }
+
+  changeTab(tab:any){
+    this.tabIndex = tab.index;
+    this.router.navigate(['/profile/'+this.links[this.tabIndex]]);
+    this.titleService.setTitle('Profile/'+this.links[this.tabIndex]);
+    if(this.tabIndex==3){
+      this.getUsersLot();
+    }
   }
 
   uploadAvatar() {
@@ -319,6 +345,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getUsersLot(){
+    this.myLots = [];
     this.lotService.getUsersLot().subscribe(
       (response) => {
         //console.log(response);
