@@ -272,7 +272,7 @@
 										required class = "form-control authInput" name="name" readonly>
 								</div>
 								<div class="col-6" *ngIf="lotValidation.status=='BIDDED'">
-									<button type="button" class="btn write-btn">Write to buyer</button>
+									<button type="button" class="btn write-btn" (click)="writeToBuyer(lotValidation.id)">Write to buyer</button>
 								</div>
 							</div>
               <div class="col-12" style = "margin-top:2%">

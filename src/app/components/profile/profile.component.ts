@@ -6,6 +6,7 @@ import { EditProfileService, UserUpdatePassword, UserUpdateEmail, UserUpdateInfo
 import {Lot, LotExt, LotService} from '../../services/lot/lot.service';
 import {LotValidation, LotValidationService} from '../../services/lot/lot-validation.service';
 import {UrlInfoService} from '../../services/common/url-info.service';
+import {MessagesService} from '../../services/messages/messages.service';
 import { formatDate } from "@angular/common";
 import { DatePipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
@@ -61,7 +62,7 @@ export class ProfileComponent implements OnInit {
   constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
       private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
       public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title,
-      private activateRoute: ActivatedRoute) {
+      private activateRoute: ActivatedRoute, private messageService: MessagesService) {
     //titleService.setTitle('Profile');
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
@@ -116,6 +117,25 @@ export class ProfileComponent implements OnInit {
     if(this.tabIndex==3){
       this.getUsersLot();
     }
+  }
+
+  writeToBuyer(lotId:Number){
+    this.messageService.writeLotMessage(lotId).subscribe(
+      (response) => {
+        console.log(response);
+        this.hideAll();
+        this.changeTab({index:6});
+        //this.router.navigate(['/profile/messages']);
+      },
+      (error) => {
+        console.log(error);
+        if(error.status==400){
+          this.errorToaster("This lot was not won");
+        }
+        else{
+          this.errorToaster("Couldn't connect to the server");
+        }
+      });
   }
 
   uploadAvatar() {
