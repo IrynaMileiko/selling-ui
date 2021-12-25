@@ -26,7 +26,7 @@ import { SellComponent } from './components/sell/sell.component';
 import { LotEditComponent } from './components/lot-edit/lot-edit.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AuthInterceptorService } from './services/interceptor/auth-interceptor.service';
-
+import {MessageCenterService} from "./services/message_center/message-center.service";
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },//ссылка и какой компонент отображает
   { path: 'home', component: HomeComponent, pathMatch: 'full' },

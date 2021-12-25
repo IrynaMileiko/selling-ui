@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
-import { EditProfileService, UserUpdatePassword, UserUpdateEmail, UserUpdateInfo } from '../../services/editProfile/edit-profile.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
+import {AuthorizationService} from '../../services/authorization/authorization.service';
+import {chatMsg, channel, MessageCenterService} from '../../services/message_center/message-center.service';
+import {
+  EditProfileService,
+  UserUpdatePassword,
+  UserUpdateEmail,
+  UserUpdateInfo
+} from '../../services/editProfile/edit-profile.service';
+import {EventSourcePolyfill} from 'ng-event-source';
+import {data} from "jquery";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   regEName = new RegExp("^([A-ZА-Я][a-zа-я]+[-.']*[A-ZА-Я]*[a-zа-я]+)$");
   regESpace = new RegExp("^(.* .*)$");
@@ -44,7 +52,18 @@ export class ProfileComponent implements OnInit {
 
   imgFileFormats: String[] = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'png'];
 
-  constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService, private editProfileService: EditProfileService) {
+  channel: any;
+  messages: chatMsg[] = [];
+  newMessage = '';
+  channelList: Array<channel>;
+  currentTargetUserId: number;
+  currentChannelIndex: number;
+
+  eventSource: EventSourcePolyfill | undefined;
+
+  scrollHeight: number;
+
+  constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService, private editProfileService: EditProfileService, private chatService: MessageCenterService) {
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
         this.notAuthToaster();
@@ -71,10 +90,24 @@ export class ProfileComponent implements OnInit {
     this.invalidPhone = false;
     this.invalidFirstName = false;
     this.invalidLastName = false;
+
+    this.channelList = [];
+    this.currentChannelIndex = -1;
+    this.currentTargetUserId = -1;
+
+    this.scrollHeight = 0;
   }
 
   ngOnInit(): void {
+    this.initChannels();
+    this.initSubscription();
   }
+
+  ngOnDestroy(): void {
+    this.eventSource?.close();
+    this.chatService.unsubscribe();
+  }
+
 
   uploadAvatar() {
     this.invalidPhoto = false;
@@ -130,7 +163,7 @@ export class ProfileComponent implements OnInit {
 
   updatePassword() {
     if (this.validateOldPassword() && this.validateNewPassword()) {
-      let userPass: UserUpdatePassword = { oldPassword: this.oldPassword, newPassword: this.newPassword };
+      let userPass: UserUpdatePassword = {oldPassword: this.oldPassword, newPassword: this.newPassword};
       this.editProfileService.updateUserPassword(userPass).subscribe(
         (response) => {
           console.log(response);
@@ -145,7 +178,7 @@ export class ProfileComponent implements OnInit {
 
   updateEmail() {
     if (this.validateEmail()) {
-      let userEmail: UserUpdateEmail = { newEmail: this.newEmail };
+      let userEmail: UserUpdateEmail = {newEmail: this.newEmail};
       this.editProfileService.updateUserEmail(userEmail).subscribe(
         (response) => {
           console.log(response);
@@ -164,7 +197,7 @@ export class ProfileComponent implements OnInit {
 
   updateInfo() {
     if (this.validateFirstName() && this.validateLastName() && this.validatePhone()) {
-      let userInfo: UserUpdateInfo = { firstName: this.firstName, lastName: this.lastName, phoneNumber: this.phone }
+      let userInfo: UserUpdateInfo = {firstName: this.firstName, lastName: this.lastName, phoneNumber: this.phone}
       this.editProfileService.updateUserInfo(userInfo).subscribe(
         (response) => {
           console.log(response);
@@ -189,6 +222,7 @@ export class ProfileComponent implements OnInit {
     }
     return true;
   }
+
   validateOldPassword() {
     this.invalidOldPassword = false;
     if (this.oldPassword.length == 0) {
@@ -223,6 +257,7 @@ export class ProfileComponent implements OnInit {
     }
     return true;
   }
+
   validatePhone() {
     this.invalidPhone = false;
     if (this.phone.length == 0) {
@@ -237,6 +272,7 @@ export class ProfileComponent implements OnInit {
     }
     return true;
   }
+
   validateFirstName() {
     this.invalidFirstName = false;
     if (this.firstName.length == 0) {
@@ -252,6 +288,7 @@ export class ProfileComponent implements OnInit {
 
     return true;
   }
+
   validateLastName() {
     this.invalidLastName = false;
     if (this.lastName.length == 0) {
@@ -311,6 +348,57 @@ export class ProfileComponent implements OnInit {
     this.toastr.error("You need to log in first", 'Error!', {
       positionClass: 'toast-bottom-right'
     });
+  }
+
+  initSubscription() {
+    if (this.eventSource == undefined) {
+      this.eventSource = this.chatService.subscribe();
+      this.eventSource.onerror = (() => {
+      });
+      this.eventSource.onmessage = (data => {
+        if (Number(data.data) == this.currentTargetUserId) {
+          this.initMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
+        }
+      });
+    }
+  }
+
+  initMessages(targetUser: number, bidId: number) {
+    this.messages = [];
+    this.chatService.getMsgs(targetUser, bidId).subscribe(response => {
+      this.messages = <chatMsg[]>response;
+    }, error => {
+      console.log(error)
+    });
+  }
+
+  initChannels() {
+    this.chatService.getChannels().subscribe(response => {
+      this.channelList = <channel[]>response;
+    }, error => {
+      console.log(error)
+    });
+  }
+
+  clickOnChannel(index: number) {
+    if (this.currentChannelIndex != index) {
+      this.initMessages(this.channelList[index].targetUserId, this.channelList[index].bidId);
+      this.currentTargetUserId = this.channelList[index].targetUserId;
+      this.currentChannelIndex = index;
+    }
+  }
+
+  sendMessage() {
+    if (this.newMessage != '') {
+      this.chatService.sendMsg(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId, this.newMessage).subscribe(response => {
+        if (this.currentTargetUserId >= 0) {
+          this.initMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
+        }
+        this.newMessage = '';
+      }, error => {
+        console.log(error)
+      });
+    }
   }
 
 }

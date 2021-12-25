@@ -11,11 +11,11 @@ input.editInput {
   width: 80%;
 }
 
-div {
+/*div {
   border-style: none;
   border-color: coral;
   border-width: 1px;
-}
+}*/
 
 button.btn {
   color: #FFFFFF;
@@ -174,3 +174,161 @@ button.btn-change {
   text-align: center;
   width: 80%;
 }
+
+/*
+  Message Center
+*/
+
+.container {
+  max-height: 1000px;
+  margin-left: 0%;
+}
+
+.inbox_people {
+  background: #f8f8f8 none repeat scroll 0 0;
+  float: left;
+  overflow: hidden;
+  width: 40%;
+  border-right: 1px solid #c4c4c4;
+}
+
+.inbox_msg {
+  border: 1px solid #c4c4c4;
+  clear: both;
+  overflow: hidden;
+}
+
+.heading_srch {
+  padding: 10px 29px 10px 20px;
+  overflow: hidden;
+  border-bottom: 1px solid #c4c4c4;
+}
+
+.channel_heading h4 {
+  color: black;
+  font-size: 21px;
+  margin: auto;
+  user-select: none;
+}
+
+.chat_id {
+  float: left;
+  padding: 0 0 0 15px;
+  width: 88%;
+  user-select: none;
+}
+
+.chat_people {
+  overflow: hidden;
+  clear: both;
+}
+
+.channels {
+  border-color : #f8f8f8;
+}
+
+
+.chat_list {
+  border-bottom: 1px solid #c4c4c4;
+  margin: 0;
+  padding: 18px 16px 10px;
+}
+
+.inbox_chat {
+  height: 550px;
+  overflow-y: scroll;
+}
+
+.active_chat {
+  background: #ebebeb;
+}
+
+
+.received_with_msg {
+  width: 57%;
+}
+
+.received_msg {
+  overflow: hidden;
+  margin: 26px 0 26px;
+}
+
+.received_with_msg p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+
+.messaging {
+  padding: 0 0 50px 0;
+}
+
+.msg_history {
+  height: 516px;
+  overflow-y: auto;
+}
+
+.message {
+  list-style-type: none;
+}
+
+.outgoing_msg {
+  overflow: hidden;
+  margin: 26px 0 26px;
+}
+
+.outgoing_with_msg p {
+  background: #05728f none repeat scroll 0 0;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0;
+  color: #fff;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+
+.outgoing_with_msg {
+  float: right;
+  width: 46%;
+}
+
+.msgs {
+  float: left;
+  padding: 30px 15px 0 25px;
+  width: 60%;
+}
+
+.type_msg {
+  border-top: 1px solid #c4c4c4;
+  position: relative;
+}
+
+.msg_send_btn {
+  background: #05728f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  position: absolute;
+  right: 0;
+  top: 18%;
+  height: 34px;
+  width: 34px;
+}
+
+.input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium solid;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 90%;
+}
+/*
+  Message Center
+*/
