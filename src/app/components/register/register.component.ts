@@ -3,6 +3,7 @@ import { AuthorizationService } from '../../services/authorization/authorization
 import { User, UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +44,8 @@ export class RegisterComponent implements OnInit {
   invalidServer:boolean;
 
   constructor(private authService:AuthorizationService, private toastr: ToastrService
-            , private router: Router) {
+            , private router: Router, private titleService: Title) {
+  titleService.setTitle('Register');
   if(localStorage.getItem('token')!=null){
       this.router.navigate(['/']).then(() => {
           this.alreadyAuthToaster();

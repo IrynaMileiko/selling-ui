@@ -1,14 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
-import {AuthorizationService} from '../../services/authorization/authorization.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { EditProfileService, UserUpdatePassword, UserUpdateEmail, UserUpdateInfo } from '../../services/editProfile/edit-profile.service';
+import {Lot, LotExt, LotService} from '../../services/lot/lot.service';
+import {LotValidation, LotValidationService} from '../../services/lot/lot-validation.service';
+import {UrlInfoService} from '../../services/common/url-info.service';
+import {MessagesService} from '../../services/messages/messages.service';
+import { formatDate } from "@angular/common";
+import { DatePipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute} from '@angular/router';
 import {chatMsg, channel, MessageCenterService} from '../../services/message_center/message-center.service';
-import {
-  EditProfileService,
-  UserUpdatePassword,
-  UserUpdateEmail,
-  UserUpdateInfo
-} from '../../services/editProfile/edit-profile.service';
 import {EventSourcePolyfill} from 'ng-event-source';
 import {data} from "jquery";
 
@@ -18,6 +21,9 @@ import {data} from "jquery";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  links:string[] = ['edit','settings','password','myLots','myBids','myReviews','messages'];
+
+  tabIndex:number = 0;
 
   regEName = new RegExp("^([A-ZА-Я][a-zа-я]+[-.']*[A-ZА-Я]*[a-zа-я]+)$");
   regESpace = new RegExp("^(.* .*)$");
@@ -51,6 +57,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   invalidLastName: boolean;
 
   imgFileFormats: String[] = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'png'];
+  myLots: LotExt[];
+
+  showLotB: boolean = false;
+  lotValidation: LotValidation;
 
   channel: any;
   messages: chatMsg[] = [];
@@ -62,13 +72,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
   eventSource: EventSourcePolyfill | undefined;
 
   scrollHeight: number;
-
-  constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService, private editProfileService: EditProfileService, private chatService: MessageCenterService) {
+  constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
+      private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
+      public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title,
+      private activateRoute: ActivatedRoute, private messageService: MessagesService, private chatService: MessageCenterService) {
+    //titleService.setTitle('Profile');
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
         this.notAuthToaster();
       })
     }
+    let smth = this.activateRoute.snapshot.params['tab'];
+    //console.log(smth);
+    this.tabIndex=this.links.indexOf(smth);
+    this.titleService.setTitle('Profile/'+smth)
+    if(this.tabIndex==-1){
+      this.tabIndex=0;
+      this.titleService.setTitle('Profile');
+      this.router.navigate(['/profile'])
+    }
+    if(this.tabIndex==3){
+      this.getUsersLot();
+    }
+    this.myLots = [];
+    this.lotValidation = lotValid.getLotValidation();
     this.oldPassword = "";
     this.newPassword = "";
     this.passwordMsg = "";
@@ -107,7 +134,33 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.eventSource?.close();
     this.chatService.unsubscribe();
   }
+  changeTab(tab:any){
+    this.tabIndex = tab.index;
+    this.router.navigate(['/profile/'+this.links[this.tabIndex]]);
+    this.titleService.setTitle('Profile/'+this.links[this.tabIndex]);
+    if(this.tabIndex==3){
+      this.getUsersLot();
+    }
+  }
 
+writeToBuyer(lotId:Number){
+    this.messageService.writeLotMessage(lotId).subscribe(
+      (response) => {
+        console.log(response);
+        this.hideAll();
+        this.changeTab({index:6});
+        //this.router.navigate(['/profile/messages']);
+      },
+      (error) => {
+        console.log(error);
+        if(error.status==400){
+          this.errorToaster("This lot was not won");
+        }
+        else{
+          this.errorToaster("Couldn't connect to the server");
+        }
+      });
+  }
 
   uploadAvatar() {
     this.invalidPhoto = false;
@@ -163,7 +216,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   updatePassword() {
     if (this.validateOldPassword() && this.validateNewPassword()) {
-      let userPass: UserUpdatePassword = {oldPassword: this.oldPassword, newPassword: this.newPassword};
+      let userPass: UserUpdatePassword = { oldPassword: this.oldPassword, newPassword: this.newPassword };
       this.editProfileService.updateUserPassword(userPass).subscribe(
         (response) => {
           console.log(response);
@@ -178,7 +231,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   updateEmail() {
     if (this.validateEmail()) {
-      let userEmail: UserUpdateEmail = {newEmail: this.newEmail};
+      let userEmail: UserUpdateEmail = { newEmail: this.newEmail };
       this.editProfileService.updateUserEmail(userEmail).subscribe(
         (response) => {
           console.log(response);
@@ -197,7 +250,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   updateInfo() {
     if (this.validateFirstName() && this.validateLastName() && this.validatePhone()) {
-      let userInfo: UserUpdateInfo = {firstName: this.firstName, lastName: this.lastName, phoneNumber: this.phone}
+      let userInfo: UserUpdateInfo = { firstName: this.firstName, lastName: this.lastName, phoneNumber: this.phone }
       this.editProfileService.updateUserInfo(userInfo).subscribe(
         (response) => {
           console.log(response);
@@ -320,6 +373,51 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.invalidPhone = false;
   }
 
+  showLot(index:number){
+    this.showLotB=true;
+    this.lotValidation = this.lotValid.getLot(this.myLots[index]);
+  }
+
+  dotDatetoDef(dat: String){
+    let spl:String[] = dat.split(".");
+    let res = spl[2]+"-"+spl[1]+"-"+spl[0];
+    return res;
+  }
+
+    hideAll(){
+      this.showLotB=false;
+    }
+
+  sortCol(sel:string){
+    this.myLots = this.lotService.sortLots(this.myLots, sel);
+  }
+
+  getUsersLot(){
+    this.myLots = [];
+    this.lotService.getUsersLot().subscribe(
+      (response) => {
+        //console.log(response);
+        let st = JSON.stringify(response);
+        let res = JSON.parse(st);
+        console.log(Object.values(res));
+        for (let key in res) {
+          if (res.hasOwnProperty(key)) {
+            //console.log(curLot);
+            let lot:LotExt|null = this.lotService.getJLot(JSON.stringify(res[key]));
+            if(lot!=null)
+              this.myLots.push(lot);
+          }
+        }
+        console.log(this.myLots);
+        //this.myLots = Array.of(res.json().results);
+      },
+      (error) => {
+        console.log(error);
+        this.myLots = [];
+      });
+  }
+
+
   successPasswordChangeToaster() {
     this.toastr.success("You have successfully changed your password", 'Success!', {
       positionClass: 'toast-bottom-right'
@@ -337,6 +435,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
       positionClass: 'toast-bottom-right'
     });
   }
+    successToaster(msg:string) {
+      this.toastr.success(msg, 'Success!', {
+        positionClass: 'toast-bottom-right'
+      });
+    }
 
   errorToaster(msg: string) {
     this.toastr.warning(msg, 'Error!', {

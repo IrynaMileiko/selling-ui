@@ -14,7 +14,7 @@ import { AuthorizationService } from "../authorization/authorization.service";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthInterceptorService implements HttpInterceptor {
+export class AuthInterceptorService {//implements HttpInterceptor {
 
   refreshingAccessToken: boolean;
   constructor(private authorizationService: AuthorizationService) {

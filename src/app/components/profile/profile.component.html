@@ -3,157 +3,225 @@
 <a routerLink="/manage-lotpanel">Lots manage page</a>
 
 <button (click) = "logout()">Logout</button> -->
+<mat-tab-group animationDuration="0ms" [selectedIndex]="tabIndex" (selectedTabChange)="changeTab($event)">
 
-<mat-tab-group animationDuration="0ms">
-  <mat-tab label="Edit profile">
-    <ng-template matTabContent>
-      <form (submit)="updateInfo()" class="d-flex flex-row">
-        <div class="p-3">
-          <div class="imgBox">
-            <div class="imgfit" *ngIf="displayPhotoPath!=''" style="background-color:black;"
-                 [ngStyle]="{ 'background-image':  'url('+displayPhotoPath+')'}">
-            </div>
-          </div>
-        </div>
-        <div class="d-flex flex-column" style="width:50vw; height:45vw;">
-          <div class="p-2">
-            <input type="file" [(ngModel)]="avatarPath" id="avatar" required name="avatarPath"
-                   style=" margin-top:3%; margin-left:3%;">
-            <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;"
-                 role="alert" *ngIf="invalidPhoto">
-              {{photoMsg}}
-            </div>
-          </div>
-          <div class="p-2">
-            <button type="button" class="btn btn-upload" accept="image/*" (click)="uploadAvatar();">
-              Upload
-            </button>
-          </div>
-          <div class="d-flex flex-column" style="width:50vw; margin-top: 3%;">
-            <div class="d-flex flex-row">
-              <div class="col-6">
-                <div class="col-12">
-                  <label class="editLabel">First name</label>
-                </div>
-                <div class="col-12">
-                  <input type="text" [(ngModel)]="firstName" (ngModelChange)="clearInfoValidate();"
-                         class="editInput" name="firstName">
-                  <div class="alert alert-danger invalidFirstNameText" role="alert"
-                       *ngIf="invalidFirstName">
-                    {{firstNameMsg}}
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="col-12">
-                  <label class="editLabel">Last name</label>
-                </div>
-                <div class="col-12">
-                  <input type="text" [(ngModel)]="lastName" (ngModelChange)="clearInfoValidate()"
-                         class="editInput" name="lastName">
-                  <div class="alert alert-danger invalidLastNameText" role="alert"
-                       *ngIf="invalidLastName">
-                    {{lastNameMsg}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="d-flex flex-row">
-            <div class="col-6" style="width: 50%; margin-top: 4%;">
-              <div class="col-12">
-                <label class="editLabel">Phone number</label>
-              </div>
-              <div class="col-12">
-                <input type="text" [(ngModel)]="phone" (ngModelChange)="clearInfoValidate();"
-                       class="editInput" name="Phone number">
-                <div class="alert alert-danger invalidPhoneText" role="alert" *ngIf="invalidPhone">
-                  {{phoneMsg}}
-                </div>
-              </div>
+	<mat-tab>
+    <ng-template mat-tab-label>
+        <span>Edit Profile</span>
+    </ng-template>
+		<ng-template matTabContent>
+			<form (submit)="updateInfo()" class="d-flex flex-row">
+				<div class="p-3">
+					<div class="imgBox">
+						<div class="imgfit" *ngIf="displayPhotoPath!=''" style="background-color:black;"
+							[ngStyle]="{ 'background-image':  'url('+displayPhotoPath+')'}">
+						</div>
+					</div>
+				</div>
+				<div class="d-flex flex-column" style="width:50vw; height:45vw;">
+					<div class="p-2">
+						<input type="file" [(ngModel)]="avatarPath" id="avatar" required name="avatarPath"
+							style=" margin-top:3%; margin-left:3%;">
+						<div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;"
+							role="alert" *ngIf="invalidPhoto">
+							{{photoMsg}}
+						</div>
+					</div>
+					<div class="p-2">
+						<button type="button" class="btn btn-upload" accept="image/*" (click)="uploadAvatar();">
+							Upload
+						</button>
+					</div>
+					<div class="d-flex flex-column" style="width:50vw; margin-top: 3%;">
+						<div class="d-flex flex-row">
+							<div class="col-6">
+								<div class="col-12">
+									<label class="editLabel">First name</label>
+								</div>
+								<div class="col-12">
+									<input type="text" [(ngModel)]="firstName" (ngModelChange)="clearInfoValidate();"
+										class="editInput" name="firstName">
+									<div class="alert alert-danger invalidFirstNameText" role="alert"
+										*ngIf="invalidFirstName">
+										{{firstNameMsg}}
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="col-12">
+									<label class="editLabel">Last name</label>
+								</div>
+								<div class="col-12">
+									<input type="text" [(ngModel)]="lastName" (ngModelChange)="clearInfoValidate()"
+										class="editInput" name="lastName">
+									<div class="alert alert-danger invalidLastNameText" role="alert"
+										*ngIf="invalidLastName">
+										{{lastNameMsg}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex flex-row">
+						<div class="col-6" style="width: 50%; margin-top: 4%;">
+							<div class="col-12">
+								<label class="editLabel">Phone number</label>
+							</div>
+							<div class="col-12">
+								<input type="text" [(ngModel)]="phone" (ngModelChange)="clearInfoValidate();"
+									class="editInput" name="Phone number">
+								<div class="alert alert-danger invalidPhoneText" role="alert" *ngIf="invalidPhone">
+									{{phoneMsg}}
+								</div>
+							</div>
 
+						</div>
+					</div>
+					<div class="col-12" style="max-height: 20%;">
+						<button type="submit" class="btn btn-submit">
+							Save profile
+						</button>
+					</div>
+				</div>
+			</form>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>Account settings</span>
+		</ng-template>
+		<ng-template matTabContent>
+			<form (submit)="updateEmail()" class="accountSettingsForm">
+				<div class="form-field">
+					<label for="form-field">Email</label>
+					<input type="email" [(ngModel)]="newEmail" (ngModelChange)="clearEmailValidate();"
+						class="emailInput" name="newEmail">
+					<div class="alert alert-danger invalidEmailText" role="alert" *ngIf="invalidEmail">
+						{{emailMsg}}
+					</div>
+				</div>
+				<h2 class="section" style="border: 3 px solid #ddd;"></h2>
+				<div class="accountSettings">
+					<div>
+						<h1>Close account</h1>
+						<h6>Delete your account and account data</h6>
+					</div>
+					<div class="push">
+						<button class="btn btn-delete">
+							Close account
+						</button>
+					</div>
+				</div>
+				<div class="form-btns">
+					<button type="submit" class="btn btn-save-changes">
+						Save changes
+					</button>
+				</div>
+			</form>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>Password</span>
+		</ng-template>
+		<ng-template matTabContent>
+			<form (submit)="updatePassword()" class="changePassword">
+				<div class="col-3">
+					<h5>Old password</h5>
+				</div>
+				<div class="col-3">
+					<input type="password" [(ngModel)]="oldPassword" (ngModelChange)="clearPasswordValidate();"
+						class="oldPasswordInput" name="oldPassword">
+				</div>
+				<div class="col-3">
+					<div class="alert alert-danger invalidPasswordText" role="alert" *ngIf="invalidOldPassword">
+						{{oldPasswordMsg}}
+					</div>
+				</div>
+
+				<div class="col-3" style="margin-top: 1%;">
+					<h5>Password</h5>
+				</div>
+				<div class="col-3">
+					<input type="password" [(ngModel)]="newPassword" (ngModelChange)="clearPasswordValidate();"
+						class="newPasswordInput" name="newPassword">
+				</div>
+				<div class="col-3">
+					<div class="alert alert-danger invalidPasswordText" role="alert" *ngIf="invalidNewPassword">
+						{{newPasswordMsg}}
+					</div>
+				</div>
+				<div class="col-3">
+					<button type="submit" class="btn btn-change">
+						Change
+					</button>
+				</div>
+			</form>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My lots</span>
+		</ng-template>
+		<ng-template matTabContent>
+			<div class="lotList">
+        <div class="topList">
+          <div style="display:flex; align-items: center;">
+            <div class="topListText" style="width:100px;">
+              Sort by
             </div>
-          </div>
-          <div class="col-12" style="max-height: 20%;">
-            <button type="submit" class="btn btn-submit">
-              Save profile
-            </button>
-          </div>
-        </div>
-      </form>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="Account settings">
-    <ng-template matTabContent>
-      <form (submit)="updateEmail()" class="accountSettingsForm">
-        <div class="form-field">
-          <label for="form-field">Email</label>
-          <input type="email" [(ngModel)]="newEmail" (ngModelChange)="clearEmailValidate();"
-                 class="emailInput" name="newEmail">
-          <div class="alert alert-danger invalidEmailText" role="alert" *ngIf="invalidEmail">
-            {{emailMsg}}
-          </div>
-        </div>
-        <h2 class="section" style="border: 3 px solid #ddd;"></h2>
-        <div class="accountSettings">
-          <div>
-            <h1>Close account</h1>
-            <h6>Delete your account and account data</h6>
-          </div>
-          <div class="push">
-            <button class="btn btn-delete">
-              Close account
-            </button>
-          </div>
-        </div>
-        <div class="form-btns">
-          <button type="submit" class="btn btn-save-changes">
-            Save changes
-          </button>
-        </div>
-      </form>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="Password">
-    <ng-template matTabContent>
-      <form (submit)="updatePassword()" class="changePassword">
-        <div class="col-3">
-          <h5>Old password</h5>
-        </div>
-        <div class="col-3">
-          <input type="password" [(ngModel)]="oldPassword" (ngModelChange)="clearPasswordValidate();"
-                 class="oldPasswordInput" name="oldPassword">
-        </div>
-        <div class="col-3">
-          <div class="alert alert-danger invalidPasswordText" role="alert" *ngIf="invalidOldPassword">
-            {{oldPasswordMsg}}
+            <div class="input-group mb-3" style="font-size:1vw; margin:0;">
+              <select class="custom-select" #t id="inputGroupSelect01" (change) = "sortCol(t.value)">
+                <option selected value="Id A">Id (Lower -> Bigger)</option>
+	              <option value="Id D">Id (Bigger -> Lower)</option>
+                <option value="CreationDate A">Creation date (Lower -> Bigger)</option>
+								<option value="CreationDate D">Creation date (Bigger -> Lower)</option>
+                <option value="Status A">Status (Lower -> Bigger)</option>
+	              <option value="Status D">Status (Bigger -> Lower)</option>
+                <option value="Name A">Name (Lower -> Bigger)</option>
+								<option value="Name D">Name (Bigger -> Lower)</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <div class="col-3" style="margin-top: 1%;">
-          <h5>Password</h5>
-        </div>
-        <div class="col-3">
-          <input type="password" [(ngModel)]="newPassword" (ngModelChange)="clearPasswordValidate();"
-                 class="newPasswordInput" name="newPassword">
-        </div>
-        <div class="col-3">
-          <div class="alert alert-danger invalidPasswordText" role="alert" *ngIf="invalidNewPassword">
-            {{newPasswordMsg}}
+        <div class="allLots">
+          <div class="lotBox" *ngFor="let lot of myLots; let i = index;" (click) = showLot(i)>
+            <div class="lotImgBox">
+              <div class="imgfit" *ngIf="lot.imgPath!=''" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
+              </div>
+            </div>
+            <div class="lotContent">
+              <div class="lotText">
+                {{lot.id}} :: {{lot.name}}
+              </div>
+              <div class="lotText">
+                Status: {{lot.status}}
+              </div>
+              <div class="lotText">
+                Creation date: {{this.datepipe.transform(lot.creationDate, 'dd.MM.yyyy')}}
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-3">
-          <button type="submit" class="btn btn-change">
-            Change
-          </button>
-        </div>
-      </form>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="My lots"> Tab Panel 3</mat-tab>
-  <mat-tab label="My bids"> Tab Panel 4</mat-tab>
-  <mat-tab label="My reviews"> Tab Panel 4</mat-tab>
-  <mat-tab label="Message center">
+
+    </div>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My bids</span>
+		</ng-template>
+		Tab Panel 4
+	 </mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My reviews</span>
+		</ng-template>
+		Tab Panel 4
+	</mat-tab>
+	<mat-tab>
+		<mat-tab label="Message center">
     <ng-template matTabContent>
       <div class="container">
         <div class="messaging">
@@ -217,4 +285,189 @@
       </div>
     </ng-template>
   </mat-tab>
-</mat-tab-group>
+
+
+<div *ngIf="showLotB" (click)="hideAll()" class = "fillUp">
+  <div *ngIf="showLotB" [style.display]="showLot ? 'block' : 'none'" class="popupLot">
+    <div (click)="$event.stopPropagation()">
+			<div class="lotBoxView">
+        <h2  style="margin:2%; margin-bottom:5%;">Lot view</h2>
+        <form >
+          <div class="row">
+            <div class="fieldBox">
+							<div class="row">
+								<div class="col-6" style = "margin-top:2%">
+									<label>Link (only for lots on sale):</label>
+								</div>
+								<div class="col-6" style = "margin-top:2%">
+									<a href="/lots/{{lotValidation.id}}" *ngIf="(lotValidation.status=='NO BIDS'||lotValidation.status=='BIDDING'); else notAv">
+										{{(this.urlInfoService.getUrl()+'/lots/'+lotValidation.id)}}
+									</a>
+									<ng-template #notAv>
+									  *UNAVAILABLE*
+									</ng-template>
+								</div>
+							</div>
+              <div class="col-12" style = "margin-top:2%">
+                <label>Lot name</label>
+              </div>
+              <div class="col-12" style="">
+                <input type="text" [(ngModel)]="lotValidation.name" (ngModelChange)="lotValidation.invalidName=false;lotValid.clearTotalValidate();"
+                  required class = "form-control authInput" name="status" readonly>
+              </div>
+              <div class="col-12" style="">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidName"
+                  style = "width:50%;">
+                  {{lotValidation.nameMsg}}
+                </div>
+              </div>
+							<div class="col-12" style = "margin-top:2%">
+								<label>Status</label>
+							</div>
+							<div class="row" style="margin-left:1px;">
+								<div class="col-6" style="">
+									<input type="text" [(ngModel)]="lotValidation.status"
+										required class = "form-control authInput" name="name" readonly>
+								</div>
+								<div class="col-6" *ngIf="lotValidation.status=='BIDDED'">
+									<button type="button" class="btn write-btn" (click)="writeToBuyer(lotValidation.id)">Write to buyer</button>
+								</div>
+							</div>
+              <div class="col-12" style = "margin-top:2%">
+                <label>Category</label>
+              </div>
+              <div class="col-4">
+                <div class="input-group mb-3" style="font-size:1rem; margin:0;">
+									<input type="text" [(ngModel)]="lotValidation.category" class = "form-control authInput" name="category" readonly>
+<!--                  <select class="custom-select" id="categorySelect">
+                    <option selected value="Toys">Toys</option>
+                    <option value="Electronic devices">Electronic devices</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Decoration">Decoration</option>
+                  </select>	-->
+                </div>
+              </div>
+              <div class="col-12" style = "margin-top:2%" >
+                <label>Description</label>
+              </div>
+              <div class="col-12">
+                <textarea class="form-control" rows="3" name="message" [(ngModel)]="lotValidation.description" #message='ngModel' (ngModelChange)="lotValidation.invalidDescr=false; lotValid.clearTotalValidate();" readonly>
+								</textarea>
+              </div>
+              <div class="col-12" style="">
+               <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidDescr">
+                  {{lotValidation.descrMsg}}
+                </div>
+              </div>
+            </div>
+            <div class="fieldBox">
+              <h3>Photo</h3>
+              <div class="colBox" style="height:210px;">
+                <div class="imgBox">
+                  <div class="imgfit" *ngIf="lotValidation.displayPhotoPath!=''" style="background-color:black;" [ngStyle]="{ 'background-image':  'url('+lotValidation.displayPhotoPath+')'}">
+                  </div>
+                </div>
+                <div class="rowBox" style = "margin-left:3%;">
+<!--                  <input type="file" [(ngModel)]="photoPath" id="phP" required name="photoPath">
+                  <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidPhoto">
+                    {{photoMsg}}
+                  </div>
+                  <div style = "width:100%;">
+                    <button type="button" class = "btn photoBtn" accept="image/*" (click)="uploadPhoto();">
+                      Upload photo
+                    </button>
+                  </div>	-->
+                </div>
+              </div>
+            </div>
+            <div class="fieldBox">
+              <h3>Price & Lot lifetime</h3>
+              <div class="col-9">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="col-12" style = "margin-top:2%">
+                      <label>Start price</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <input type="number" step = "0.01" [(ngModel)]="lotValidation.startPrice" (ngModelChange)="lotValidation.invalidStartPrice=false;lotValid.clearTotalValidate();"
+                        required class = "form-control authInput" name="startPrice" style = "width:80%;" readonly>
+                    </div>
+                    <div class="col-12" style="">
+                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidStartPrice"
+                        style = "width:100%;">
+                        {{lotValidation.startPriceMsg}}
+                      </div>
+                    </div>
+                    <div class="col-12" style = "margin-top:2%">
+                      <label>Start date</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <input type="date" required class = "form-control authInput" id="startDate" name="startDate" style = "width:80%;" readonly value = "{{dotDatetoDef(lotValidation.startDate)}}">
+                    </div>
+                    <div class="col-12" style="">
+                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidStartDate"
+                        style = "width:80%;">
+                        {{lotValidation.startDateMsg}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="col-12" style = "margin-top:2%">
+                      <label>End price</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <input type="number" step = "0.01" [(ngModel)]="lotValidation.endPrice" (ngModelChange)="lotValidation.invalidEndPrice=false;lotValid.clearTotalValidate();"
+                        required class = "form-control authInput" name="endPrice" style = "width:80%;" readonly>
+                    </div>
+                    <div class="col-12" style="">
+                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidEndPrice"
+                        style = "width:100%;">
+                        {{lotValidation.endPriceMsg}}
+                      </div>
+                    </div>
+                    <div class="col-12" style = "margin-top:2%">
+                      <label>End date</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <input type="date" id = "endDate" required class = "form-control authInput" name="endDate" style = "width:80%;" readonly value = "{{dotDatetoDef(lotValidation.startDate)}}">
+                    </div>
+                    <div class="col-12" style="">
+                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidEndDate"
+                        style = "width:80%;">
+                        {{lotValidation.endDateMsg}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+              </div>
+            </div>
+            <div class="fieldBox">
+              <h3>Location</h3>
+              <div class="col-12" style = "margin-top:2%">
+                <label>Lot location</label>
+              </div>
+              <div class="col-12" style="">
+                <input type="text" [(ngModel)]="lotValidation.location" (ngModelChange)="lotValidation.invalidLocation=false;lotValid.clearTotalValidate();"
+                  required class = "form-control authInput" name="location" readonly>
+              </div>
+              <div class="col-12" style="">
+                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidLocation"
+                  style = "width:50%;">
+                  {{lotValidation.locationMsg}}
+                </div>
+              </div>
+            </div>
+            <div class="col-6 d-flex justify-content-start">
+              <button class = "btn deleteBtn">Delete</button>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <button type="submit" class = "btn submitBtn">Edit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

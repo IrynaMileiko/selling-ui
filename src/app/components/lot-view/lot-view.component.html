@@ -1,0 +1,105 @@
+<div class="container-fluid" style="margin:0; padding:0;">
+<div class="bgImg">
+<div class="content" style="margin:0; padding:0;">
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8 col-md-11">
+      <div class="authBox">
+          <div class="row">
+            <div class="fieldBox">
+              <div class="row">
+                <div class="col-6">
+                  <div class="colBox" style="height:210px;">
+                    <div class="imgBox">
+                      <div class="imgfit" *ngIf="lot!=null&&lot.imgPath!=''" style="background-color:lightgrey;" [ngStyle]="{ 'background-image':  'url('+lot==null?'':lot.imgPath+')'}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="col-12" style = "margin-top:2%">
+                    <label class = "title">Lot name</label>
+                  </div>
+                  <div class="col-12" style="">
+                    <label>{{lot==null?'':lot.name}}</label>
+                  </div>
+                  <div class="col-12" style = "margin-top:2%">
+                    <label class = "title">Category</label>
+                  </div>
+                  <div class="col-4">
+                    <label>{{lot==null?'':lot.category}}</label>
+                  </div>
+                  <div class="col-12" style = "margin-top:2%">
+                    <label class = "title">Seller Rating</label>
+                  </div>
+                  <div class="col-4">
+                    <label>{{lot==null?'':lot.rating}}/5</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" style = "margin-top:2%" >
+                <label class = "title">Description</label>
+              </div>
+              <div class="col-12">
+                {{lot==null?'':getText(lot.description)}}
+              </div>
+            </div>
+            <div class="fieldBox">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="col-12" style = "margin-top:2%">
+                      <label class = "title">Start price</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <label>{{lot==null?'':lot.startPrice}}</label>
+                    </div>
+                    <div class="col-12" style = "margin-top:2%">
+                      <label class = "title">Start date</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <label>{{lot==null?'':this.datepipe.transform(lot.startDate, 'dd.MM.yyyy')}}</label>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="col-12" style = "margin-top:2%">
+                      <label class = "title">End price</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <label>{{lot==null?'':lot.minPrice}}</label>
+                    </div>
+                    <div class="col-12" style = "margin-top:2%">
+                      <label class = "title">End date</label>
+                    </div>
+                    <div class="col-12" style="">
+                      <label>{{lot==null?'':this.datepipe.transform(lot.endDate, 'dd.MM.yyyy')}}</label>
+                    </div>
+                  </div>
+                  <div class="col-12" style = "margin-top:2%; text-align:center;">
+                    <label class = "title">Current price</label>
+                  </div>
+                  <div class="col-12" style="text-align:center;">
+                    <label>{{lot==null?'':lot.curPrice}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+              </div>
+            </div>
+            <div class="fieldBox">
+              <div class="col-12" style = "margin-top:2%">
+                <label class = "title">Lot location</label>
+              </div>
+              <div class="col-12" style="">
+                <label>{{lot==null?'':getText(lot.location)}}</label>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+              <button type="submit" class = "btn submitBtn">Make bid</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

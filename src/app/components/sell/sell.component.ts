@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {Lot, LotService} from '../../services/lot/lot.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-sell',
@@ -47,7 +48,8 @@ export class SellComponent implements OnInit {
   curDate:String = new Date().toISOString().split('T')[0];
 
 
-  constructor(private toastr: ToastrService, private router: Router, private lotService:LotService) {
+  constructor(private toastr: ToastrService, private router: Router, private lotService:LotService, private titleService: Title) {
+    titleService.setTitle('Sell');
     if(localStorage.getItem('token')==null){
         this.router.navigate(['/']).then(() => {
             this.notAuthToaster();
