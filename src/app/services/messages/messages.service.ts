@@ -23,4 +23,5 @@ export class MessagesService {
     return this.http.post("http://localhost:8081/api/messageCenter/sendLotMessage", json, header);
   }
 
+
 }

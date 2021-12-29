@@ -184,108 +184,6 @@
             </div>
           </div>
         </div>
-
-        <div class="allLots">
-          <div class="lotBox" *ngFor="let lot of myLots; let i = index;" (click) = showLot(i)>
-            <div class="lotImgBox">
-              <div class="imgfit" *ngIf="lot.imgPath!=''" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
-              </div>
-            </div>
-            <div class="lotContent">
-              <div class="lotText">
-                {{lot.id}} :: {{lot.name}}
-              </div>
-              <div class="lotText">
-                Status: {{lot.status}}
-              </div>
-              <div class="lotText">
-                Creation date: {{this.datepipe.transform(lot.creationDate, 'dd.MM.yyyy')}}
-              </div>
-            </div>
-          </div>
-        </div>
-
-    </div>
-		</ng-template>
-	</mat-tab>
-	<mat-tab>
-		<ng-template mat-tab-label>
-				<span>My bids</span>
-		</ng-template>
-		Tab Panel 4
-	 </mat-tab>
-	<mat-tab>
-		<ng-template mat-tab-label>
-				<span>My reviews</span>
-		</ng-template>
-		Tab Panel 4
-	</mat-tab>
-		<mat-tab label="Message center">
-    <ng-template matTabContent>
-      <div class="container">
-        <div class="messaging">
-          <div class="inbox_msg">
-            <div class="inbox_people">
-              <div class="heading_srch">
-                <div class="channel_heading">
-                  <h4>Channels</h4>
-                </div>
-              </div>
-              <div class="inbox_chat">
-                <div class="channels" *ngFor="let channel of channelList; let i = index;" (click)="clickOnChannel(i);"
-                     [ngStyle]="{'border': i == currentChannelIndex ? 'solid thin': 'none'}">
-                  <div class="chat_list">
-                    <div class="chat_people">
-                      <div class="chat_id">
-                        <h5>
-                          {{ channel.username}}
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="msgs">
-              <div class="msg_history" #scroll [scrollTop]="scroll.scrollHeight">
-                <li class="message" *ngFor="let message of messages">
-                  <div
-                    *ngIf="message.receiver !== currentTargetUserId;then incoming_msg;else outgoing_msg">
-                  </div>
-                  <ng-template #incoming_msg>
-                    <div class="incoming_msg">
-                      <div class="received_msg">
-                        <div class="received_with_msg">
-                          <p>{{ message.message }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-template>
-                  <ng-template #outgoing_msg>
-                    <div class="outgoing_msg">
-                      <div class="outgoing_with_msg">
-                        <p>{{ message.message }}</p>
-                      </div>
-                    </div>
-                  </ng-template>
-                </li>
-              </div>
-              <div class="type_msg">
-                <form class="input_msg_write" (ngSubmit)="sendMessage()">
-                  <input type="text" class="write_msg" placeholder="Type a message" name="newMessage"
-                         [(ngModel)]="newMessage"/>
-                  <button class="msg_send_btn" type="submit">
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
-
 <div *ngIf="showLotB" (click)="hideAll()" class = "fillUp">
   <div *ngIf="showLotB" [style.display]="showLot ? 'block' : 'none'" class="popupLot">
     <div (click)="$event.stopPropagation()">
@@ -470,3 +368,103 @@
     </div>
   </div>
 </div>
+        <div class="allLots">
+          <div class="lotBox" *ngFor="let lot of myLots; let i = index;" (click) = showLot(i)>
+            <div class="lotImgBox">
+              <div class="imgfit" *ngIf="lot.imgPath!=''" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
+              </div>
+            </div>
+            <div class="lotContent">
+              <div class="lotText">
+                {{lot.id}} :: {{lot.name}}
+              </div>
+              <div class="lotText">
+                Status: {{lot.status}}
+              </div>
+              <div class="lotText">
+                Creation date: {{this.datepipe.transform(lot.creationDate, 'dd.MM.yyyy')}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My bids</span>
+		</ng-template>
+		Tab Panel 4
+	 </mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+				<span>My reviews</span>
+		</ng-template>
+		Tab Panel 4
+	</mat-tab>
+	<mat-tab label="Message center">
+    <ng-template matTabContent>
+      <div class="container">
+        <div class="messaging">
+          <div class="inbox_msg">
+            <div class="inbox_people">
+              <div class="heading_srch">
+                <div class="channel_heading">
+                  <h4>Channels</h4>
+                </div>
+              </div>
+              <div class="inbox_chat">
+                <div class="channels" *ngFor="let channel of channelList; let i = index;" (click)="clickOnChannel(i);"
+                     [ngStyle]="{'border': i == currentChannelIndex ? 'solid thin': 'none'}">
+                  <div class="chat_list">
+                    <div class="chat_people">
+                      <div class="chat_id">
+                        <h5>
+                          {{ channel.username}}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="msgs">
+              <div class="msg_history" #scroll [scrollTop]="scroll.scrollHeight">
+                <li class="message" *ngFor="let message of messages">
+                  <div
+                    *ngIf="message.receiver !== currentTargetUserId;then incoming_msg;else outgoing_msg">
+                  </div>
+                  <ng-template #incoming_msg>
+                    <div class="incoming_msg">
+                      <div class="received_msg">
+                        <div class="received_with_msg">
+                          <p>{{ message.message }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template #outgoing_msg>
+                    <div class="outgoing_msg">
+                      <div class="outgoing_with_msg">
+                        <p>{{ message.message }}</p>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+              </div>
+              <div class="type_msg">
+                <form class="input_msg_write" (ngSubmit)="sendMessage()">
+                  <input type="text" class="write_msg" placeholder="Type a message" name="newMessage"
+                         [(ngModel)]="newMessage"/>
+                  <button class="msg_send_btn" type="submit">
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

@@ -86,6 +86,18 @@ export class MessageCenterService {
     };
     this.http.get(url, options);
   }
+
+  
+  getJChannel(js:string){
+    let curChannel = JSON.parse(js);
+    if(curChannel==null) return null;
+    let lot:channel = {
+      bidId: curChannel['bidId'],
+      targetUserId:curChannel['targetUserId'],
+      username:curChannel['username']
+    };
+    return curChannel;
+  }
 }
 
 export interface chatMsg {
