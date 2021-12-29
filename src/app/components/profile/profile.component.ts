@@ -143,13 +143,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  redirectTo(uri:string){
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+    this.router.navigate([uri]));
+ }
+
 writeToBuyer(lotId:Number){
     this.messageService.writeLotMessage(lotId).subscribe(
       (response) => {
-        console.log(response);
-        this.hideAll();
-        this.changeTab({index:6});
-        //this.router.navigate(['/profile/messages']);
+        //console.log(response);
+        //this.hideAll();
+        //this.changeTab({index:6});
+        this.redirectTo('/profile/messages');
       },
       (error) => {
         console.log(error);
@@ -476,11 +481,25 @@ writeToBuyer(lotId:Number){
   }
 
   initChannels() {
+    this.channelList=[];
     this.chatService.getChannels().subscribe(response => {
-      this.channelList = <channel[]>response;
+      //console.log(response);
+      let st = JSON.stringify(response);
+      let res = JSON.parse(st);
+      //console.log(Object.values(res));
+      for (let key in res) {
+        if (res.hasOwnProperty(key)) {
+          //console.log(curLot);
+          let chnl:channel|null = this.chatService.getJChannel(JSON.stringify(res[key]));
+          if(chnl!=null)
+            this.channelList.push(chnl);
+            console.log(chnl);
+        }
+      }
     }, error => {
       console.log(error)
     });
+    console.log(this.channelList);
   }
 
   clickOnChannel(index: number) {
