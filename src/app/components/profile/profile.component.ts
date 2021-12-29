@@ -1,16 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { AuthorizationService } from '../../services/authorization/authorization.service';
-import { EditProfileService, UserUpdatePassword, UserUpdateEmail, UserUpdateInfo } from '../../services/editProfile/edit-profile.service';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
+import {AuthorizationService} from '../../services/authorization/authorization.service';
+import {
+  EditProfileService,
+  UserUpdatePassword,
+  UserUpdateEmail,
+  UserUpdateInfo
+} from '../../services/editProfile/edit-profile.service';
 import {Lot, LotExt, LotService} from '../../services/lot/lot.service';
 import {LotValidation, LotValidationService} from '../../services/lot/lot-validation.service';
 import {UrlInfoService} from '../../services/common/url-info.service';
 import {MessagesService} from '../../services/messages/messages.service';
-import { formatDate } from "@angular/common";
-import { DatePipe } from '@angular/common';
-import { Title } from '@angular/platform-browser';
-import { ActivatedRoute} from '@angular/router';
+import {formatDate} from "@angular/common";
+import {DatePipe} from '@angular/common';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute} from '@angular/router';
 import {chatMsg, channel, MessageCenterService} from '../../services/message_center/message-center.service';
 import {EventSourcePolyfill} from 'ng-event-source';
 import {data} from "jquery";
@@ -21,9 +26,9 @@ import {data} from "jquery";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  links:string[] = ['edit','settings','password','myLots','myBids','myReviews','messages'];
+  links: string[] = ['edit', 'settings', 'password', 'myLots', 'myBids', 'myReviews', 'messages'];
 
-  tabIndex:number = 0;
+  tabIndex: number = 0;
 
   regEName = new RegExp("^([A-ZА-Я][a-zа-я]+[-.']*[A-ZА-Я]*[a-zа-я]+)$");
   regESpace = new RegExp("^(.* .*)$");
@@ -72,10 +77,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   eventSource: EventSourcePolyfill | undefined;
 
   scrollHeight: number;
+
   constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
-      private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
-      public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title,
-      private activateRoute: ActivatedRoute, private messageService: MessagesService, private chatService: MessageCenterService) {
+              private editProfileService: EditProfileService, private lotService: LotService, public lotValid: LotValidationService,
+              public datepipe: DatePipe, public urlInfoService: UrlInfoService, private titleService: Title,
+              private activateRoute: ActivatedRoute, private messageService: MessagesService, private chatService: MessageCenterService) {
     //titleService.setTitle('Profile');
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
@@ -84,14 +90,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
     let smth = this.activateRoute.snapshot.params['tab'];
     //console.log(smth);
-    this.tabIndex=this.links.indexOf(smth);
-    this.titleService.setTitle('Profile/'+smth)
-    if(this.tabIndex==-1){
-      this.tabIndex=0;
+    this.tabIndex = this.links.indexOf(smth);
+    this.titleService.setTitle('Profile/' + smth)
+    if (this.tabIndex == -1) {
+      this.tabIndex = 0;
       this.titleService.setTitle('Profile');
       this.router.navigate(['/profile'])
     }
-    if(this.tabIndex==3){
+    if (this.tabIndex == 3) {
       this.getUsersLot();
     }
     this.myLots = [];
@@ -134,29 +140,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.eventSource?.close();
     this.chatService.unsubscribe();
   }
-  changeTab(tab:any){
+
+  changeTab(tab: any) {
     this.tabIndex = tab.index;
-    this.router.navigate(['/profile/'+this.links[this.tabIndex]]);
-    this.titleService.setTitle('Profile/'+this.links[this.tabIndex]);
-    if(this.tabIndex==3){
+    this.router.navigate(['/profile/' + this.links[this.tabIndex]]);
+    this.titleService.setTitle('Profile/' + this.links[this.tabIndex]);
+    if (this.tabIndex == 3) {
       this.getUsersLot();
     }
   }
 
-writeToBuyer(lotId:Number){
+  writeToBuyer(lotId: Number) {
     this.messageService.writeLotMessage(lotId).subscribe(
       (response) => {
         console.log(response);
         this.hideAll();
-        this.changeTab({index:6});
+        this.changeTab({index: 6});
         //this.router.navigate(['/profile/messages']);
       },
       (error) => {
         console.log(error);
-        if(error.status==400){
+        if (error.status == 400) {
           this.errorToaster("This lot was not won");
-        }
-        else{
+        } else {
           this.errorToaster("Couldn't connect to the server");
         }
       });
@@ -216,7 +222,7 @@ writeToBuyer(lotId:Number){
 
   updatePassword() {
     if (this.validateOldPassword() && this.validateNewPassword()) {
-      let userPass: UserUpdatePassword = { oldPassword: this.oldPassword, newPassword: this.newPassword };
+      let userPass: UserUpdatePassword = {oldPassword: this.oldPassword, newPassword: this.newPassword};
       this.editProfileService.updateUserPassword(userPass).subscribe(
         (response) => {
           console.log(response);
@@ -231,7 +237,7 @@ writeToBuyer(lotId:Number){
 
   updateEmail() {
     if (this.validateEmail()) {
-      let userEmail: UserUpdateEmail = { newEmail: this.newEmail };
+      let userEmail: UserUpdateEmail = {newEmail: this.newEmail};
       this.editProfileService.updateUserEmail(userEmail).subscribe(
         (response) => {
           console.log(response);
@@ -250,7 +256,7 @@ writeToBuyer(lotId:Number){
 
   updateInfo() {
     if (this.validateFirstName() && this.validateLastName() && this.validatePhone()) {
-      let userInfo: UserUpdateInfo = { firstName: this.firstName, lastName: this.lastName, phoneNumber: this.phone }
+      let userInfo: UserUpdateInfo = {firstName: this.firstName, lastName: this.lastName, phoneNumber: this.phone}
       this.editProfileService.updateUserInfo(userInfo).subscribe(
         (response) => {
           console.log(response);
@@ -373,26 +379,26 @@ writeToBuyer(lotId:Number){
     this.invalidPhone = false;
   }
 
-  showLot(index:number){
-    this.showLotB=true;
+  showLot(index: number) {
+    this.showLotB = true;
     this.lotValidation = this.lotValid.getLot(this.myLots[index]);
   }
 
-  dotDatetoDef(dat: String){
-    let spl:String[] = dat.split(".");
-    let res = spl[2]+"-"+spl[1]+"-"+spl[0];
+  dotDatetoDef(dat: String) {
+    let spl: String[] = dat.split(".");
+    let res = spl[2] + "-" + spl[1] + "-" + spl[0];
     return res;
   }
 
-    hideAll(){
-      this.showLotB=false;
-    }
+  hideAll() {
+    this.showLotB = false;
+  }
 
-  sortCol(sel:string){
+  sortCol(sel: string) {
     this.myLots = this.lotService.sortLots(this.myLots, sel);
   }
 
-  getUsersLot(){
+  getUsersLot() {
     this.myLots = [];
     this.lotService.getUsersLot().subscribe(
       (response) => {
@@ -403,8 +409,8 @@ writeToBuyer(lotId:Number){
         for (let key in res) {
           if (res.hasOwnProperty(key)) {
             //console.log(curLot);
-            let lot:LotExt|null = this.lotService.getJLot(JSON.stringify(res[key]));
-            if(lot!=null)
+            let lot: LotExt | null = this.lotService.getJLot(JSON.stringify(res[key]));
+            if (lot != null)
               this.myLots.push(lot);
           }
         }
@@ -435,11 +441,12 @@ writeToBuyer(lotId:Number){
       positionClass: 'toast-bottom-right'
     });
   }
-    successToaster(msg:string) {
-      this.toastr.success(msg, 'Success!', {
-        positionClass: 'toast-bottom-right'
-      });
-    }
+
+  successToaster(msg: string) {
+    this.toastr.success(msg, 'Success!', {
+      positionClass: 'toast-bottom-right'
+    });
+  }
 
   errorToaster(msg: string) {
     this.toastr.warning(msg, 'Error!', {
@@ -456,22 +463,32 @@ writeToBuyer(lotId:Number){
   initSubscription() {
     if (this.eventSource == undefined) {
       this.eventSource = this.chatService.subscribe();
-      this.eventSource.onerror = (() => {
-      });
       this.eventSource.onmessage = (data => {
         if (Number(data.data) == this.currentTargetUserId) {
-          this.initMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
+          this.loadNewMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
         }
+      });
+    }
+  }
+
+  loadNewMessages(targetUser: number, bidId: number) {
+    if (this.messages.length > 0) {
+      let lastMessageId: number = this.messages[this.messages.length - 1].id;
+      console.log(this.messages[this.messages.length - 1].id);
+      this.chatService.getNewMessages(targetUser, bidId, lastMessageId).subscribe(response =>{
+        this.messages = this.messages.concat(<chatMsg[]>response);
+      }, error => {
+        console.log(error);
       });
     }
   }
 
   initMessages(targetUser: number, bidId: number) {
     this.messages = [];
-    this.chatService.getMsgs(targetUser, bidId).subscribe(response => {
+    this.chatService.getMessages(targetUser, bidId).subscribe(response => {
       this.messages = <chatMsg[]>response;
     }, error => {
-      console.log(error)
+      console.log(error);
     });
   }
 
@@ -479,7 +496,7 @@ writeToBuyer(lotId:Number){
     this.chatService.getChannels().subscribe(response => {
       this.channelList = <channel[]>response;
     }, error => {
-      console.log(error)
+      console.log(error);
     });
   }
 
@@ -494,12 +511,9 @@ writeToBuyer(lotId:Number){
   sendMessage() {
     if (this.newMessage != '') {
       this.chatService.sendMsg(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId, this.newMessage).subscribe(response => {
-        if (this.currentTargetUserId >= 0) {
-          this.initMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
-        }
         this.newMessage = '';
       }, error => {
-        console.log(error)
+        console.log(error);
       });
     }
   }

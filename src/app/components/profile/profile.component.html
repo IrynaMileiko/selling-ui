@@ -220,7 +220,6 @@
 		</ng-template>
 		Tab Panel 4
 	</mat-tab>
-	<mat-tab>
 		<mat-tab label="Message center">
     <ng-template matTabContent>
       <div class="container">
@@ -285,7 +284,7 @@
       </div>
     </ng-template>
   </mat-tab>
-
+</mat-tab-group>
 
 <div *ngIf="showLotB" (click)="hideAll()" class = "fillUp">
   <div *ngIf="showLotB" [style.display]="showLot ? 'block' : 'none'" class="popupLot">

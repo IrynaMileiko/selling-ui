@@ -23,28 +23,28 @@ export class AuthInterceptorService {//implements HttpInterceptor {
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((err: HttpErrorResponse) => {
-        console.log(err)
-        if (this.refreshingAccessToken) return throwError(err)
-        if (err.status == 401 ) {
-          return this.refreshAccessToken().pipe(
-            switchMap(() => {
-              req = this.addAuthHeader(req)
-              return next.handle(req)
-            })
+      return next.handle(req).pipe(
+        catchError((err: HttpErrorResponse) => {
+          console.log(err)
+          if (this.refreshingAccessToken) return throwError(err)
+          if (err.status == 401 ) {
+            return this.refreshAccessToken().pipe(
+              switchMap(() => {
+                req = this.addAuthHeader(req)
+                return next.handle(req)
+              })
 
-          )
-        }
-        return throwError(err)
-      })
-    )
+            )
+          }
+          return throwError(err)
+        })
+      )
 
-  }
+    }
 
 
-  refreshAccessToken() {
-    return this.authorizationService.getNewAccessToken().pipe(
+    refreshAccessToken() {
+      return this.authorizationService.getNewAccessToken().pipe(
       tap((response) => {
         let obj = JSON.parse(response)
         console.log(obj.token)

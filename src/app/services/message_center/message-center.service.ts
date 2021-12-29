@@ -11,8 +11,21 @@ export class MessageCenterService {
   constructor(private http: HttpClient, private authService: AuthorizationService) {
   }
 
-  getMsgs(targetUser: number, bidId: number) {
+  getMessages(targetUser: number, bidId: number) {
     let url = 'http://localhost:8081/api/messageCenter/getMessages?targetUser=' + targetUser + '&bidId=' + bidId;
+    let token = this.authService.getAccessToken();
+    if (token == null)
+      token = "";
+    const options = {
+      headers: new HttpHeaders({
+        'Authorization': token
+      })
+    };
+    return this.http.get(url, options);
+  }
+
+  getNewMessages(targetUser: number, bidId: number, lastMessageId: number) {
+    let url = 'http://localhost:8081/api/messageCenter/getNewMessages?targetUser=' + targetUser + '&bidId=' + bidId + '&lastMessageId=' + lastMessageId;
     let token = this.authService.getAccessToken();
     if (token == null)
       token = "";
