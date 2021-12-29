@@ -464,7 +464,7 @@ writeToBuyer(lotId:Number){
       this.eventSource = this.chatService.subscribe();
       this.eventSource.onmessage = (data => {
         if (Number(data.data) == this.currentTargetUserId) {
-          this.initMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
+          this.loadNewMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
         }
       });
     }
