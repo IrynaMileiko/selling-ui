@@ -77,7 +77,7 @@ export class SellComponent implements OnInit {
       location:this.location
     }
 
-    this.lotService.addLot(lot)
+    this.lotService.addLot2(lot)
     this.router.navigate(['/buy']).then(() => {
         this.successToaster();
     })
@@ -238,6 +238,12 @@ uploadPhoto(){
   }
   let phP = <HTMLInputElement>document.getElementById("phP");
   let file:File = (<HTMLInputElement>document.getElementById("phP"))!.files![0];
+  this.lotService.loadImg(file).subscribe((response) => {
+    let st = JSON.stringify(response);
+    let res = JSON.parse(st);
+    console.log(res.link)
+    this.displayPhotoPath = res.link
+  })
   const reader = new FileReader();
   reader.onload = e => this.displayPhotoPath = reader.result;
 
@@ -266,5 +272,7 @@ validateImgFormat(){
         positionClass: 'toast-bottom-right'
       });
   }
+
+
 
 }

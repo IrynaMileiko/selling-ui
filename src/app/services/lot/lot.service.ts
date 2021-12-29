@@ -87,6 +87,22 @@ lots:Lot[] = [
     return ma;
   }
 
+
+  addLot2(lot:Lot){
+    let url = 'http://localhost:8081/api/lot/createLot';
+    let token = localStorage.getItem('token');
+    if (token == null) token = "";
+    let header = {
+      headers: new HttpHeaders()
+        .set('Authorization', token)
+    }
+    this.http.post<Response>(url, lot, header).subscribe((response) => {
+      console.log(response.status)
+    })
+
+  }
+
+
   addLot(lot:Lot){
     let lots = this.getLots();
     lots.push(lot);
@@ -229,12 +245,27 @@ getUsersLot(){
   return this.http.get(url, requestOptions);
 }
 
+
+  loadImg(file:File){
+    let url = 'http://localhost:8081/api/file/uploadFile';
+    let token = localStorage.getItem('token');
+    if (token == null) token = "";
+    let header = {
+      headers: new HttpHeaders()
+        .set('Authorization', token)
+    }
+    const fd = new FormData();
+    fd.append("file", file, file.name);
+    return this.http.post(url, fd, header)
+  }
+
 getBuyableLots(){
-  let url = 'http://localhost:8081/api/lots/buyableLots';
+  let url = 'http://localhost:8081/api/lot/getLots';
   let token = localStorage.getItem('token');
   if (token == null) token = "";
   //console.log(token);
   const headerDict = {
+    'Authorization':token,
     'responseType': 'text'
   };
   const requestOptions = {
