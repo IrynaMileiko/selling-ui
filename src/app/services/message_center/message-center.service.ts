@@ -68,14 +68,14 @@ export class MessageCenterService {
     return this.http.post(url, json, options);
   }
 
-  subscribe() {
+  subscribe(emitterId: number) {
     let token = this.authService.getAccessToken();
-    return new EventSourcePolyfill("http://localhost:8081/api/messageCenter/subscribe",
+    return new EventSourcePolyfill("http://localhost:8081/api/messageCenter/subscribe?emitterId=" + emitterId,
       {headers: {Authorization: token}, heartbeatTimeout: Number.MAX_SAFE_INTEGER});
   }
 
-  unsubscribe() {
-    let url = 'http://localhost:8081/api/messageCenter/sendMessage';
+  unsubscribe(emitterId: number) {
+    let url = 'http://localhost:8081/api/messageCenter/unsubscribe?emitterId=' + emitterId;
     let token = this.authService.getAccessToken();
     if (token == null)
       token = "";
@@ -84,17 +84,18 @@ export class MessageCenterService {
         'Authorization': token
       })
     };
-    this.http.get(url, options);
+    this.http.get(url, options).subscribe();
   }
 
-  
+
   getJChannel(js:string){
     let curChannel = JSON.parse(js);
     if(curChannel==null) return null;
     let lot:channel = {
       bidId: curChannel['bidId'],
       targetUserId:curChannel['targetUserId'],
-      username:curChannel['username']
+      username:curChannel['username'],
+      lotName: curChannel['lotName']
     };
     return curChannel;
   }
@@ -112,6 +113,7 @@ export interface channel {
   bidId: number;
   targetUserId: number;
   username: String;
+  lotName: String;
 }
 
 export interface message {

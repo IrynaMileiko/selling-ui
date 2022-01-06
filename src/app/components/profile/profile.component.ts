@@ -62,16 +62,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   showLotB: boolean = false;
   lotValidation: LotValidation;
 
-  channel: any;
+  channel: channel | undefined;
   messages: chatMsg[] = [];
   newMessage = '';
   channelList: Array<channel>;
   currentTargetUserId: number;
-  currentChannelIndex: number;
+  currentChannelBidId: number;
 
   eventSource: EventSourcePolyfill | undefined;
 
   scrollHeight: number;
+
+  emitterId: number;
 
   constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
       private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
@@ -120,10 +122,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.invalidLastName = false;
 
     this.channelList = [];
-    this.currentChannelIndex = -1;
+    this.currentChannelBidId = -1;
     this.currentTargetUserId = -1;
 
     this.scrollHeight = 0;
+    this.emitterId = new Date().getTime();
   }
 
   ngOnInit(): void {
@@ -133,7 +136,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.eventSource?.close();
-    this.chatService.unsubscribe();
+    this.chatService.unsubscribe(this.emitterId);
+    console.log('destr');
   }
   changeTab(tab:any){
     this.tabIndex = tab.index;
@@ -461,10 +465,10 @@ writeToBuyer(lotId:Number){
 
   initSubscription() {
     if (this.eventSource == undefined) {
-      this.eventSource = this.chatService.subscribe();
+      this.eventSource = this.chatService.subscribe(this.emitterId);
       this.eventSource.onmessage = (data => {
         if (Number(data.data) == this.currentTargetUserId) {
-          this.loadNewMessages(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId);
+          this.loadNewMessages(this.currentTargetUserId, this.currentChannelBidId);
         }
       });
     }
@@ -502,8 +506,9 @@ writeToBuyer(lotId:Number){
         if (res.hasOwnProperty(key)) {
           //console.log(curLot);
           let chnl:channel|null = this.chatService.getJChannel(JSON.stringify(res[key]));
-          if(chnl!=null)
+          if (chnl != null) {
             this.channelList.push(chnl);
+          }
             console.log(chnl);
         }
       }
@@ -514,16 +519,16 @@ writeToBuyer(lotId:Number){
   }
 
   clickOnChannel(index: number) {
-    if (this.currentChannelIndex != index) {
+    if (this.currentChannelBidId != index) {
       this.initMessages(this.channelList[index].targetUserId, this.channelList[index].bidId);
       this.currentTargetUserId = this.channelList[index].targetUserId;
-      this.currentChannelIndex = index;
+      this.currentChannelBidId = this.channelList[index].bidId;
     }
   }
 
   sendMessage() {
     if (this.newMessage != '') {
-      this.chatService.sendMsg(this.currentTargetUserId, this.channelList[this.currentChannelIndex].bidId, this.newMessage).subscribe(response => {
+      this.chatService.sendMsg(this.currentTargetUserId, this.currentChannelBidId, this.newMessage).subscribe(response => {
         this.newMessage = '';
       }, error => {
         console.log(error)

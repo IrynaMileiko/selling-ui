@@ -416,12 +416,12 @@
               </div>
               <div class="inbox_chat">
                 <div class="channels" *ngFor="let channel of channelList; let i = index;" (click)="clickOnChannel(i);"
-                     [ngStyle]="{'border': i == currentChannelIndex ? 'solid thin': 'none'}">
+                     [ngStyle]="{'border': channel.bidId == currentChannelBidId ? 'solid thin': 'none'}">
                   <div class="chat_list">
                     <div class="chat_people">
                       <div class="chat_id">
                         <h5>
-                          {{ channel.username}}
+                          {{ channel.username }} : {{channel.lotName}}
                         </h5>
                       </div>
                     </div>
