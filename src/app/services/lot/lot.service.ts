@@ -299,7 +299,7 @@ getJLot(js:string){
     imgPath:curLot['imgPath'],
     startPrice:curLot['startPrice'],
     minPrice:curLot['minPrice'],
-    curPrice:curLot['startPrice'],
+    curPrice:Math.round(curLot['currentPrice'] * 100) / 100,
     startDate:curLot['startDate'],
     endDate:curLot['endDate'],
     creationDate:curLot['creationDate'],

@@ -32,6 +32,8 @@ export class LotValidationService {
       endPriceMsg : "",
       invalidEndPrice : false,
 
+      curPrice:0,
+
       startDate :"",
       startDateMsg : "",
       invalidStartDate : false,
@@ -76,6 +78,8 @@ export class LotValidationService {
        endPrice : lot.minPrice,
        endPriceMsg : "",
        invalidEndPrice : false,
+
+       curPrice : lot.curPrice,
 
        startDate : String(this.datepipe.transform(lot.startDate, 'dd.MM.yyyy')),
        startDateMsg : "",
@@ -137,6 +141,8 @@ export interface LotValidation{
   endPrice:Number,
   endPriceMsg:String,
   invalidEndPrice:boolean,
+
+  curPrice:Number,
 
   startDate:String,
   startDateMsg:String,
