@@ -10,7 +10,7 @@
                 <div class="col-6">
                   <div class="colBox" style="height:210px;">
                     <div class="imgBox">
-                      <div class="imgfit" *ngIf="lot!=null&&lot.imgPath!=''" style="background-color:lightgrey;" [ngStyle]="{ 'background-image':  'url('+lot==null?'':lot.imgPath+')'}">
+                      <div class="imgfit" *ngIf="lot!=null&&lot.imgPath!=''" style="background-color:lightgrey;" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
                       </div>
                     </div>
                   </div>
@@ -74,11 +74,9 @@
                       <label>{{lot==null?'':this.datepipe.transform(lot.endDate, 'dd.MM.yyyy')}}</label>
                     </div>
                   </div>
-                  <div class="col-12" style = "margin-top:2%; text-align:center;">
-                    <label class = "title">Current price</label>
-                  </div>
-                  <div class="col-12" style="text-align:center;">
-                    <label>{{lot==null?'':lot.curPrice}}</label>
+                  <div class="col-12" style = "margin-top:2%; text-align:left;">
+                    <label class = "title">Current price&nbsp;&nbsp;</label>
+                    <label>&nbsp;{{lot==null?'':lot.curPrice}}</label>
                   </div>
                 </div>
               </div>

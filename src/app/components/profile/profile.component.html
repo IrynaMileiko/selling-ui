@@ -289,23 +289,11 @@
                       <input type="number" step = "0.01" [(ngModel)]="lotValidation.startPrice" (ngModelChange)="lotValidation.invalidStartPrice=false;lotValid.clearTotalValidate();"
                         required class = "form-control authInput" name="startPrice" style = "width:80%;" readonly>
                     </div>
-                    <div class="col-12" style="">
-                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidStartPrice"
-                        style = "width:100%;">
-                        {{lotValidation.startPriceMsg}}
-                      </div>
-                    </div>
                     <div class="col-12" style = "margin-top:2%">
                       <label>Start date</label>
                     </div>
                     <div class="col-12" style="">
                       <input type="date" required class = "form-control authInput" id="startDate" name="startDate" style = "width:80%;" readonly value = "{{dotDatetoDef(lotValidation.startDate)}}">
-                    </div>
-                    <div class="col-12" style="">
-                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidStartDate"
-                        style = "width:80%;">
-                        {{lotValidation.startDateMsg}}
-                      </div>
                     </div>
                   </div>
                   <div class="col-6">
@@ -316,24 +304,19 @@
                       <input type="number" step = "0.01" [(ngModel)]="lotValidation.endPrice" (ngModelChange)="lotValidation.invalidEndPrice=false;lotValid.clearTotalValidate();"
                         required class = "form-control authInput" name="endPrice" style = "width:80%;" readonly>
                     </div>
-                    <div class="col-12" style="">
-                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidEndPrice"
-                        style = "width:100%;">
-                        {{lotValidation.endPriceMsg}}
-                      </div>
-                    </div>
                     <div class="col-12" style = "margin-top:2%">
                       <label>End date</label>
                     </div>
                     <div class="col-12" style="">
                       <input type="date" id = "endDate" required class = "form-control authInput" name="endDate" style = "width:80%;" readonly value = "{{dotDatetoDef(lotValidation.startDate)}}">
                     </div>
-                    <div class="col-12" style="">
-                      <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidEndDate"
-                        style = "width:80%;">
-                        {{lotValidation.endDateMsg}}
-                      </div>
-                    </div>
+                  </div>
+                  <div class = "col-12" style = "margin-top:2%; margin-left: 20px;">
+                    <label>Current price&nbsp;&nbsp;</label> 
+                  </div>
+                  <div class="col-12" style="margin-left: 20px;">                    
+                    <input type="number" step = "0.01" [(ngModel)]="lotValidation.curPrice"
+                      required class = "form-control authInput" name="curPrice" style = "width:30%;" readonly>
                   </div>
                 </div>
               </div>
@@ -348,12 +331,6 @@
               <div class="col-12" style="">
                 <input type="text" [(ngModel)]="lotValidation.location" (ngModelChange)="lotValidation.invalidLocation=false;lotValid.clearTotalValidate();"
                   required class = "form-control authInput" name="location" readonly>
-              </div>
-              <div class="col-12" style="">
-                <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="lotValidation.invalidLocation"
-                  style = "width:50%;">
-                  {{lotValidation.locationMsg}}
-                </div>
               </div>
             </div>
             <div class="col-6 d-flex justify-content-start">
