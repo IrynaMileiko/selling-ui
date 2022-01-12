@@ -312,9 +312,9 @@
                     </div>
                   </div>
                   <div class = "col-12" style = "margin-top:2%; margin-left: 20px;">
-                    <label>Current price&nbsp;&nbsp;</label> 
+                    <label>Current price&nbsp;&nbsp;</label>
                   </div>
-                  <div class="col-12" style="margin-left: 20px;">                    
+                  <div class="col-12" style="margin-left: 20px;">
                     <input type="number" step = "0.01" [(ngModel)]="lotValidation.curPrice"
                       required class = "form-control authInput" name="curPrice" style = "width:30%;" readonly>
                   </div>
@@ -432,7 +432,7 @@
               </div>
               <div class="type_msg">
                 <form class="input_msg_write" (ngSubmit)="sendMessage()">
-                  <input type="text" class="write_msg" placeholder="Type a message" name="newMessage"
+                  <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" autocomplete="off"
                          [(ngModel)]="newMessage"/>
                   <button class="msg_send_btn" type="submit">
                   </button>

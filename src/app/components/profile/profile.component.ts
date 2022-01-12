@@ -14,6 +14,7 @@ import { ActivatedRoute} from '@angular/router';
 import {chatMsg, channel, MessageCenterService} from '../../services/message_center/message-center.service';
 import {EventSourcePolyfill} from 'ng-event-source';
 import {data} from "jquery";
+import {HostListener} from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -470,7 +471,14 @@ writeToBuyer(lotId:Number){
         if (Number(data.data) == this.currentTargetUserId) {
           this.loadNewMessages(this.currentTargetUserId, this.currentChannelBidId);
         }
+        this.initChannels();
       });
+      this.eventSource.onopen = () => {
+        if (this.currentTargetUserId > 0) {
+          this.loadNewMessages(this.currentTargetUserId, this.currentChannelBidId);
+        }
+        this.initChannels();
+      };
     }
   }
 
@@ -496,7 +504,7 @@ writeToBuyer(lotId:Number){
   }
 
   initChannels() {
-    this.channelList=[];
+    let newChannels: any[] = [];
     this.chatService.getChannels().subscribe(response => {
       //console.log(response);
       let st = JSON.stringify(response);
@@ -507,11 +515,12 @@ writeToBuyer(lotId:Number){
           //console.log(curLot);
           let chnl:channel|null = this.chatService.getJChannel(JSON.stringify(res[key]));
           if (chnl != null) {
-            this.channelList.push(chnl);
+            newChannels.push(chnl);
           }
             console.log(chnl);
         }
       }
+      this.channelList = newChannels;
     }, error => {
       console.log(error)
     });
@@ -519,7 +528,7 @@ writeToBuyer(lotId:Number){
   }
 
   clickOnChannel(index: number) {
-    if (this.currentChannelBidId != index) {
+    if (this.currentChannelBidId != this.channelList[index].bidId) {
       this.initMessages(this.channelList[index].targetUserId, this.channelList[index].bidId);
       this.currentTargetUserId = this.channelList[index].targetUserId;
       this.currentChannelBidId = this.channelList[index].bidId;
@@ -535,5 +544,12 @@ writeToBuyer(lotId:Number){
       });
     }
   }
-
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if(event.key == 'Escape'){
+      this.messages = [];
+      this.currentTargetUserId = -1;
+      this.currentChannelBidId = -1;
+    }
+  }
 }
