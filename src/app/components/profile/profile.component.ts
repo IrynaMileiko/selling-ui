@@ -382,6 +382,7 @@ writeToBuyer(lotId:Number){
   showLot(index:number){
     this.showLotB=true;
     this.lotValidation = this.lotValid.getLot(this.myLots[index]);
+    console.log(this.lotValidation);
   }
 
   dotDatetoDef(dat: String){
