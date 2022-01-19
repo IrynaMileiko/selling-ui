@@ -1,7 +1,7 @@
 <div class="content" style = "margin:0; padding:0; font-family: 'Roboto', sans-serif; min-height:100vh; display: flex; ">
       <div class="filterPanelCol">
         <div class = "filterPanel">
-          <button  type="button" class="btn hBut" style="width:100%; height:40px;">
+          <button  type="button" class="btn hBut" style="width:100%; height:40px;" (click)="clearAll()">
             Remove all filters
           </button>
           <div class="filterBox">
@@ -9,14 +9,14 @@
               <div class="filterBoxTopText">
                 CATEGORY
               </div>
-              <div class="filterBoxTopText">
+              <div class="filterBoxTopText" (click)="clearCategories()">
                 <b>X</b> CLEAR
               </div>
             </div>
-            <div class="filterBoxContent">
+            <div class="filterBoxContent" >
                 <div class="filterBoxItem"*ngFor="let category of categories;">
-                  <input type="checkbox" class="chB" value="{{category}}">
-                    {{category}}
+                  <input type="checkbox" class="chB" value="{{category.name}}" [(ngModel)]="category.isChecked">
+                    {{category.name}}
                 </div>
             </div>
           </div>
@@ -25,38 +25,40 @@
               <div class="filterBoxTopText">
                 SEARCH
               </div>
-              <div class="filterBoxTopText">
+              <div class="filterBoxTopText" (click)="clearSearch()">
                 <b>X</b> CLEAR
               </div>
             </div>
-            <input type="text" class="form-control src" placeholder="Search...">
-            <div class="filterBoxItem">
-              <button  type="button" class="btn pBut">
-                OK
-              </button>
-            </div>
+            <input type="text" class="form-control src" placeholder="Search..." [(ngModel)]="search">
+
           </div>
           <div class="filterBox">
             <div class="filterBoxTop">
               <div class="filterBoxTopText">
                 PRICE RANGE
               </div>
-              <div class="filterBoxTopText">
+              <div class="filterBoxTopText" (click)="clearPrice()">
                 <b>X</b> CLEAR
               </div>
             </div>
             <div class="filterBoxContent">
               <div class="priceRangeCont">
-                <input type="text" class="form-control price">
+                <input type="number" class="form-control price" [(ngModel)]="minPrice" placeholder="minimum" min="0" (ngModelChange)="clearPriceWarning()">
                 &nbsp; — &nbsp;
-                <input type="text" class="form-control price">
+                <input type="number" class="form-control price" [(ngModel)]="maxPrice" placeholder="maximum" min="0" (ngModelChange)="clearPriceWarning()">
               </div>
-              <div class="filterBoxItem">
-                <button  type="button" class="btn pBut">
-                  OK
-                </button>
+              <div class="alert alert-danger" role="alert" style="font-size: 10px; padding: 0; text-align: center; margin: 5px;" *ngIf="negativePrice">
+                Price can't be negative!
+              </div>
+              <div class="alert alert-danger" role="alert" style="font-size: 10px; padding: 0; text-align: center; margin: 5px;" *ngIf="incorrectPrice">
+                Minimum price can't be lower than maximum price!
               </div>
             </div>
+          </div>
+          <div class="filterBoxItem">
+            <button  type="button" class="btn pBut" (click) = "filtrate()">
+              Filter
+            </button>
           </div>
         </div>
       </div>
@@ -73,9 +75,7 @@
             </div>
             <div class="input-group mb-3" style="font-size:1vw; margin:0;">
               <select class="custom-select" #t id="inputGroupSelect01" (change) = "sortCol(t.value)">
-                <option value="Rating A">Rating (Lower -> Bigger)</option>
-                <option selected value="Rating D">Rating (Bigger -> Lower)</option>
-                <option value="Name A">Name (Lower -> Bigger)</option>
+                <option selected value="Name A">Name (Lower -> Bigger)</option>
                 <option value="Name D">Name (Bigger -> Lower)</option>
                 <option value="StartPrice A">Price (Lower -> Bigger)</option>
                 <option value="StartPrice D">Price (Bigger -> Lower)</option>

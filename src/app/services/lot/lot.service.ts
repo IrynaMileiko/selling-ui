@@ -119,6 +119,11 @@ lots:Lot[] = [
     }
   }
 
+filtrate(filter:Filter){
+  console.log(filter);
+  return[];
+}
+
   sortLots(lots:LotExt[], sel:string){
     let cols = sel.split(' ');
     let col = cols[0];
@@ -343,4 +348,13 @@ export interface LotExt{
   status:String,
   location:String,
   rating:Number
+}
+
+export interface Filter{
+  sortCol:String,
+  direct:Boolean,
+  categories:String[],
+  search:String,
+  minPrice:Number,
+  maxPrice:Number
 }
