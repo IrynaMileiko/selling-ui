@@ -9,7 +9,7 @@
               <div class="filterBoxTopText">
                 CATEGORY
               </div>
-              <div class="filterBoxTopText" (click)="clearCategories()">
+              <div class="filterBoxTopText clear" (click)="clearCategories(); filtrate()">
                 <b>X</b> CLEAR
               </div>
             </div>
@@ -25,7 +25,7 @@
               <div class="filterBoxTopText">
                 SEARCH
               </div>
-              <div class="filterBoxTopText" (click)="clearSearch()">
+              <div class="filterBoxTopText clear" (click)="clearSearch(); filtrate()">
                 <b>X</b> CLEAR
               </div>
             </div>
@@ -37,7 +37,7 @@
               <div class="filterBoxTopText">
                 PRICE RANGE
               </div>
-              <div class="filterBoxTopText" (click)="clearPrice()">
+              <div class="filterBoxTopText clear" (click)="clearPrice(); filtrate()">
                 <b>X</b> CLEAR
               </div>
             </div>
@@ -77,8 +77,8 @@
               <select class="custom-select" #t id="inputGroupSelect01" (change) = "sortCol(t.value)">
                 <option selected value="Name A">Name (Lower -> Bigger)</option>
                 <option value="Name D">Name (Bigger -> Lower)</option>
-                <option value="StartPrice A">Price (Lower -> Bigger)</option>
-                <option value="StartPrice D">Price (Bigger -> Lower)</option>
+                <option value="StartPrice A">Start Price (Lower -> Bigger)</option>
+                <option value="StartPrice D">Start Price (Bigger -> Lower)</option>
                 <option value="Category A">Category (Lower -> Bigger)</option>
                 <option value="Category D">Category (Bigger -> Lower)</option>
               </select>

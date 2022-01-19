@@ -13,20 +13,19 @@ import { ThisReceiver } from '@angular/compiler';
 export class BuyComponent implements OnInit {
   lots:LotExt[];
   categories:Category[] = this.getCategories();
-  search:String="";
-  minPrice:Number|null=null;
-  maxPrice:Number|null=null;
+  search:string="";
+  minPrice:number|null=null;
+  maxPrice:number|null=null;
   filter:Filter;
   negativePrice:Boolean=false;
   incorrectPrice:Boolean=false;
-  sortColulmn:String;
-  isDirect:Boolean;
+  sortColulmn:string;
+  isDirect:boolean;
 
   constructor(private lotService:LotService, private toastr: ToastrService, private router: Router, private titleService: Title) {
     titleService.setTitle('Buy');
     this.lots=[];
-    this.getLots();
-    //this.sortCol('Rating A');
+    //this.getLots();
     this.filter={
       sortCol:"NAME",
       direct:true,
@@ -37,6 +36,7 @@ export class BuyComponent implements OnInit {
     }
     this.sortColulmn=this.filter.sortCol;
     this.isDirect=this.filter.direct;
+    this.sortCol('Name A');
    }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class BuyComponent implements OnInit {
 
 
   getCategories(){
-    let cat:String[] = this.lotService.getCategories();
+    let cat:string[] = this.lotService.getCategories();
     let categories:Category[] = [];
     for(let ind in cat){
       let category:Category = {
@@ -57,18 +57,19 @@ export class BuyComponent implements OnInit {
   }
 
   sortCol(sel:string){
-    this.lots = this.lotService.sortLots(this.lots, sel);
+    //this.lots = this.lotService.sortLots(this.lots, sel);
     let cols = sel.split(' ');
     let col = cols[0];
     let dir = cols[1];
     this.sortColulmn = col;
-    this.isDirect = dir=='D'?true:false;
+    this.isDirect = dir=='A'?true:false;
     this.filter.sortCol=this.sortColulmn;
     this.filter.direct=this.isDirect;
     this.lots = this.lotService.filtrate(this.filter);
   }
 
   getLots(){
+    this.lots=[];
     this.lotService.getBuyableLots().subscribe(
       (response) => {
         //console.log(response);
@@ -96,6 +97,7 @@ export class BuyComponent implements OnInit {
   }
 
   filtrate(){
+    this.lots=[];
     if(!this.checkPrice()) return;
 
     this.filter={
@@ -111,7 +113,7 @@ export class BuyComponent implements OnInit {
   }
 
   getSelectedCategories(){
-    let categories:String[]=[];
+    let categories:string[]=[];
     for(let ind in this.categories){
       if(this.categories[ind].isChecked){
         categories.push(this.categories[ind].name);
@@ -179,6 +181,7 @@ export class BuyComponent implements OnInit {
     this.clearCategories();
     this.clearSearch();
     this.clearPrice();
+    this.filtrate();
   }
 
   successToaster(msg:string) {
@@ -189,6 +192,6 @@ export class BuyComponent implements OnInit {
 }
 
 interface Category{
-  name:String,
+  name:string,
   isChecked:Boolean
 }

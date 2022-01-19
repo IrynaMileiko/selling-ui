@@ -108,6 +108,10 @@ input.price{
   justify-content: flex-start;
 }
 
+.clear:hover{
+  cursor: pointer;
+}
+
 .lotBox{
   border: 1px black solid;
   border-radius: 10px;
@@ -122,6 +126,7 @@ input.price{
   height: auto;
   max-height: 300px;
   border: 2px black dashed;
+  cursor: pointer;
 }
 
 .lotImgBox{
