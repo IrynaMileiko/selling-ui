@@ -14,7 +14,7 @@ import { ActivatedRoute} from '@angular/router';
 import {chatMsg, channel, MessageCenterService} from '../../services/message_center/message-center.service';
 import {EventSourcePolyfill} from 'ng-event-source';
 import {data} from "jquery";
-import {HostListener} from '@angular/core';
+import {HostListener, ElementRef, ViewChild,} from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +22,7 @@ import {HostListener} from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @ViewChild('msgScroll') msgScrollContainer: ElementRef;
   links:string[] = ['edit','settings','password','myLots','myBids','myReviews','messages'];
 
   tabIndex:number = 0;
@@ -79,7 +80,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(private toastr: ToastrService, private router: Router, private authService: AuthorizationService,
       private editProfileService: EditProfileService, private lotService:LotService, public lotValid: LotValidationService,
       public datepipe: DatePipe, public urlInfoService:UrlInfoService, private titleService: Title,
-      private activateRoute: ActivatedRoute, private messageService: MessagesService, private chatService: MessageCenterService) {
+      private activateRoute: ActivatedRoute, private messageService: MessagesService, private chatService: MessageCenterService,
+              elementRef: ElementRef) {
     //titleService.setTitle('Profile');
     if (localStorage.getItem('token') == null) {
       this.router.navigate(['/']).then(() => {
@@ -128,6 +130,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.scrollHeight = 0;
     this.emitterId = new Date().getTime();
+    this.msgScrollContainer = elementRef;
   }
 
   ngOnInit(): void {
@@ -485,13 +488,27 @@ writeToBuyer(lotId:Number){
   loadNewMessages(targetUser: number, bidId: number) {
     if (this.messages.length > 0) {
       let lastMessageId: number = this.messages[this.messages.length - 1].id;
-      console.log(this.messages[this.messages.length - 1].id);
-      this.chatService.getNewMessages(targetUser, bidId, lastMessageId).subscribe(response =>{
-        this.messages = this.messages.concat(<chatMsg[]>response);
+      this.chatService.getNewMessages(targetUser, bidId, lastMessageId).subscribe(response => {
+        let newMessages: chatMsg[] = <chatMsg[]>response;
+        for(let i = 0; i < newMessages.length; i++){
+          if(!this.containsMessage(newMessages[i])){
+            this.messages.push(newMessages[i]);
+          }
+        }
       }, error => {
         console.log(error);
       });
     }
+  }
+
+  private containsMessage(message: chatMsg): boolean {
+    for (let i = 0; i < this.messages.length; i++) {
+      let tmp: chatMsg = this.messages[i];
+      if (tmp.id === message.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   initMessages(targetUser: number, bidId: number) {

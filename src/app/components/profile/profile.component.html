@@ -407,7 +407,7 @@
               </div>
             </div>
             <div class="msgs">
-              <div class="msg_history" #scroll [scrollTop]="scroll.scrollHeight">
+              <div class="msg_history" #msgScroll [scrollTop]="msgScroll.scrollHeight">
                 <li class="message" *ngFor="let message of messages">
                   <div
                     *ngIf="message.receiver !== currentTargetUserId;then incoming_msg;else outgoing_msg">
