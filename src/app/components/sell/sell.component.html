@@ -72,11 +72,11 @@
                 <div class="row">
                   <div class="col-6">
                     <div class="col-12" style = "margin-top:2%">
-                      <label>Start price</label>
+                      <label>Max price</label>
                     </div>
                     <div class="col-12" style="">
-                      <input type="number" step = "0.01" [(ngModel)]="startPrice" (ngModelChange)="invalidStartPrice=false;clearTotalValidate();"
-                        required placeholder="Input start price of the lot" class = "form-control authInput" name="startPrice" style = "width:80%;">
+                      <input type="number" step = "1" [(ngModel)]="startPrice" (ngModelChange)="invalidStartPrice=false;clearTotalValidate();"
+                        required placeholder="Input max (start) price of the lot" class = "form-control authInput" name="startPrice" style = "width:80%;">
                     </div>
                     <div class="col-12" style="">
                       <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidStartPrice"
@@ -99,11 +99,11 @@
                   </div>
                   <div class="col-6">
                     <div class="col-12" style = "margin-top:2%">
-                      <label>End price</label>
+                      <label>Min price</label>
                     </div>
                     <div class="col-12" style="">
-                      <input type="number" step = "0.01" [(ngModel)]="endPrice" (ngModelChange)="invalidEndPrice=false;clearTotalValidate();"
-                        required placeholder="Input end price of the lot" class = "form-control authInput" name="endPrice" style = "width:80%;">
+                      <input type="number" step = "1" [(ngModel)]="endPrice" (ngModelChange)="invalidEndPrice=false;clearTotalValidate();"
+                        required placeholder="Input min (end) price of the lot" class = "form-control authInput" name="endPrice" style = "width:80%;">
                     </div>
                     <div class="col-12" style="">
                       <div class="alert alert-danger invalidFieldText" style="padding:1%; text-align:center;" role="alert" *ngIf="invalidEndPrice"

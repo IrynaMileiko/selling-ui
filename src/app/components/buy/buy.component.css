@@ -146,8 +146,8 @@ input.price{
   font-weight: bold;
 }
 .lotPrice{
-  font-size: 10px;
-  color: grey;
+  font-size: 12px;
+  color: rgb(82, 82, 82);
   margin-bottom: 20px;
 }
 .lotRatingBox{

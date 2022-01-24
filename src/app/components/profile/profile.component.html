@@ -197,7 +197,7 @@
 									<label>Link (only for lots on sale):</label>
 								</div>
 								<div class="col-6" style = "margin-top:2%">
-									<a href="/lots/{{lotValidation.id}}" *ngIf="(lotValidation.status=='NO BIDS'||lotValidation.status=='BIDDING'); else notAv">
+									<a href="/lots/{{lotValidation.id}}" *ngIf="(lotValidation.status=='NO_BIDS'||lotValidation.status=='BIDDING'); else notAv">
 										{{(this.urlInfoService.getUrl()+'/lots/'+lotValidation.id)}}
 									</a>
 									<ng-template #notAv>
@@ -223,7 +223,7 @@
 							</div>
 							<div class="row" style="margin-left:1px;">
 								<div class="col-6" style="">
-									<input type="text" [(ngModel)]="lotValidation.status"
+									<input type="text" [(ngModel)]="lotValidation.status=='NO_BIDS'?'NO BIDS':lotValidation.status"
 										required class = "form-control authInput" name="name" readonly>
 								</div>
 								<div class="col-6" *ngIf="lotValidation.status=='BIDDED'">
@@ -248,7 +248,8 @@
                 <label>Description</label>
               </div>
               <div class="col-12">
-                <textarea class="form-control" rows="3" name="message" [(ngModel)]="lotValidation.description" #message='ngModel' (ngModelChange)="lotValidation.invalidDescr=false; lotValid.clearTotalValidate();" readonly>
+                <textarea class="form-control" rows="3" name="message" [(ngModel)]="lotValidation.description" #message='ngModel' 
+                        (ngModelChange)="lotValidation.invalidDescr=false; lotValid.clearTotalValidate();" readonly>
 								</textarea>
               </div>
               <div class="col-12" style="">
@@ -261,7 +262,8 @@
               <h3>Photo</h3>
               <div class="colBox" style="height:210px;">
                 <div class="imgBox">
-                  <div class="imgfit" *ngIf="lotValidation.displayPhotoPath!=''" style="background-color:black;" [ngStyle]="{ 'background-image':  'url('+lotValidation.displayPhotoPath+')'}">
+                  <div class="imgfit" *ngIf="lotValidation.displayPhotoPath!=''" style="background-color:black;" 
+                          [ngStyle]="{ 'background-image':  'url('+lotValidation.displayPhotoPath+')'}">
                   </div>
                 </div>
                 <div class="rowBox" style = "margin-left:3%;">
@@ -333,12 +335,14 @@
                   required class = "form-control authInput" name="location" readonly>
               </div>
             </div>
+<!--
             <div class="col-6 d-flex justify-content-start">
               <button class = "btn deleteBtn">Delete</button>
             </div>
             <div class="col-6 d-flex justify-content-end">
               <button type="submit" class = "btn submitBtn">Edit</button>
             </div>
+-->
           </div>
         </form>
       </div>
@@ -356,7 +360,7 @@
                 {{lot.id}} :: {{lot.name}}
               </div>
               <div class="lotText">
-                Status: {{lot.status}}
+                Status: {{lot.status=='NO_BIDS'?'NO BIDS':lot.status}}
               </div>
               <div class="lotText">
                 Creation date: {{this.datepipe.transform(lot.creationDate, 'dd.MM.yyyy')}}
@@ -367,18 +371,6 @@
 
     </div>
 		</ng-template>
-	</mat-tab>
-	<mat-tab>
-		<ng-template mat-tab-label>
-				<span>My bids</span>
-		</ng-template>
-		Tab Panel 4
-	 </mat-tab>
-	<mat-tab>
-		<ng-template mat-tab-label>
-				<span>My reviews</span>
-		</ng-template>
-		Tab Panel 4
 	</mat-tab>
 	<mat-tab label="Message center">
     <ng-template matTabContent>

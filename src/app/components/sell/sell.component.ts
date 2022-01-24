@@ -150,7 +150,7 @@ export class SellComponent implements OnInit {
     }
     if(this.endPrice > this.startPrice){
       this.invalidEndPrice = true;
-      this.endPriceMsg = "End price should be lower than start price";
+      this.endPriceMsg = "Min price should be lower than max price";
       return false;
     }
 

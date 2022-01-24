@@ -35,7 +35,7 @@
           <div class="filterBox">
             <div class="filterBoxTop">
               <div class="filterBoxTopText">
-                PRICE RANGE
+                MINIMAL PRICE RANGE
               </div>
               <div class="filterBoxTopText clear" (click)="clearPrice(); filtrate()">
                 <b>X</b> CLEAR
@@ -77,8 +77,8 @@
               <select class="custom-select" #t id="inputGroupSelect01" (change) = "sortCol(t.value)">
                 <option selected value="Name A">Name (Lower -> Bigger)</option>
                 <option value="Name D">Name (Bigger -> Lower)</option>
-                <option value="StartPrice A">Start Price (Lower -> Bigger)</option>
-                <option value="StartPrice D">Start Price (Bigger -> Lower)</option>
+                <option value="StartPrice A">Minimal Price (Lower -> Bigger)</option>
+                <option value="StartPrice D">Minimal Price (Bigger -> Lower)</option>
                 <option value="Category A">Category (Lower -> Bigger)</option>
                 <option value="Category D">Category (Bigger -> Lower)</option>
               </select>
@@ -100,7 +100,7 @@
                 Category: {{lot.category}}
               </div>
               <div class="lotPrice">
-                Current Price: {{lot.startPrice}}
+                Current Price: {{lot.curPrice}}
               </div>
               <div class="lotText">
                 Description: {{lot.description}}

@@ -21,7 +21,7 @@ import {data} from "jquery";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  links:string[] = ['edit','settings','password','myLots','myBids','myReviews','messages'];
+  links:string[] = ['edit','settings','password','myLots', 'messages'];
 
   tabIndex:number = 0;
 
