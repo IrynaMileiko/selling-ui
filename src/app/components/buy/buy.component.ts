@@ -11,6 +11,7 @@ import { ThisReceiver } from '@angular/compiler';
   styleUrls: ['./buy.component.css']
 })
 export class BuyComponent implements OnInit {
+  hasNextPage: boolean = true;
   lots:LotExt[];
   categories:Category[] = this.getCategories();
   search:string="";
@@ -19,8 +20,10 @@ export class BuyComponent implements OnInit {
   filter:Filter;
   negativePrice:Boolean=false;
   incorrectPrice:Boolean=false;
-  sortColulmn:string;
+  sortColumn:string;
   isDirect:boolean;
+  currentPage: number;
+  pageSize: number;
 
   constructor(private lotService:LotService, private toastr: ToastrService, private router: Router, private titleService: Title) {
     titleService.setTitle('Buy');
@@ -34,7 +37,9 @@ export class BuyComponent implements OnInit {
       minPrice:-1,
       maxPrice:-1
     }
-    this.sortColulmn=this.filter.sortCol;
+    this.currentPage = 0;
+    this.pageSize = 5;
+    this.sortColumn=this.filter.sortCol;
     this.isDirect=this.filter.direct;
     this.sortCol('Name A');
    }
@@ -61,11 +66,12 @@ export class BuyComponent implements OnInit {
     let cols = sel.split(' ');
     let col = cols[0];
     let dir = cols[1];
-    this.sortColulmn = col;
+    this.sortColumn = col;
     this.isDirect = dir=='A'?true:false;
-    this.filter.sortCol=this.sortColulmn;
+    this.filter.sortCol=this.sortColumn;
     this.filter.direct=this.isDirect;
-    this.lots = this.lotService.filtrate(this.filter);
+    //this.lots = this.lotService.filtrate(this.filter);
+    this.lots = this.lotService.filtrateWithPage(this.filter, this.currentPage, this.pageSize);
   }
 
   getLots(){
@@ -97,11 +103,16 @@ export class BuyComponent implements OnInit {
   }
 
   filtrate(){
+    this.currentPage = 0;
+    this.loadLotsByFilter();
+  }
+
+  loadLotsByFilter(){
     this.lots=[];
     if(!this.checkPrice()) return;
 
     this.filter={
-      sortCol:this.sortColulmn,
+      sortCol:this.sortColumn,
       direct:this.isDirect,
       categories:this.getSelectedCategories(),
       search:this.search,
@@ -109,7 +120,9 @@ export class BuyComponent implements OnInit {
       maxPrice:this.maxPrice==null?-1:this.maxPrice
     }
 
-    this.lots = this.lotService.filtrate(this.filter);
+    //this.lots = this.lotService.filtrate(this.filter);
+    this.lots = this.lotService.filtrateWithPage(this.filter, this.currentPage, this.pageSize);
+
   }
 
   getSelectedCategories(){
@@ -188,6 +201,16 @@ export class BuyComponent implements OnInit {
     this.toastr.success(msg, 'Success!', {
       positionClass: 'toast-bottom-right'
     });
+  }
+
+  loadNextPage(){
+    this.currentPage++;
+    this.loadLotsByFilter();
+  }
+
+  loadPrevPage(){
+    this.currentPage--;
+    this.loadLotsByFilter();
   }
 }
 

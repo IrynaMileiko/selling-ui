@@ -122,8 +122,8 @@ export class LotService {
   filtrate(filter: Filter) {
     console.log(filter);
     let lots: LotExt[] = [];
-
-    this.filterBuyableLots(filter).subscribe(
+    let url = 'http://localhost:8081/api/lots/getLots';
+    this.filterBuyableLots(filter, url).subscribe(
       (response) => {
         console.log(response);
         let st = JSON.stringify(response);
@@ -143,15 +143,35 @@ export class LotService {
         console.log(error);
         this.lots = [];
       });
-
-
-
-
+    return lots;
+  }
+  filtrateWithPage(filter: Filter, page: number, pageSize: number) {
+    console.log(filter);
+    let lots: LotExt[] = [];
+    let url = 'http://localhost:8081/api/lots/getPageLots?page=' + page + '&pageSize=' + pageSize;
+    this.filterBuyableLots(filter, url).subscribe(
+      (response) => {
+        console.log(response);
+        let st = JSON.stringify(response);
+        let res = JSON.parse(st);
+        //console.log(Object.values(res));
+        for (let key in res) {
+          if (res.hasOwnProperty(key)) {
+            let lot: LotExt | null = this.getJLot(JSON.stringify(res[key]));
+            if (lot != null)
+              lots.push(lot);
+          }
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.lots = [];
+      });
     return lots;
   }
 
-  filterBuyableLots(filter: Filter) {
-    let url = 'http://localhost:8081/api/lots/getLots';
+
+  filterBuyableLots(filter: Filter, url: string) {
     let token = localStorage.getItem('token');
     if (token == null) token = "";
     //console.log(token);

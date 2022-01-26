@@ -64,50 +64,59 @@
       </div>
 
 
-      <div class="lotList">
-        <div class="topList">
-          <div class="topListText">
-            Results:
+  <div class="lotList">
+    <div class="lotDisplay">
+      <div class="topList">
+        <div class="topListText">
+          Results:
+        </div>
+        <div style="display:flex; align-items: center;">
+          <div class="topListText" style="width:100px;">
+            Sort by
           </div>
-          <div style="display:flex; align-items: center;">
-            <div class="topListText" style="width:100px;">
-              Sort by
+          <div class="input-group mb-3" style="font-size:1vw; margin:0;">
+            <select class="custom-select" #t id="inputGroupSelect01" (change)="sortCol(t.value)">
+              <option selected value="Name A">Name (Lower -> Bigger)</option>
+              <option value="Name D">Name (Bigger -> Lower)</option>
+              <option value="StartPrice A">Start Price (Lower -> Bigger)</option>
+              <option value="StartPrice D">Start Price (Bigger -> Lower)</option>
+              <option value="Category A">Category (Lower -> Bigger)</option>
+              <option value="Category D">Category (Bigger -> Lower)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="allLots">
+        <div class="lotBox" *ngFor="let lot of lots;" (click)="viewLot(lot.id)">
+          <div class="lotImgBox">
+            <div class="imgfit" *ngIf="lot.imgPath!=''" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
             </div>
-            <div class="input-group mb-3" style="font-size:1vw; margin:0;">
-              <select class="custom-select" #t id="inputGroupSelect01" (change) = "sortCol(t.value)">
-                <option selected value="Name A">Name (Lower -> Bigger)</option>
-                <option value="Name D">Name (Bigger -> Lower)</option>
-                <option value="StartPrice A">Start Price (Lower -> Bigger)</option>
-                <option value="StartPrice D">Start Price (Bigger -> Lower)</option>
-                <option value="Category A">Category (Lower -> Bigger)</option>
-                <option value="Category D">Category (Bigger -> Lower)</option>
-              </select>
+          </div>
+          <div class="lotContent">
+            <div class="lotText">
+              {{lot.name}}
+            </div>
+            <div class="lotText">
+              Category: {{lot.category}}
+            </div>
+            <div class="lotPrice">
+              Current Price: {{lot.startPrice}}
+            </div>
+            <div class="lotText">
+              Description: {{lot.description}}
             </div>
           </div>
         </div>
-
-        <div class="allLots">
-          <div class="lotBox" *ngFor="let lot of lots;" (click)="viewLot(lot.id)">
-            <div class="lotImgBox">
-              <div class="imgfit" *ngIf="lot.imgPath!=''" [ngStyle]="{ 'background-image':  'url('+lot.imgPath+')'}">
-              </div>
-            </div>
-            <div class="lotContent">
-              <div class="lotText">
-                {{lot.name}}
-              </div>
-              <div class="lotText">
-                Category: {{lot.category}}
-              </div>
-              <div class="lotPrice">
-                Current Price: {{lot.startPrice}}
-              </div>
-              <div class="lotText">
-                Description: {{lot.description}}
-              </div>
-            </div>
-          </div>
-        </div>
-
+      </div>
     </div>
+    <div class="pagination">
+    </div>
+    <button type="button" class="btn pPrevious" style="width:20%; height:40px;" [disabled]="currentPage == 0" (click)="loadPrevPage()">
+      Previous
+    </button>
+    <button type="button" class="btn pNext" style="width:20%; height:40px;" [disabled]="(lots.length != pageSize)" (click)="loadNextPage()" >
+      Next
+    </button>
+  </div>
 </div>
