@@ -144,6 +144,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  getFromLS(col:string){
+    return localStorage.getItem(col);
+  }
+
   redirectTo(uri:string){
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri]));

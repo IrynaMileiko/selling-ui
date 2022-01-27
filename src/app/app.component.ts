@@ -47,8 +47,11 @@ export class AppComponent {
         console.log(response);
         let obj = JSON.parse(response);
         localStorage.setItem('token', obj.token);
-        localStorage.setItem('firstName', "SomeName");
+        localStorage.setItem('firstName', obj.firstName);
+        localStorage.setItem('lastName', obj.lastName);
+        localStorage.setItem('phoneNumber', obj.phoneNumber);
         localStorage.setItem('refreshToken', obj.refreshToken);
+        localStorage.setItem('email', user.email);
         this.hideAll();
         this.router.navigate(['/profile']).then(() => {
           this.successLoginToaster();
@@ -73,6 +76,7 @@ export class AppComponent {
   }
 
   getLocalName() {
+    if(this.getLocalToken()==null) return 'Guest';
     return localStorage.getItem('firstName');
   }
   getLocalToken() {

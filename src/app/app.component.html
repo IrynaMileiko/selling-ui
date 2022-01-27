@@ -3,9 +3,6 @@
   <div class="container-fluid" style="height:100%;">
     <div class="row align-items-center" style="height:100%;">
       <div class="headerMenuGroup" style="width:15vw;">
-        <div class="headerMenu">
-          <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:3vw; height:3vw; border-radius:30px; ">
-        </div>
         <div class="headerMenu" style="width:100%; text-align:center;">
           <div class="headerText"> Hello, {{getLocalName()}}</div>
         </div>
@@ -16,22 +13,11 @@
           <a class="header headerText" routerLink="/home" routerLinkActive="active_route">Home</a>
         </div>
         <div class="headerMenu">
-          <a class="header headerText" routerLink="/about" routerLinkActive="active_route">About</a>
-        </div>
-        <div class="headerMenu">
           <a class="header headerText" routerLink="/buy" routerLinkActive="active_route">Buy</a>
         </div>
         <div class="headerMenu">
           <a class="header headerText" routerLink="/sell" routerLinkActive="active_route">Sell</a>
         </div>
-      </div>
-      <div class="verticalLine"></div>
-      <div class="headerMenuGroup" style="width:5vw;">
-          <div class="headerMenu d-flex justify-content-center align-items-center" *ngIf="getLocalToken()!=null" style = "width:100%; height:100%;">
-            <div class="notifDiv" (click)="showNotif()">
-              <img src="assets/imgs/notification-ico.png" alt="Logo" style="width:1.5vw; height:1.5vw;">
-            </div>
-          </div>
       </div>
       <div class="verticalLine"></div>
       <div class="headerMenuGroup" *ngIf="getLocalToken()==null" style="width:15vw;">
@@ -137,13 +123,6 @@
             </div>
             <hr>
             <div class="col-12" style="margin-top:3%;">
-              <a  class = "profileLink" href="/profile/edit">Edit profile</a>
-            </div>
-            <div class="col-12" style="margin-top:3%;">
-              <a  class = "profileLink" href="/profile/settings">Account settings</a>
-            </div>
-            <hr>
-            <div class="col-12" style="margin-top:3%;">
               <a  class = "profileLink" href="/profile/myLots">My lots</a>
             </div>
             <hr>
@@ -151,147 +130,6 @@
               <a  class = "profileLink" (click) = "logout(); hideAll();" routerLink="/">Sign out</a>
             </div>
           </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div *ngIf="showNotifications" (click)="hideAll()" class = "fillUp">
-  <div *ngIf="showNotifications" [style.display]="showNotifications ? 'block' : 'none'" class="popupNotification">
-    <div (click)="$event.stopPropagation()">
-      <div class="notificationBox">
-        <div class="notificationTitle">
-          Notifications
-        </div>
-        <div class="notificationContentBox" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
-          <div class="notification" style="margin-top:3px;">
-              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-              </div>
-              <div class="notificationContent">
-                <div class="notificationContentTitle">
-                  User username left a comment
-                </div>
-                <div class="notificationContentText">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-                <div class="notificationTime">
-                  just now
-                </div>
-              </div>
-          </div>
-          <div class="notification" style="margin-top:3px;">
-              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-              </div>
-              <div class="notificationContent">
-                <div class="notificationContentTitle">
-                  User username left a comment
-                </div>
-                <div class="notificationContentText">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-                <div class="notificationTime">
-                  just now
-                </div>
-              </div>
-          </div>
-          <div class="notification" style="margin-top:3px;">
-              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-              </div>
-              <div class="notificationContent">
-                <div class="notificationContentTitle">
-                  User username left a comment
-                </div>
-                <div class="notificationContentText">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-                <div class="notificationTime">
-                  just now
-                </div>
-              </div>
-            </div>
-            <div class="notification" style="margin-top:3px;">
-              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-              </div>
-              <div class="notificationContent">
-                <div class="notificationContentTitle">
-                  User username left a comment
-                </div>
-                <div class="notificationContentText">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-                <div class="notificationTime">
-                  just now
-                </div>
-              </div>
-            </div>
-            <div class="notification" style="margin-top:3px;">
-              <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-                <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-              </div>
-              <div class="notificationContent">
-                <div class="notificationContentTitle">
-                  User username left a comment
-                </div>
-                <div class="notificationContentText">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-                <div class="notificationTime">
-                  just now
-                </div>
-              </div>
-          </div>
-          <div class="notification" style="margin-top:3px;">
-            <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-              <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-            </div>
-            <div class="notificationContent">
-              <div class="notificationContentTitle">
-                User username left a comment
-              </div>
-              <div class="notificationContentText">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
-              <div class="notificationTime">
-                just now
-              </div>
-            </div>
-          </div>
-          <div class="notification" style="margin-top:3px;">
-            <div class="notificationAvatarBox d-flex justify-content-center align-items-center">
-              <img src="assets/imgs/profile-icon.jpg" alt="Logo" style="width:50px; height:50px; border-radius:30px; ">
-            </div>
-            <div class="notificationContent">
-              <div class="notificationContentTitle">
-                User username left a comment
-              </div>
-              <div class="notificationContentText">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
-              <div class="notificationTime">
-                just now
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

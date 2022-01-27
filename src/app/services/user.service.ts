@@ -19,7 +19,7 @@ export class UserService {
    getUser(){
      return this.user;
    }
-   setEmail(email:String){
+   setEmail(email:string){
      this.user.email=email;
    }
    setToken(token:String){
@@ -38,7 +38,7 @@ export class UserService {
 
 export interface User{
   token:String;
-  email:String;
+  email:string;
   password:String;
   firstName:String;
   lastName:String;
