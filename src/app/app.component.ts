@@ -52,6 +52,7 @@ export class AppComponent {
         localStorage.setItem('phoneNumber', obj.phoneNumber);
         localStorage.setItem('refreshToken', obj.refreshToken);
         localStorage.setItem('email', user.email);
+        console.log(obj);
         this.hideAll();
         this.router.navigate(['/profile']).then(() => {
           this.successLoginToaster();
@@ -137,7 +138,8 @@ export class AppComponent {
         password: this.password,
         token: "",
         firstName: "",
-        lastName: ""
+        lastName: "",
+        phoneNumber:""
       }
       this.tryLogin(user);
     }

@@ -81,6 +81,7 @@ export class RegisterComponent implements OnInit {
 
 
   tryRegister(user:User){
+    console.log(user);
       this.authService.tryRegister(user).subscribe(
         (response) => {
           //alert(response);
@@ -133,7 +134,8 @@ register(){
       password:this.password,
       token:"",
       firstName:this.firstName,
-      lastName:this.lastName
+      lastName:this.lastName,
+      phoneNumber:this.phone
     }
     this.tryRegister(user);
   }

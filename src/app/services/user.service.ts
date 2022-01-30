@@ -12,7 +12,8 @@ export class UserService {
       email:"",
       password:"",
       firstName:"",
-      lastName:""
+      lastName:"",
+      phoneNumber:""
     };
    }
 
@@ -42,4 +43,5 @@ export interface User{
   password:String;
   firstName:String;
   lastName:String;
+  phoneNumber:String
 }
